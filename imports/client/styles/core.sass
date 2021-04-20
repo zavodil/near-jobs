@@ -1,0 +1,186 @@
+@import "{}/imports/client/styles/_variables.sass"
+
+::selection
+  background-color: $yellow
+  color: $black
+  text-shadow: none;
+
+::-webkit-scrollbar
+  display: none
+
+::scrollbar
+  display: none
+
+::active, ::visited
+  outline: none
+
+body
+  outline: none
+a, input, button, select, label, textarea
+  outline: none
+  &:active, &:focus, &:visited
+    outline: none
+
+.container
+  padding-left: 20px
+  padding-right: 20px
+  @media (min-width: $mobile-break)
+    padding-left: 40px
+    padding-right: 40px
+
+.row
+  width: 100%
+  @media (min-width: $mobile-break)
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+
+.col
+  @media (min-width: $mobile-break)
+    display: flex
+    flex-direction: column
+    flex-basis: 100%
+    flex: 1
+    margin: 0 1.2rem
+    &:first-child
+      margin-left: 0
+    &:last-child
+      margin-right: 0
+    &.colspan-2
+      flex: 2
+    &.colspan-3
+      flex: 3
+    &.colspan-4
+      flex: 4
+    &.colspan-5
+      flex: 5
+    &.colspan-6
+      flex: 6
+
+.form
+  border: 4px solid black
+  padding: 25px
+  border-radius: 12px
+  max-width: 95vw
+  @media (min-width: $mobile-break)
+    max-width: 40vw
+
+.hero-text
+  font-size: 2rem
+  font-weight: 400
+  line-height: 3rem
+  margin-bottom: 1.2rem
+
+.centered
+  align-items: center
+  justify-content: center
+
+.list-unstyled
+  list-style: none
+  margin: 10px 0px
+  padding: 0px
+
+.align-right
+  text-align: right
+
+.btn
+  position: relative
+  display: inline-block
+  vertical-align: top
+  padding: 10px 20px
+  border-radius: 50px
+  font-weight: 900
+  line-height: normal
+  font-size: 1rem
+  background-color: $blue
+  color: $white
+  text-align: center
+  text-decoration: none
+  cursor: pointer
+  border: 0
+  user-select: none
+  &.disabled
+    cursor: not-allowed
+    pointer-events: none
+  &.btn-lg
+    padding: 15px 25px
+    font-size: 1.2rem
+    line-height: 1.5rem
+  &.btn-grey
+    background-color: $grey
+    color: $black
+  &.btn-black
+    background-color: $black
+    &.btn-outlined
+      background-color: $white
+      color: $black
+      border: 2px solid $black
+      @media (min-width: $mobile-break)
+        border: none
+        &:hover
+          color: $white
+  &.btn-primary
+    background-color: $royal
+  @media (min-width: $mobile-break)
+    transition: .2s
+    &:hover
+      background-color: darken($blue, 10%)
+      transform: scale(1.05)
+      color: $white
+    &.btn-black:hover
+      background-color: lighten($black, 15%)
+    &.btn-grey:hover
+      background-color: darken($grey, 10%)
+      color: $black
+    &.btn-primary:hover
+      background-color: darken($royal, 10%)
+
+.mono
+  font-family: 'Source Code Pro'
+
+.form-inputs
+  margin-bottom: 1.5rem
+.form-label
+  font-weight: 600
+  margin-bottom: 0.5rem
+.form-hint
+  margin-top: 0.25rem
+  font-size: 0.875em
+  color: $darkgrey
+.form-select
+  display: block
+  width: 100%
+  padding: .375rem 2.25rem .375rem .75rem
+  font-size: 1rem
+  font-weight: 400
+  line-height: 1.5
+  color: $black
+  background-color: $white
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>");
+  background-repeat: no-repeat
+  background-position: right .75rem center
+  background-size: 16px 12px
+  border: 2px solid $darkgrey
+  border-radius: .25rem
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  &:active, &:focus
+    border-color: $black
+.form-control
+  display: block
+  width: 100%;
+  padding: .375rem .75rem
+  font-size: 1rem
+  font-weight: 400
+  line-height: 1.5
+  color: $black
+  background-color: $white
+  background-clip: padding-box
+  border: 2px solid $darkgrey
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  border-radius: 0.25rem
+  &:active, &:focus
+    border-color: $black
