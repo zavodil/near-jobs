@@ -1,0 +1,84 @@
+template(name="signupForm")
+  h1.hero-text Tell us about yourself...
+
+  form.form(data-signup)
+    .form-inputs
+      label.form-label(for="accountType") Select accout type
+      select#accountType.form-select(name="accountType" data-account-type)
+        option(selected disabled) Are you company or developer?
+        option(value="candidate") I'm candidate/developer seeking for project to join
+        option(value="company") I'm representing company looking for developers/employees
+      p.form-hint
+
+    if compare accountType '===' 'company'
+      .row
+        .form-inputs.col
+          label.form-label(for="title") Company name
+          input#title.form-control(name="title" placeholder="Alphabet, LLC")
+        .form-inputs.col
+          label.form-label(for="username") Company's GitHub handle
+          input#username.form-control(name="username" placeholder="@near")
+
+      .form-inputs
+        label.form-label(for="description") Company description
+        textarea#description.mono.form-control(name="description" placeholder="Company description — markdown formatted" rows="25" )
+        p.form-hint Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
+    else if compare accountType '===' 'candidate'
+      .form-inputs
+        label.form-label(for="title") Full name
+        input#title.form-control(name="title" placeholder="John Doe")
+
+      .form-inputs
+        .row
+          .col
+            label.form-label(for="country") Country
+            input#country.form-control(name="country" placeholder="Germany")
+          .col
+            label.form-label(for="city") City
+            input#city.form-control(name="city" placeholder="Berlin")
+        p.form-hint Location used only for time-zone purposes
+
+      .form-inputs
+        label.form-label(for="availability") Enter type of project you're looking for
+        input#availability.form-control(name="availability" placeholder="full-time, freelance")
+        p.form-hint Comma-separated list. Up to 4 options. Click to add:
+          <a href="#" data-add-to="availability" data-add="full-time">full-time</a>, 
+          <a href="#" data-add-to="availability" data-add="part-time">part-time</a>, 
+          <a href="#" data-add-to="availability" data-add="project">project</a>, 
+          <a href="#" data-add-to="availability" data-add="freelance">freelance</a>, 
+          <a href="#" data-add-to="availability" data-add="bounty">bounty</a>.
+
+      .form-inputs
+        label.form-label(for="remote") Do you prefer to work remotely?
+        select#accountType.form-select(name="remote")
+          option(selected value="no") No
+          option(value="yes") yes
+
+      .form-inputs
+        label.form-label(for="category") What kind of job are you looking for
+        input#category.form-control(name="category" placeholder="development, programming, devops, frontend, backend")
+        p.form-hint Comma-separated list of gategories. Up to 4 categories. Click to add:
+          <a href="#" data-add-to="category" data-add="development">development</a>, 
+          <a href="#" data-add-to="category" data-add="programming">programming</a>, 
+          <a href="#" data-add-to="category" data-add="engineering">engineering</a>, 
+          <a href="#" data-add-to="category" data-add="devops">devops</a>, 
+          <a href="#" data-add-to="category" data-add="frontend">frontend</a>, 
+          <a href="#" data-add-to="category" data-add="backend">backend</a>, 
+          <a href="#" data-add-to="category" data-add="design">design</a>, 
+          <a href="#" data-add-to="category" data-add="customer support">customer support</a>, 
+          <a href="#" data-add-to="category" data-add="developer relations">developer relations</a>, 
+          <a href="#" data-add-to="category" data-add="evangelist">evangelist</a>, 
+          <a href="#" data-add-to="category" data-add="finance">finance</a>, 
+          <a href="#" data-add-to="category" data-add="marketing">marketing</a>, 
+          <a href="#" data-add-to="category" data-add="operations">operations</a>, 
+          <a href="#" data-add-to="category" data-add="reserach">reserach</a>, 
+          <a href="#" data-add-to="category" data-add="sales">sales</a>, 
+          | or come up with your own
+
+
+    if accountType
+      button.btn.btn-lg(type="button" data-login class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
+        if isLoading
+          | Saving... <i class="fa fa-spinner fa-pulse"></i>
+        else
+          | Save
