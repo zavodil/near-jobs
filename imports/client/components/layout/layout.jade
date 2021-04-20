@@ -1,0 +1,92 @@
+template(name="loginLogoutButton")
+  if loggingOut
+    a.btn.btn-grey.disabled.btn-login.btn-outlined(href="#") logging out... <i class="fa fa-spinner fa-pulse"></i>
+  else
+    if currentUser
+      a.btn.btn-black.btn-login.btn-outlined(href="#" data-logout) Logout
+    else
+      a.btn.btn-black.btn-login(href="{{pathFor 'login'}}" class="{{#if isActiveRoute 'login'}}invisible{{/if}}") Login
+
+template(name="layout")
+  nav.navbar.row
+    a.logo.col(href="/" title="Homepage - NEAR Job Board")
+      img(src="/images/logo_nm.svg")
+      span.subtitle J<i class="fa fa-search"></i>BS
+    .menu.col.colspan-4
+      ul.list-unstyled
+        li: a(href="#") Jobs
+        li: a(href="#") Projects
+        li: a(href="#") Candidates
+        if isSmall
+          li
+            +loginLogoutButton
+
+    unless isSmall
+      .col.align-right
+        +loginLogoutButton
+
+
+  div.yield(class="#{getYieldClass}")
+    +yield
+
+  footer.container.footer
+    .row
+      .col
+        a.footer-logo(href="https://near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol website")
+          img(src="/images/icon_wht_nm.svg")
+        ul.list-unstyled.hero-list
+          li: a(href="https://wallet.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Wallet") Wallet
+          li: a(href="https://explorer.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Explorer") Explorer
+          li: a(href="https://near.dev/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Examples") Examples
+          li: a(href="https://docs.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Documentation") Docs
+          li: a(href="https://jobs.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Job Board") Jobs
+      .col.colspan-4
+        ul.list-unstyled.social-icons-list
+          li: a(href="https://gov.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Forum")
+            i.fa.fa-comments-o
+          li: a(href="https://twitter.com/nearprotocol" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Twitter")
+            i.fa.fa-twitter
+          li: a(href="https://github.com/near" target="_blank" rel="noopener noreferrer" title="NEAR Protocol GitHub")
+            i.fa.fa-github
+          //- li: a(href="http://near.chat" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Discord")
+          //-   i.fa.fa-discord
+          li: a(href="https://t.me/cryptonear" target="_blank" rel="noopener noreferrer" title="NEAR Protocol Telegram")
+            i.fa.fa-telegram
+          li: a(href="https://near.org/wechat" target="_blank" rel="noopener noreferrer" title="NEAR Protocol WeChat")
+            i.fa.fa-weixin
+          li: a(href="https://www.youtube.com/channel/UCuKdIYVN8iE3fv8alyk1aMw" target="_blank" rel="noopener noreferrer" title="NEAR Protocol YouTube Channel")
+            i.fa.fa-youtube-play
+        .row
+          .col
+            .h2 Developers
+            ul.list-unstyled.footer-links
+              li: a(href="https://near.org/developers/" target="_blank" rel="noopener noreferrer" title="Developer Documentation Overview") Overview
+              li: a(href="https://near.org/technology/" target="_blank" rel="noopener noreferrer" title="Developer Documentation: Technology") Technology
+              li: a(href="https://docs.near.org/" target="_blank" rel="noopener noreferrer" title="Developer Documentation") Docs
+              li: a(href="https://github.com/near" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: GitHub") GitHub
+              li: a(href="https://near.org/bounties/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Bounties") Bounties
+              li: a(href="https://near.org/grants/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Grants") Grants
+
+          .col
+            .h2 Community
+            ul.list-unstyled.footer-links
+              li: a(href="https://gov.near.org/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Forum") Forum
+              li: a(href="https://near.org/events/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Events") Events
+              li: a(href="https://near.org/contributor/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Contributor Program") Contributor Program
+              li: a(href="https://openwebcollective.com/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Startup Accelerator") Startup Accelerator
+              li: a(href="https://near.org/bounties/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Bounties") Bounties
+              li: a(href="https://near.org/tokens/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Tokens") Tokens
+
+          .col
+            .h2 About
+            ul.list-unstyled.footer-links
+              li: a(href="https://near.org/team/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Team") Team
+              li: a(href="https://near.org/careers/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Careers") Careers
+              li: a(href="https://near.org/backers/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Careers") Backers
+              li: a(href="https://near.org/brand/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Brand Guidelines") Brand Guidelines
+              li: a(href="https://near.org/privacy/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Privacy Policy") Privacy Policy
+
+    .row: .col
+      p.copy
+        | #{getYear} NEAR Protocol &middot; All rights reserved &middot; hello@near.org &middot; 
+        a(href="https://near.org/privacy/" target="_blank" rel="noopener noreferrer" title="NEAR Protocol: Privacy Policy") Privacy Policy
