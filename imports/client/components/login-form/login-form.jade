@@ -1,0 +1,9 @@
+template(name="loginForm")
+  .form
+    h1.hero-text Welcome! <br>Let's begin with <br>logging-in via GitHub
+    button.btn.btn-lg(type="button" data-login class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
+      i.fa.fa-github
+      if isLoading
+        | Logging in... <i class="fa fa-spinner fa-pulse"></i>
+      else
+        | Login with GitHub
