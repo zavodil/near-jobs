@@ -1,0 +1,113 @@
+@import "{}/imports/client/styles/_variables.sass"
+
+@-webkit-viewport
+  width: device-width
+@-moz-viewport
+  width: device-width
+@-ms-viewport
+  width: device-width
+@-o-viewport
+  width: device-width
+@viewport
+  width: device-width
+
+*
+  scroll-behavior: smooth
+  box-sizing: border-box
+  &:before, &:after
+    box-sizing: border-box
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, em, img, ins, kbd, q, s, small, strike, strong, sub, sup, b, u, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video
+  margin: 0
+  padding: 0
+  border: 0
+  font-size: 100%
+  vertical-align: baseline
+  -ms-overflow-style: none
+
+article, aside, footer, header, hgroup, menu, nav, section
+  display: block
+
+body
+  background-color: $white
+  color: $black
+  scroll-behavior: smooth
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+  text-size-adjust: 100%
+  -webkit-tap-highlight-color: transparent
+  -webkit-overflow-scrolling: touch
+  overflow-scrolling: touch
+
+  -webkit-font-smoothing: antialiased
+  -moz-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  -ms-font-smoothing: antialiased
+  -o-font-smoothing: antialiased
+  font-smoothing: antialiased
+
+  -webkit-font-smooth: always
+  -moz-font-smooth: always
+  -ms-font-smooth: always
+  -o-font-smooth: always
+  font-smooth: always
+
+  -webkit-text-rendering: optimizeLegibility
+  -moz-text-rendering: optimizeLegibility
+  -ms-text-rendering: optimizeLegibility
+  -o-text-rendering: optimizeLegibility
+  text-rendering: optimizeLegibility
+
+  -webkit-overflow-style: -webkit-autohiding-scrollbar
+  -moz-overflow-style: -moz-autohiding-scrollbar
+  -ms-overflow-style: -ms-autohiding-scrollbar
+  -o-overflow-style: -o-autohiding-scrollbar
+  overflow-style: autohiding-scrollbar
+
+  line-height: 1.5
+  cursor: default
+
+html
+  font:
+    style: normal
+    size: 14px
+    weight: 400
+    family: Inter, sans-serif
+  background-color: $white
+  @media (min-width: $mobile-break)
+    font-size: 16px
+
+img
+  border: 0
+  display: block
+  height: auto
+  max-width: 100%
+
+a
+  color: $royal
+  cursor: pointer
+  text-decoration: underline
+  @media (min-width: $mobile-break)
+    &:hover
+      color: darken($royal, 10%)
+      text-decoration: none
+
+main.container
+  min-height: 70vh
+
+.invisible
+  visibility: hidden
+
+.outOfView
+  transform: translate3d(3000px, 0, 0)
+
+.loadingElement
+  position: absolute
+  top: 0
+  left: 0
+  min-height: 100vh
+  min-width: 100vw
+  display: flex
+  align-items: center
+  z-index: 1
+  justify-content: center
