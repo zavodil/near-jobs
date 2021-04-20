@@ -1,0 +1,6 @@
+run-dev.sh
+node_modules/
+build/Release
+*.DS_Store
+.npm
+.env
