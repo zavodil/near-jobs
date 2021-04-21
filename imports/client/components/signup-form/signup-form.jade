@@ -1,47 +1,69 @@
 template(name="signupForm")
   h1.hero-text Tell us about yourself...
 
-  form.form(data-signup)
+  form.form(data-signup novalidate)
     .form-inputs
       label.form-label(for="accountType") Select accout type
       select#accountType.form-select(name="accountType" data-account-type)
         option(selected disabled) Are you company or developer?
         option(value="candidate") I'm candidate/developer seeking for project to join
         option(value="company") I'm representing company looking for developers/employees
-      p.form-hint
 
     if compare accountType '===' 'company'
       .row
         .form-inputs.col
-          label.form-label(for="title") Company name
-          input#title.form-control(name="title" placeholder="Alphabet, LLC")
+          label.form-label(for="title") Company name<span class="form-required" title="Required field">*</span>
+          input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="Alphabet, LLC" required maxlength="64")
+          p.form-hint
+            if getError 'title'
+              span.form-error {{getError 'title'}}
+            else
+              | &nbsp;
         .form-inputs.col
-          label.form-label(for="username") Company's GitHub handle
-          input#username.form-control(name="username" placeholder="@near")
+          label.form-label(for="username") Company's GitHub handle<span class="form-required" title="Required field">*</span>
+          input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" required maxlength="32")
 
       .form-inputs
-        label.form-label(for="description") Company description
-        textarea#description.mono.form-control(name="description" placeholder="Company description — markdown formatted" rows="25" )
-        p.form-hint Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
+        label.form-label(for="description") Company description<span class="form-required" title="Required field">*</span>
+        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Company description — markdown formatted" rows="25" required maxlength="5120")
+        p.form-hint
+          if getError 'description'
+            span.form-error {{getError 'description'}}
+          else
+            | Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
     else if compare accountType '===' 'candidate'
       .form-inputs
-        label.form-label(for="title") Full name
-        input#title.form-control(name="title" placeholder="John Doe")
-
+        label.form-label(for="title") Full name<span class="form-required" title="Required field">*</span>
+        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64")
+        p.form-hint
+          if getError 'title'
+            span.form-error {{getError 'title'}}
+          else
+            | &nbsp;
       .form-inputs
         .row
           .col
             label.form-label(for="country") Country
-            input#country.form-control(name="country" placeholder="Germany")
+            input#country.form-control(name="country" class="{{#if getError 'country'}}hasError{{/if}}" placeholder="Germany" maxlength="24")
           .col
             label.form-label(for="city") City
-            input#city.form-control(name="city" placeholder="Berlin")
-        p.form-hint Location used only for time-zone purposes
+            input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24")
+        p.form-hint
+          if getError 'country'
+            span.form-error {{getError 'country'}}
+          else if getError 'city'
+            span.form-error {{getError 'city'}}
+          else
+            | Location used only for time-zone purposes
 
       .form-inputs
-        label.form-label(for="availability") Enter type of project you're looking for
-        input#availability.form-control(name="availability" placeholder="full-time, freelance")
-        p.form-hint Comma-separated list. Up to 4 options. Click to add:
+        label.form-label(for="availability") Enter type of project you're looking for<span class="form-required" title="Required field">*</span>
+        input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="4" required maxlength="128")
+        p.form-hint
+          if getError 'availability'
+            span.form-error {{getError 'availability'}}
+            br
+          | Comma-separated list. Up to 4 options. Click to add:
           <a href="#" data-add-to="availability" data-add="full-time">full-time</a>, 
           <a href="#" data-add-to="availability" data-add="part-time">part-time</a>, 
           <a href="#" data-add-to="availability" data-add="project">project</a>, 
@@ -55,9 +77,13 @@ template(name="signupForm")
           option(value="yes") yes
 
       .form-inputs
-        label.form-label(for="category") What kind of job are you looking for
-        input#category.form-control(name="category" placeholder="development, programming, devops, frontend, backend")
-        p.form-hint Comma-separated list of gategories. Up to 4 categories. Click to add:
+        label.form-label(for="category") What kind of job are you looking for<span class="form-required" title="Required field">*</span>
+        input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="4" required maxlength="128")
+        p.form-hint
+          if getError 'category'
+            span.form-error {{getError 'category'}}
+            br
+          | Comma-separated list of gategories. Up to 4 categories. Click to add:
           <a href="#" data-add-to="category" data-add="development">development</a>, 
           <a href="#" data-add-to="category" data-add="programming">programming</a>, 
           <a href="#" data-add-to="category" data-add="engineering">engineering</a>, 
@@ -75,9 +101,42 @@ template(name="signupForm")
           <a href="#" data-add-to="category" data-add="sales">sales</a>, 
           | or come up with your own
 
+      .form-inputs
+        label.form-label(for="skills") Enter your core skills<span class="form-required" title="Required field">*</span>
+        input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, html, javascript, node.js, python" data-max-options="6" required maxlength="128")
+        p.form-hint
+          if getError 'skills'
+            span.form-error {{getError 'skills'}}
+            br
+          | Comma-separated list of gategories. Select up to 6 core skills. Click to add:
+          <a href="#" data-add-to="skills" data-add="near-blockchain">Near blockchain</a>, 
+          <a href="#" data-add-to="skills" data-add="solidity">solidity</a>, 
+          <a href="#" data-add-to="skills" data-add="html">HTML</a>, 
+          <a href="#" data-add-to="skills" data-add="css">CSS</a>, 
+          <a href="#" data-add-to="skills" data-add="javascript">JavaScript</a>, 
+          <a href="#" data-add-to="skills" data-add="react.js">React.js</a>, 
+          <a href="#" data-add-to="skills" data-add="nest">nest</a>, 
+          <a href="#" data-add-to="skills" data-add="next.js">Next.js</a>, 
+          <a href="#" data-add-to="skills" data-add="vue.js">Vue.js</a>, 
+          <a href="#" data-add-to="skills" data-add="meteor.js">Meteor.js</a>, 
+          <a href="#" data-add-to="skills" data-add="node.js">Node.js</a>, 
+          <a href="#" data-add-to="skills" data-add="tribe">tribe</a>, 
+          <a href="#" data-add-to="skills" data-add="rust">rust</a>, 
+          <a href="#" data-add-to="skills" data-add="golang">golang</a>, 
+          <a href="#" data-add-to="skills" data-add="python">python</a>, 
+          | or come up with your own
+
+      .form-inputs
+        label.form-label(for="description") CV<span class="form-required" title="Required field">*</span>
+        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Candidate CV — markdown formatted" rows="25" required maxlength="5120")
+        p.form-hint
+          if getError 'description'
+            span.form-error {{getError 'description'}}
+          else
+            | Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
 
     if accountType
-      button.btn.btn-lg(type="button" data-login class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
+      button.btn.btn-lg(type="submit" class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
         if isLoading
           | Saving... <i class="fa fa-spinner fa-pulse"></i>
         else
