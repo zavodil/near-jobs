@@ -1,5 +1,6 @@
 run-dev.sh
 node_modules/
+private/
 build/Release
 *.DS_Store
 .npm
