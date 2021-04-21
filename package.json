@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@octokit/auth-oauth-user": "^1.2.4",
+    "@octokit/auth-app": "^3.3.0",
     "bcrypt": "^5.0.1",
     "fibers": "^5.0.0",
     "josk": "^2.4.0",
