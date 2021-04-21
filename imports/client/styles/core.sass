@@ -57,14 +57,6 @@ a, input, button, select, label, textarea
     &.colspan-6
       flex: 6
 
-.form
-  border: 4px solid black
-  padding: 25px
-  border-radius: 12px
-  max-width: 95vw
-  @media (min-width: $mobile-break)
-    max-width: 40vw
-
 .hero-text
   font-size: 2rem
   font-weight: 400
@@ -138,6 +130,20 @@ a, input, button, select, label, textarea
 .mono
   font-family: 'Source Code Pro'
 
+
+.form
+  border: 4px solid black
+  padding: 25px
+  border-radius: 12px
+  max-width: 95vw
+  background-color: $white
+  @media (min-width: $mobile-break)
+    max-width: 40vw
+.form-error
+  color: $red
+.form-required
+  color: $red
+  font-weight: 900
 .form-inputs
   margin-bottom: 1.5rem
 .form-label
@@ -184,3 +190,5 @@ a, input, button, select, label, textarea
   border-radius: 0.25rem
   &:active, &:focus
     border-color: $black
+  &.hasError
+    border-color: $red
