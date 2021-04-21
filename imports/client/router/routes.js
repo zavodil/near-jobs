@@ -18,7 +18,9 @@ const onRendered = function () {
   setTimeout(() => {
     firstTime = false;
     app.yieldClass.set('animated bounceInRight');
-    loadingElement.style.display = 'none';
+    setTimeout(() => {
+      loadingElement.style.display = 'none';
+    }, 512);
   }, 512);
 };
 
