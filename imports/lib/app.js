@@ -1,5 +1,4 @@
-import { Meteor } from 'meteor/meteor';
-import { collections } from '/imports/lib/collections';
+import collections from '/imports/lib/collections';
 
 const app = {
   collections,

@@ -1,5 +1,8 @@
 template(name="signupForm")
-  h1.hero-text Tell us about yourself...
+  h1.hero-text
+    b To continue
+    br
+    | tell us about yourself...
 
   form.form(data-signup novalidate)
     .form-inputs
@@ -20,8 +23,13 @@ template(name="signupForm")
             else
               | &nbsp;
         .form-inputs.col
-          label.form-label(for="username") Company's GitHub handle<span class="form-required" title="Required field">*</span>
-          input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" required maxlength="32")
+          label.form-label(for="username") Company's GitHub handle
+          input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" maxlength="32")
+          p.form-hint
+            if getError 'username'
+              span.form-error {{getError 'username'}}
+            else
+              | &nbsp;
 
       .form-inputs
         label.form-label(for="description") Company description<span class="form-required" title="Required field">*</span>
@@ -74,7 +82,7 @@ template(name="signupForm")
         label.form-label(for="remote") Do you prefer to work remotely?
         select#accountType.form-select(name="remote")
           option(selected value="no") No
-          option(value="yes") yes
+          option(value="yes") Yes
 
       .form-inputs
         label.form-label(for="category") What kind of job are you looking for<span class="form-required" title="Required field">*</span>
@@ -141,3 +149,9 @@ template(name="signupForm")
           | Saving... <i class="fa fa-spinner fa-pulse"></i>
         else
           | Save
+
+    p
+      if hasErrors
+        strong.form-error Form has errors. Please, check above
+      else
+        | &nbsp;

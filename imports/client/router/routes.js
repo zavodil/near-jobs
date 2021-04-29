@@ -27,7 +27,7 @@ FlowRouter.route('/login', {
 });
 
 FlowRouter.route('/signup', {
-  isPublic: true,
+  isPublic: false,
   name: 'signup',
   title: 'Signup to NEAR Protocol Job Board',
   action() {

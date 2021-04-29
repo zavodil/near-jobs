@@ -130,6 +130,13 @@ FlowRouter.globals.push({
   }
 });
 
+FlowRouter.triggers.enter([(context, redirect) => {
+  const user = Meteor.user();
+  if (user && !user.profile.type && context.route.name !== 'signup') {
+    redirect('signup');
+  }
+}]);
+
 // 404 route (catch all)
 FlowRouter.route('*', {
   title: '404: Page not found',

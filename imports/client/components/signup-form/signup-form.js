@@ -2,6 +2,7 @@ import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import './signup-form.jade';
 
 Template.signupForm.onCreated(function () {
@@ -19,6 +20,9 @@ Template.signupForm.helpers({
   },
   getError(elementId) {
     return (Template.instance().errorFields.get() || {})[elementId];
+  },
+  hasErrors() {
+    return !!Object.keys(Template.instance().errorFields.get() || {}).length;
   }
 });
 
@@ -28,32 +32,33 @@ Template.signupForm.events({
   },
   'submit [data-signup]'(e, template) {
     e.preventDefault();
-    const errorFields = {};
-    const form = {};
 
     const elements = template.findAll('input,select,textarea,checkbox');
+    const { form, errorFields } = app.processFormElements(elements);
 
-    for (const element of elements) {
-      if (element.hasAttribute('required') && element.value.length < 2) {
-        errorFields[element.id] = 'This field is required';
-      } else if (element.dataset.maxOptions && element.value.split(',').length > parseInt(element.dataset.maxOptions)) {
-        errorFields[element.id] = `Options limit exceeded, enter up to ${element.dataset.maxOptions} options`;
-      } else if (element.hasAttribute('maxlength') && element.value.length > parseInt(element.getAttribute('maxlength'))) {
-        errorFields[element.id] = `Entered value is too long, this field length limit is ${element.getAttribute('maxlength')}`;
-      } else {
-        if (element.dataset.maxOptions) {
-          form[element.name] = element.value.split(',').map(val => app.slugify(val));
-        } else {
-          form[element.name] = element.value.trim();
-        }
-      }
+    if (form.city && !form.country) {
+      errorFields.country = 'Country is required when City is filled-out';
     }
 
     if (Object.keys(errorFields).length) {
       template.errorFields.set(errorFields);
       return false;
     }
+
+    template.errorFields.set({});
     template.isLoading.set(true);
+
+    Meteor.call('github.issue.signup', form.accountType, form, (error, res) => {
+      template.isLoading.set(false);
+      if (error) {
+        console.error(error);
+        alert('Something went wrong. Please, try again');
+      } else if (res?.errorFields) {
+        template.errorFields.set(res.errorFields);
+      } else if (res === true) {
+        FlowRouter.go('index');
+      }
+    });
     return false;
   },
   'click [data-add-to]'(e, template) {
