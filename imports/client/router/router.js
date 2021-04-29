@@ -2,6 +2,8 @@ import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta';
+
+import { render, whileWaiting, templates } from './helpers.js';
 import '/imports/client/router/routes.js';
 
 FlowRouter.Renderer.rootElement = function () {
@@ -133,14 +135,12 @@ FlowRouter.route('*', {
   title: '404: Page not found',
   meta: defaults._404.meta,
   action() {
-    this.render('layout', '_404');
+    render(this, templates.layout, '_404');
   },
   waitOn() {
     return import('/imports/client/_404/_404.js');
   },
-  whileWaiting() {
-    // this.render('layout', 'loading');
-  }
+  whileWaiting
 });
 
 new FlowRouterTitle(FlowRouter);
