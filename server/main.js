@@ -23,16 +23,16 @@ app.checkUser = (_id, fields) => {
     throw new Meteor.Error(401, 'Please, login');
   }
 
-  const user = Meteor.users.findOne(this._id, fields || {
+  const user = Meteor.users.findOne(_id, fields || {
     fields: {
       profile: 1,
-      'user.services.github.id': 1,
-      'user.services.github.username': 1,
-      'user.services.github.accessToken': 1
+      'services.github.id': 1,
+      'services.github.username': 1,
+      'services.github.accessToken': 1
     }
   });
 
-  if (!user.services.github.accessToken) {
+  if (!user.services?.github?.accessToken) {
     throw new Meteor.Error(401, 'Please, login via GitHub');
   }
 
