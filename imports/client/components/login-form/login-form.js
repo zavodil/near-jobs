@@ -19,7 +19,7 @@ Template.loginForm.events({
     template.isLoading.set(true);
     Meteor.loginWithGithub({
       loginStyle: 'popup',
-      requestPermissions: [],
+      requestPermissions: ['public_repo'],
       redirectUrl: Meteor.absoluteUrl('/_oauth/github')
     }, (error) => {
       template.isLoading.set(false);
