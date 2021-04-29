@@ -4,6 +4,7 @@ import { app } from '/imports/lib/app.js';
 import { profiles } from '/imports/server/profiles/lib.js';
 
 import '/imports/server/service-configurations.js';
+import '/imports/server/collections';
 import '/imports/server/methods';
 
 /*
