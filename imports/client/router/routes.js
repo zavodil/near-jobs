@@ -1,44 +1,8 @@
-import { app } from '/imports/lib/app.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-
-const templates = {
-  layout: 'layout'
-};
-
-let firstTime = true;
-let loadingElement;
-const ensureLoadingElement = () => {
-  if (!loadingElement) {
-    loadingElement = document.getElementById('loadingElement');
-  }
-};
-
-const onRendered = function () {
-  ensureLoadingElement();
-  setTimeout(() => {
-    firstTime = false;
-    app.yieldClass.set('animated bounceInRight');
-    setTimeout(() => {
-      loadingElement.style.display = 'none';
-    }, 512);
-  }, 512);
-};
-
-const whileWaiting = function () {
-  ensureLoadingElement();
-  if (!firstTime) {
-    app.yieldClass.set('animated bounceOutLeft');
-  }
-  loadingElement.style.display = 'flex';
-};
-
-const render = (route, ...args) => {
-  setTimeout(() => {
-    route.render(...args, onRendered);
-  }, 512);
-};
+import { render, whileWaiting, templates } from './helpers.js';
 
 FlowRouter.route('/', {
+  isPublic: true,
   name: 'index',
   action() {
     render(this, templates.layout, 'index');
@@ -50,6 +14,7 @@ FlowRouter.route('/', {
 });
 
 FlowRouter.route('/login', {
+  isPublic: true,
   name: 'login',
   title: 'Login to NEAR Protocol Job Board',
   action() {
@@ -62,6 +27,7 @@ FlowRouter.route('/login', {
 });
 
 FlowRouter.route('/signup', {
+  isPublic: true,
   name: 'signup',
   title: 'Signup to NEAR Protocol Job Board',
   action() {
@@ -72,3 +38,17 @@ FlowRouter.route('/signup', {
   },
   whileWaiting
 });
+
+FlowRouter.route('/new/job', {
+  isPublic: false,
+  name: 'newjob',
+  title: 'Signup to NEAR Protocol Job Board',
+  action() {
+    render(this, templates.layout, 'newjob');
+  },
+  waitOn() {
+    return import('/imports/client/newjob/newjob.js');
+  },
+  whileWaiting
+});
+

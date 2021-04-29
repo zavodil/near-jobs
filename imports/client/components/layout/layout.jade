@@ -27,7 +27,12 @@ template(name="layout")
 
 
   div.yield(class="#{getYieldClass}")
-    +yield
+    if canYeild
+      +yield
+    else
+      main.container.row.centered
+        .col.centered
+          +loginForm
 
   footer.container.footer
     .row
