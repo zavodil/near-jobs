@@ -69,4 +69,35 @@ app.yieldClass = new ReactiveVar('animated outOfView');
  */
 app.isSmall = ((document.documentElement.clientWidth || document.body.clientWidth) < 768);
 
+/*
+ * Check form fields errors, and put together form object
+ *
+ * @namespace app
+ * @method processFormElements
+ * @param {[HTMLElement]} elements - Array of DOM HTMLElement(s), usually select, input, textarea, etc.
+ * @returns { form: Object, errorFields: Object }
+ */
+app.processFormElements = (elements) => {
+  const form = {};
+  const errorFields = {};
+
+  for (const element of elements) {
+    if (element.hasAttribute('required') && element.value.length < 2) {
+      errorFields[element.id] = 'This field is required';
+    } else if (element.dataset.maxOptions && element.value.split(',').length > parseInt(element.dataset.maxOptions)) {
+      errorFields[element.id] = `Options limit exceeded, enter up to ${element.dataset.maxOptions} options`;
+    } else if (element.hasAttribute('maxlength') && element.value.length > parseInt(element.getAttribute('maxlength'))) {
+      errorFields[element.id] = `Entered value is too long, this field length limit is ${element.getAttribute('maxlength')}`;
+    } else {
+      if (element.dataset.maxOptions) {
+        form[element.name] = element.value.split(',').map(val => app.slugify(val));
+      } else {
+        form[element.name] = element.value.trim();
+      }
+    }
+  }
+
+  return { form, errorFields };
+};
+
 export { app };
