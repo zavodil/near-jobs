@@ -1,0 +1,9 @@
+{
+  "public": {
+    "repo": {
+      "org": "veliovgroup",
+      "jobs": "jobs",
+      "profiles": "profiles"
+    }
+  }
+}
