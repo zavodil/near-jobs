@@ -4,6 +4,8 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import '/imports/client/components/signup-form/signup-form.js';
 import './signup.jade';
 
+Template.signup.onRendered(app.isReady);
+
 Template.signup.onCreated(function () {
   this.autorun(() => {
     const user = Meteor.user();
