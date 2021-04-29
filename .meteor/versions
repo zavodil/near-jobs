@@ -20,7 +20,7 @@ ddp@1.4.0
 ddp-client@2.4.0
 ddp-common@1.4.0
 ddp-rate-limiter@1.0.9
-ddp-server@2.3.2
+ddp-server@2.3.3
 diff-sequence@1.1.1
 dynamic-import@0.6.0
 ecmascript@0.15.1
@@ -45,7 +45,7 @@ localstorage@1.2.0
 logging@1.2.0
 markdown@1.0.14
 meteor@1.9.3
-minifier-css@1.5.3
+minifier-css@1.5.4
 minifier-js@2.6.0
 minifiers@1.1.7
 minimongo@1.6.2
@@ -78,7 +78,7 @@ retry@1.1.0
 routepolicy@1.1.0
 seba:minifiers-autoprefixer@2.0.1
 service-configuration@1.0.11
-socket-stream-client@0.3.1
+socket-stream-client@0.3.2
 spacebars@1.1.0
 spacebars-compiler@1.2.1
 standard-minifier-js@2.6.0
