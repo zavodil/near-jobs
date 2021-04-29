@@ -1,3 +1,4 @@
+import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
