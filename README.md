@@ -100,7 +100,7 @@ This project is build on top of Meteor.js, Blaze, SASS, and Node.js
 To run project locally two environment variables are required `ACCOUNTS_GITHUB_ID` and `ACCOUNTS_GITHUB_SEC`:
 
 ```shell
-ACCOUNTS_GITHUB_ID="xxx" ACCOUNTS_GITHUB_SEC="yyyyy" ROOT_URL="http://127.0.0.1:4000" meteor --port 4000
+ACCOUNTS_GITHUB_ID="xxx" ACCOUNTS_GITHUB_SEC="yyyyy" ROOT_URL="http://127.0.0.1:5555" meteor --port 5555
 ```
 
 `ROOT_URL` variable and `--port` flag are optional.
