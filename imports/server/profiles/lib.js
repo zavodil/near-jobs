@@ -63,13 +63,26 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
       }
     } else {
+      // REMOVE ALL LABELS
+      try {
+        await appOctokit.rest.issues.removeAllLabels({
+          owner: Meteor.settings.public.repo.org,
+          repo: Meteor.settings.public.repo.profiles,
+          issue_number: form.issue.number
+        });
+      } catch (e) {
+        console.error('[profiles.upsert] [octokit.rest.issues.removeAllLabels] Error:', e);
+        throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+      }
+
+      // UPDATE ISSUE
       try {
         const updatedIssue = await octokit.rest.issues.update({
           owner: Meteor.settings.public.repo.org,
           repo: Meteor.settings.public.repo.profiles,
           issue_number: form.issue.number,
           title: `${form.type === 'candidate' ? 'CV:' : 'Company:'} ${form.title}`,
-          state: 'open',
+          state: 'open', // <-- REOPEN IF CLOSED
           body
         });
         update['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
