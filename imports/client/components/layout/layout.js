@@ -9,16 +9,13 @@ import './animations.sass';
 import './layout.sass';
 import './layout.jade';
 
-Template.layout.onCreated(function () {
+Template.loginLogoutButton.onCreated(function () {
   this.loggingOut = new ReactiveVar(false);
 });
 
 Template.layout.helpers({
   getYear() {
     return new Date().getFullYear();
-  },
-  loggingOut() {
-    return Template.instance().loggingOut.get();
   },
   getYieldClass() {
     return app.yieldClass.get();
@@ -28,7 +25,13 @@ Template.layout.helpers({
   }
 });
 
-Template.layout.events({
+Template.loginLogoutButton.helpers({
+  loggingOut() {
+    return Template.instance().loggingOut.get();
+  }
+});
+
+Template.loginLogoutButton.events({
   'click [data-logout]'(e, template) {
     e.preventDefault();
     template.loggingOut.set(true);
