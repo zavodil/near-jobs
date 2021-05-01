@@ -1,11 +1,8 @@
 template(name="loginLogoutButton")
-  if loggingOut
-    a.btn.btn-grey.disabled.btn-login.btn-outlined(href="#") logging out... <i class="fa fa-spinner fa-pulse"></i>
+  if currentUser
+    a.btn.btn-black.btn-login-image(href="{{pathFor 'profileSettings'}}" class="{{isActiveRoute 'profileSettings'}}" style="background-image:url(#{currentUser.profile.github.avatarUrl})") 
   else
-    if currentUser
-      a.btn.btn-black.btn-login.btn-outlined(href="#" data-logout) Logout
-    else
-      a.btn.btn-black.btn-login(href="{{pathFor 'login'}}" class="{{#if isActiveRoute 'login'}}invisible{{/if}}") Login
+    a.btn.btn-black.btn-login(href="{{pathFor 'login'}}" class="{{#if isActiveRoute 'login'}}invisible{{/if}}") Login
 
 template(name="layout")
   nav.navbar.row

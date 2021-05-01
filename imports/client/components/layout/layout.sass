@@ -37,6 +37,8 @@
           margin: 0 1rem
       a
         vertical-align: baseline
+        &.btn-login-image
+          vertical-align: bottom
       a:not(.btn)
         padding: 5px 6px
         text-decoration: none
@@ -58,6 +60,19 @@
   .btn-login
     padding-left: 1rem
     padding-right: 1rem
+  .btn-login-image
+    border: 2px solid $midgrey
+    background-size: cover
+    padding: 5px
+    max-height: 30px
+    height: 30px
+    max-width: 30px
+    width: 30px
+    &:hover
+      border-color: $lightroyal
+    &.active, &.active:hover
+      border-color: $royal
+
   @media (min-width: $mobile-break)
     padding: 40px 40px 20px 40px
     margin: 0px 0px 40px 0px
