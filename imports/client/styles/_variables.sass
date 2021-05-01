@@ -1,12 +1,75 @@
-$black: #000000;
-$white: #FFFFFF;
-$grey: #F2F2F2;
-$darkgrey: #6C757D;
-$red: #FF585D;
-$orange: #FFB259;
-$yellow: #F0EC74;
-$green: #00C08B;
-$blue: #00C1DE;
-$royal: #0072CE;
+:root {
+  --black: #000000;
+  --black70: #333333;
+  --white: #FFFFFF;
+
+  --grey: #F2F2F2;
+  --midgrey: #E0E0E0;
+  --darkgrey: #6C757D;
+
+  --red: #FF585D;
+  --orange: #FFB259;
+
+  --lightyellow: #FAF9D0;
+  --yellow: #F0EC74;
+
+  --green: #00C08B;
+
+  --blue: #00C1DE;
+  --midblue: #0095AB;
+
+  --lightroyal: #35A5FF;
+  --royal: #0072CE;
+  --midroyal: #00569B;
+}
+
+body.dark {
+  --black: #adbac7;
+  --black70: #22272e;
+  --white: #22272e;
+
+  --grey: #444c56;
+  --midgrey: #CDD9E5;
+  --darkgrey: #373e47;
+
+//   --red: #FF585D;
+//   --orange: #FFB259;
+
+//   --lightyellow: #FAF9D0;
+//   --yellow: #F0EC74;
+
+//   --green: #00C08B;
+
+//   --blue: #00C1DE;
+//   --midblue: #0095AB;
+
+//   --lightroyal: #35A5FF;
+//   --royal: #0072CE;
+//   --midroyal: #00569B;
+}
+
+$black: var(--black);
+$black-70: var(--black70);
+$white: var(--white);
+
+$grey: var(--grey);
+$midgrey: var(--midgrey);
+$darkgrey: var(--darkgrey);
+
+$red: var(--red);
+$orange: var(--orange);
+
+$lightyellow: var(--lightyellow);
+$yellow: var(--yellow);
+
+$green: var(--green);
+
+$blue: var(--blue);
+$midblue: var(--midblue);
+
+$lightroyal: var(--lightroyal);
+$royal: var(--royal);
+$midroyal: var(--midroyal);
+
 $mobile-break: 768px;
 $tablet-break: 1200px;
