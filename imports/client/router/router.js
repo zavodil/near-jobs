@@ -130,12 +130,20 @@ FlowRouter.globals.push({
   }
 });
 
+const scrollToTop = () => {
+  (window.scroll || window.scrollTo || function (){})({
+    top: 0,
+    left: 0,
+    behavior: 'smooth'
+  });
+};
+
 FlowRouter.triggers.enter([(context, redirect) => {
   const user = Meteor.user();
   if (user && !user.profile.type && context.route.name !== 'signup') {
     redirect('signup');
   }
-}]);
+}, scrollToTop]);
 
 // 404 route (catch all)
 FlowRouter.route('*', {
