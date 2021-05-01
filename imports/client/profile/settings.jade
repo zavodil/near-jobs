@@ -1,0 +1,27 @@
+template(name="profileSettings")
+  main.container
+    .row.centered
+      .col.centered
+        with formData
+          +profileForm
+    .row.centered
+      .col.centered: .well
+        h2.h4 Logout
+        p Logout and invalidate GitHub app OAuth token
+        
+        button.btn(data-logout type="button" class="{{#if loggingOut}}disabled btn-grey btn-outlined{{else}}btn-danger btn-outlined{{/if}}")
+          if loggingOut
+            | logging out... <i class="fa fa-spinner fa-pulse"></i>
+          else
+            | Logout Now
+
+    .row.centered
+      .col.centered: .well
+        h2.h4 Close your profile
+        p Temporary close your profile and issue at our GitHub repositories. Responces to job offers would remain visible in our GitHub issues. Any open positions and your profile issues would be closed and hidden from this website and its search
+
+        button.btn(data-close-profile type="button" class="{{#if isClosing}}disabled btn-grey btn-outlined{{else}}btn-danger{{/if}}")
+          if isClosing
+            | closing account and removing data... <i class="fa fa-spinner fa-pulse"></i>
+          else
+            | Close profile now
