@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { render, whileWaiting, templates } from './helpers.js';
 
@@ -42,7 +43,7 @@ FlowRouter.route('/signup', {
 FlowRouter.route('/new/job', {
   isPublic: false,
   name: 'newjob',
-  title: 'Signup to NEAR Protocol Job Board',
+  title: 'Create new job post',
   action() {
     render(this, templates.layout, 'newjob');
   },
@@ -52,3 +53,18 @@ FlowRouter.route('/new/job', {
   whileWaiting
 });
 
+FlowRouter.route('/profile/settings', {
+  isPublic: false,
+  name: 'profileSettings',
+  title: 'Profile settings',
+  action() {
+    render(this, templates.layout, 'profileSettings');
+  },
+  waitOn() {
+    return [
+      import('/imports/client/profile/settings.js'),
+      Meteor.subscribe('profile')
+    ];
+  },
+  whileWaiting
+});
