@@ -1,5 +1,5 @@
 template(name="loginForm")
-  .form
+  .well.well-auto
     h1.hero-text <b>Welcome!</b> <br>Let's begin with <br>logging-in via GitHub
     button.btn.btn-lg(type="button" data-login class="{{#if compare isLoading '||' loggingin}}btn-grey disabled{{else}}btn-black{{/if}}")
       i.fa.fa-github
