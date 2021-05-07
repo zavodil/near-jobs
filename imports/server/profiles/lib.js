@@ -129,7 +129,7 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
         update.$set['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
       } catch (e) {
         console.error('[profiles.upsert] [octokit.rest.issues.update] Error:', e);
-        throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+        throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
       }
     }
 
