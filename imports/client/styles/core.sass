@@ -136,6 +136,8 @@ select
           background-color: $red
   &.btn-primary
     background-color: $royal
+  &.btn-success
+    background-color: $green
   @media (min-width: $mobile-break)
     transition: .2s
     &:hover
@@ -143,7 +145,8 @@ select
       transform: scale(1.05)
       color: $white
     &.btn-black:hover
-      background-color: $black-70
+      background-color: $grey70
+      color: $black
     &.btn-grey:hover
       background-color: $darkgrey
       color: $black
@@ -152,6 +155,9 @@ select
     &.btn-danger:hover
       background-color: $lightred
       color: $red
+    &.btn-success:hover
+      color: $green
+      background-color: $lightgreen
 
 .mono
   font-family: 'Source Code Pro'
