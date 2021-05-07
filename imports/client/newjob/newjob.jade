@@ -1,0 +1,10 @@
+template(name="newjob")
+  main.container.row.centered
+    .col.centered
+      if compare currentUser.profile.type '!==' 'company'
+        .well.well-auto
+          h1.hero-text <b>Hey! We are sorry, but...</b> <br>You can not create a job post using this account
+          p Creating new job posts available only to <b>company representative</b> acounts
+          a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit account settings
+      else
+        +jobForm
