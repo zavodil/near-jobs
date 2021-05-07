@@ -1,0 +1,143 @@
+template(name="jobForm")
+  h1.hero-text
+    if header
+      | {{{header}}}
+    else
+      b Let's describe position
+      br
+      | and requirements to a candidate
+
+  form.form(data-job-form novalidate)
+    .form-inputs
+      label.form-label(for="title") Job title<span class="form-required" title="Required field">*</span>
+      input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="Developer Needed" required maxlength="64" value="#{title}")
+      p.form-hint
+        if getError 'title'
+          span.form-error {{getError 'title'}}
+        else
+          | &nbsp;
+    .form-inputs
+      h2.h5 Location preferences
+      .form-inputs
+        .row
+          .col
+            label.form-label(for="country") Country
+            input#country.form-control(name="country" class="{{#if getError 'country'}}hasError{{/if}}" placeholder="Germany" maxlength="24" value="#{location.country}")
+          .col
+            label.form-label(for="city") City
+            input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24" value="#{location.city}")
+          .col
+            label.form-label(for="remote") Is this remote position?
+            select#accountType.form-select(name="remote")
+              option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
+              option(value="yes" selected="{{#if isRemote}}selected{{/if}}") Yes
+        p.form-hint
+          if getError 'country'
+            span.form-error {{getError 'country'}}
+          else if getError 'city'
+            span.form-error {{getError 'city'}}
+          else
+            | Enter country, state, or country and city. If position is remote, — country/state would be used as timezone preference
+
+    .form-inputs
+      label.form-label(for="availability") Candidate availablility<span class="form-required" title="Required field">*</span>
+      input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="2" required maxlength="32" value="#{availabilityText}")
+      p.form-hint
+        if getError 'availability'
+          span.form-error {{getError 'availability'}}
+          |  &middot;
+        | Comma-separated list. Select up to 2 options. Click to add:
+        <a href="#" data-add-to="availability" data-add="full-time">full-time</a>, 
+        <a href="#" data-add-to="availability" data-add="part-time">part-time</a>, 
+        <a href="#" data-add-to="availability" data-add="project">project</a>, 
+        <a href="#" data-add-to="availability" data-add="freelance">freelance</a>, 
+        <a href="#" data-add-to="availability" data-add="bounty">bounty</a>.
+
+    .form-inputs
+      label.form-label(for="category") Job category<span class="form-required" title="Required field">*</span>
+      input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="2" required maxlength="64" value="#{categoryText}")
+      p.form-hint
+        if getError 'category'
+          span.form-error {{getError 'category'}}
+          |  &middot;
+        | Comma-separated list of categories. Select up to 2 categories. Click to add:
+        <a href="#" data-add-to="category" data-add="development">development</a>, 
+        <a href="#" data-add-to="category" data-add="programming">programming</a>, 
+        <a href="#" data-add-to="category" data-add="engineering">engineering</a>, 
+        <a href="#" data-add-to="category" data-add="devops">devops</a>, 
+        <a href="#" data-add-to="category" data-add="frontend">frontend</a>, 
+        <a href="#" data-add-to="category" data-add="backend">backend</a>, 
+        <a href="#" data-add-to="category" data-add="design">design</a>, 
+        <a href="#" data-add-to="category" data-add="customer support">customer support</a>, 
+        <a href="#" data-add-to="category" data-add="developer relations">developer relations</a>, 
+        <a href="#" data-add-to="category" data-add="evangelist">evangelist</a>, 
+        <a href="#" data-add-to="category" data-add="finance">finance</a>, 
+        <a href="#" data-add-to="category" data-add="marketing">marketing</a>, 
+        <a href="#" data-add-to="category" data-add="operations">operations</a>, 
+        <a href="#" data-add-to="category" data-add="research">research</a>, 
+        <a href="#" data-add-to="category" data-add="sales">sales</a>, 
+        | or come up with your own
+
+    .form-inputs
+      label.form-label(for="skills") Required skills<span class="form-required" title="Required field">*</span>
+      input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, html, javascript, node.js, python" data-max-options="12" required maxlength="256" value="#{skillsText}")
+      p.form-hint
+        if getError 'skills'
+          span.form-error {{getError 'skills'}}
+          xd
+        | Comma-separated list of skills. Select up to 12 core skills. Click to add:
+        <a href="#" data-add-to="skills" data-add="near-blockchain">Near blockchain</a>, 
+        <a href="#" data-add-to="skills" data-add="solidity">solidity</a>, 
+        <a href="#" data-add-to="skills" data-add="html">HTML</a>, 
+        <a href="#" data-add-to="skills" data-add="css">CSS</a>, 
+        <a href="#" data-add-to="skills" data-add="javascript">JavaScript</a>, 
+        <a href="#" data-add-to="skills" data-add="react.js">React.js</a>, 
+        <a href="#" data-add-to="skills" data-add="nest">nest</a>, 
+        <a href="#" data-add-to="skills" data-add="next.js">Next.js</a>, 
+        <a href="#" data-add-to="skills" data-add="vue.js">Vue.js</a>, 
+        <a href="#" data-add-to="skills" data-add="meteor.js">Meteor.js</a>, 
+        <a href="#" data-add-to="skills" data-add="node.js">Node.js</a>, 
+        <a href="#" data-add-to="skills" data-add="tribe">tribe</a>, 
+        <a href="#" data-add-to="skills" data-add="rust">rust</a>, 
+        <a href="#" data-add-to="skills" data-add="golang">golang</a>, 
+        <a href="#" data-add-to="skills" data-add="python">python</a>, 
+        | or come up with your own
+
+    .form-inputs
+      label.form-label(for="description") Job description<span class="form-required" title="Required field">*</span>
+      textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Detailed position and job description" rows="35" required maxlength="10240") #{body}
+      p.form-hint
+        if getError 'description'
+          span.form-error {{getError 'description'}}
+        else
+          | Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
+
+    if isUpdate
+      .row
+        .col
+          button.btn.btn-lg(type="submit" class="{{#if compare isLoading '|!' hasChanges}}btn-grey disabled{{else}}btn-success{{/if}}")
+            if isLoading
+              | Saving... <i class="fa fa-spinner fa-pulse"></i>
+            else
+              | Save changes
+        .col.flex-middle
+          if isSaved
+            span.form-hint.text-success <i class="fa fa-check"></i> Saved
+          else 
+            unless hasChanges
+              span.form-hint form has no changes yet
+            else
+              unless isLoading
+                b.form-hint.text-black don't forget to save changes
+    else
+      button.btn.btn-lg(type="submit" class="{{#if isLoading}}btn-grey disabled{{else}}btn-primary{{/if}}")
+        if isLoading
+          | Publish... <i class="fa fa-spinner fa-pulse"></i>
+        else
+          | Publish
+
+    p
+      if hasErrors
+        strong.form-error Form has errors. Please, check above
+      else
+        | &nbsp;
