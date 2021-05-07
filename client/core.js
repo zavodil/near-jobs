@@ -100,4 +100,41 @@ app.processFormElements = (elements) => {
   return { form, errorFields };
 };
 
+app.addToInput = (e, template) => {
+  const input = template.find(`#${e.currentTarget.dataset.addTo}`);
+  if (!input) {
+    return false;
+  }
+
+  const noTransform = !!input.dataset.noTransform;
+  const replace = !!input.dataset.replace;
+
+  let values = [];
+  if (!replace) {
+    values = input.value.split(',').map(val => val.trim()).filter(val => typeof val === 'string' && val.length > 0 && val.length <= 20).map(val => app.slugify(val));
+  }
+  const maxOptions = parseInt(input.dataset.maxOptions);
+  const newEntry = e.currentTarget.dataset.add;
+  const newEntrySlug = app.slugify(newEntry);
+
+  if (input.value.includes(newEntry) || input.value.includes(newEntrySlug) || values.length >= maxOptions) {
+    return false;
+  }
+
+  if (!noTransform) {
+    values.push(newEntrySlug);
+  } else {
+    values.push(newEntry);
+  }
+
+  if (!replace) {
+    input.value = values.join(', ');
+  } else {
+    input.value = values[0];
+  }
+
+  template.hasChanges.set(true);
+  return false;
+};
+
 export { app };

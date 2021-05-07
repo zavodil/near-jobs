@@ -81,7 +81,7 @@ Template.profileForm.events({
         template.isLoading.set(false);
         if (error) {
           console.error(error);
-          if (error.error = 422) {
+          if (error.error === 422) {
             alert('Your issue was closed by GitHub administrator, you can not proceed further, this account got locked; If you believe there\'s a mistake reach out Near Jobs support via GitHub issues');
           } else {
             alert('Something went wrong. Please, check that you don\'t have duplicate "profile" issue in our GitHub repository with your profile. Make sure your original issue is open and try again');
@@ -106,26 +106,6 @@ Template.profileForm.events({
   },
   'click [data-add-to]'(e, template) {
     e.preventDefault();
-    const input = template.find(`#${e.currentTarget.dataset.addTo}`);
-    if (!input) {
-      return false;
-    }
-
-    const values = input.value.split(',').map(val => val.trim()).filter(val => typeof val === 'string' && val.length > 0 && val.length <= 20).map(val => app.slugify(val));
-    const maxOptions = parseInt(input.dataset.maxOptions);
-    const newEntry = e.currentTarget.dataset.add;
-    const newEntrySlug = app.slugify(newEntry);
-
-    console.log(maxOptions, values, values.length, values.length >= maxOptions)
-
-    if (input.value.includes(newEntry) || input.value.includes(newEntrySlug) || values.length >= maxOptions) {
-      return false;
-    }
-
-    values.push(newEntrySlug);
-    input.value = values.join(', ');
-
-    template.hasChanges.set(true);
-    return false;
+    return app.addToInput(e, template);
   }
 });
