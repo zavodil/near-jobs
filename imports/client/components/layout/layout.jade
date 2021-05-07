@@ -11,9 +11,12 @@ template(name="layout")
       span.subtitle J<i class="fa fa-search"></i>BS
     .menu.col.colspan-4
       ul.list-unstyled
-        li: a(href="#") Jobs
         li: a(href="#") Projects
-        li: a(href="#") Candidates
+        if compare currentUser.profile.type '===' 'company'
+          li: a(href="#") Candidates
+          li: a.btn.btn-black(href="{{pathFor 'newjob'}}") Post a Job
+        else
+          li: a(href="#") Jobs
         if isSmall
           li
             +loginLogoutButton
