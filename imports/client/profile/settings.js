@@ -11,7 +11,7 @@ Template.profileSettings.onRendered(app.isReady);
 
 Template.profileSettings.onCreated(function () {
   this.loggingOut = new ReactiveVar(false);
-  this.isClosing = new ReactiveVar(false);
+  this.managingAccount = new ReactiveVar(false);
 
   this.user = Meteor.user();
   if (!this.user) {
@@ -43,12 +43,36 @@ Template.profileSettings.events({
   },
   'click [data-close-profile]'(e, template) {
     e.preventDefault();
-    template.isClosing.set(true);
+    template.managingAccount.set(true);
 
-    setTimeout(() => {
-      alert('Sorry, not yet implemented');
-      template.isClosing.set(false);
-    }, 1024);
+    Meteor.call('github.issue.profile.close', (error) => {
+      if (error) {
+        console.error(error);
+        if (error.error === 422) {
+          alert('Your profile issue was managed by GitHub administrator, account got locked; if you believe there\'s an error contact Near Jobs support via GitHub issues');
+        } else {
+          alert('Something went wrong, server returned an error! Please, try again later');
+        }
+      }
+      template.managingAccount.set(false);
+    });
+    return false;
+  },
+  'click [data-reopen-profile]'(e, template) {
+    e.preventDefault();
+    template.managingAccount.set(true);
+
+    Meteor.call('github.issue.profile.reopen', (error) => {
+      if (error) {
+        console.error(error);
+        if (error.error === 422) {
+          alert('Your profile issue was managed by GitHub administrator, account got locked; if you believe there\'s an error contact Near Jobs support via GitHub issues');
+        } else {
+          alert('Something went wrong, server returned an error! Please, try again later');
+        }
+      }
+      template.managingAccount.set(false);
+    });
     return false;
   }
 });
@@ -57,8 +81,8 @@ Template.profileSettings.helpers({
   loggingOut() {
     return Template.instance().loggingOut.get();
   },
-  isClosing() {
-    return Template.instance().isClosing.get();
+  managingAccount() {
+    return Template.instance().managingAccount.get();
   },
   formData() {
     const profile = Template.instance().profile;

@@ -133,5 +133,15 @@ Meteor.methods({
 
     await app.profiles.upsert(user, formData);
     return true;
+  },
+  async 'github.issue.profile.close'() {
+    const user = app.checkUser(this.userId);
+    await app.profiles.close(user);
+    return true;
+  },
+  async 'github.issue.profile.reopen'() {
+    const user = app.checkUser(this.userId);
+    await app.profiles.reopen(user);
+    return true;
   }
 });

@@ -175,7 +175,62 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
     Meteor.users.update(user._id, {
       $set: {
         'profile.type': form.type,
-        'profile.issue.number': form.issue.number
+        'profile.issue.number': form.issue.number,
+        'profile.issue.state': 'open'
+      }
+    });
+
+    return true;
+  },
+  async close(user) {
+    const octokit = new Octokit({
+      auth: user.services.github.accessToken
+    });
+
+    try {
+      await octokit.rest.issues.update({
+        owner: Meteor.settings.public.repo.org,
+        repo: Meteor.settings.public.repo.profiles,
+        issue_number: user.profile.issue.number,
+        state: 'closed'
+      });
+    } catch (e) {
+      console.error('[profiles.close] [octokit.rest.issues.update] Error:', e);
+      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+    }
+
+    // @TODO OPEN/CLOSE JOB's ISSUES
+
+    Meteor.users.update(user._id, {
+      $set: {
+        'profile.issue.state': 'closed'
+      }
+    });
+
+    return true;
+  },
+  async reopen(user) {
+    const octokit = new Octokit({
+      auth: user.services.github.accessToken
+    });
+
+    try {
+      await octokit.rest.issues.update({
+        owner: Meteor.settings.public.repo.org,
+        repo: Meteor.settings.public.repo.profiles,
+        issue_number: user.profile.issue.number,
+        state: 'open'
+      });
+    } catch (e) {
+      console.error('[profiles.reopen] [octokit.rest.issues.update] Error:', e);
+      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+    }
+
+    // @TODO OPEN/CLOSE JOB's ISSUES
+
+    Meteor.users.update(user._id, {
+      $set: {
+        'profile.issue.state': 'open'
       }
     });
 
