@@ -1,89 +1,88 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-// import { Octokit, App, Action } from 'octokit';
 import { appOctokit } from '/imports/server/octokit/lib.js';
+import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
 
 import { app } from '/server/main.js';
 
 const freeFormFields = ['title', 'description'];
 
 Meteor.methods({
-  async 'github.issue.signup'(type, form) {
+  async 'github.issue.profile'(type, form) {
     check(type, Match.OneOf('candidate', 'company'));
     check(form, Object);
 
     const user = app.checkUser(this.userId);
 
-    const upsert = {
+    const formData = {
       type,
       title: form.title,
-      tags: [type]
+      isUpdate: form.isUpdate || false,
+      ...app.parseForm(form, freeFormFields)
     };
 
-    const profile = app.collections.profiles.findOne({
+    formData.tags.push(type);
+
+    const profile = profilesCollection.findOne({
       'user.login': user.services.github.username
     }, {
       fields: {
         _id: 1,
+        tags: 1,
         'issue.number': 1
       }
     });
 
-    if (!profile) {
+    if (profile) {
+      formData._id = profile._id;
+      formData.existingTags = profile.tags;
+    }
+
+    if (!profile || !profile?.issue?.number) {
       try {
         const issues = await appOctokit.rest.search.issuesAndPullRequests({
-          q: `is:issue is:open author:${user.services.github.username} repo:${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.profiles}`,
+          q: `is:issue author:${user.services.github.username} repo:${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.profiles}`,
+          sort: 'created',
+          order: 'asc',
           per_page: 1,
           page: 1
         });
 
         if (issues.data?.items?.[0]) {
-          upsert.issue = {
-            number: issues.data?.items?.[0]?.number
+          formData.issue = {
+            number: issues.data.items.[0].number
           };
+
+          if (!formData.existingTags) {
+            formData.existingTags = [];
+          }
+
+          for (const label of issues.data.items[0].labels) {
+            formData.existingTags.push(label.name);
+          }
+
+          formData.existingTags = app.uniq(formData.existingTags);
         }
       } catch (e) {
-        console.error('[github.issue.signup] [appOctokit.rest.search.issuesAndPullRequests] Error:', e);
+        console.error('[github.issue.profile] [appOctokit.rest.search.issuesAndPullRequests] Error:', e);
       }
-    } else if (profile.issue?.number) {
-      upsert._id = profile._id;
-      upsert.issue = {
+    } else {
+      formData.issue = {
         number: profile.issue.number
       };
     }
 
-    for (const prop in form) {
-      if (Array.isArray(form[prop])) {
-        upsert[`${prop}Text`] = '';
-        for (const _val of form[prop]) {
-          const val = app.slugify(_val.trim());
-          if (val && typeof val === 'string') {
-            upsert.tags.push(`${prop}:${val}`);
-            upsert[`${prop}Text`] += ` \`${val}\``;
-          }
-        }
-      } else if (typeof form[prop] === 'string') {
-        if (!freeFormFields.includes(prop)) {
-          upsert[prop] = app.slugify(form[prop].trim());
-        } else if (prop === 'username') {
-          upsert.username = form.username.startsWith.startsWith('@') ? form.username.substr(1).trim() : form.username.trim();
-        } else {
-          upsert[prop] = form[prop].trim();
-        }
-      }
-    }
-
     if (type === 'company') {
-      if (upsert.username) {
+      if (formData.username) {
         try {
           const companies = await appOctokit.rest.search.users({
-            q: `org:${upsert.username} type:users`,
+            q: `org:${formData.username} type:users`,
             per_page: 1,
             page: 1
           });
 
           if (companies.data?.items?.[0]) {
-            upsert.company = {
+            formData.company = {
               id: companies.data?.items?.[0].id,
               login: companies.data?.items?.[0].login
             };
@@ -95,16 +94,21 @@ Meteor.methods({
             };
           }
         } catch (e) {
-          console.error('[github.issue.signup] [appOctokit.rest.search.users] Error:', e);
+          console.error('[github.issue.profile] [appOctokit.rest.search.users] Error:', e);
         }
       }
     } else {
       if (form.remote === 'yes') {
-        upsert.tags.push('remote');
-        if (!form.country && !form.city) {
-          upsert.location = '`remote`';
-        }
+        formData.tags.push('remote');
+        formData.isRemote = true;
+      } else {
+        formData.isRemote = false;
       }
+
+      formData.location = {
+        country: form.country,
+        city: form.city
+      };
 
       let location;
       if (form.country && form.city) {
@@ -120,12 +124,14 @@ Meteor.methods({
       }
 
       if (location) {
-        upsert.tags.push(location);
-        upsert.locationText = `\`${location}\``;
+        formData.tags.push(location);
+        formData.locationText = `\`${location}\``;
       }
     }
 
-    app.profiles.upsert(user, upsert);
+    formData.tags = app.uniq(formData.tags);
+
+    await app.profiles.upsert(user, formData);
     return true;
   }
 });

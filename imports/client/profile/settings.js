@@ -63,6 +63,10 @@ Template.profileSettings.helpers({
   formData() {
     const profile = Template.instance().profile;
 
+    if (!profile) {
+      return {};
+    }
+
     return {
       ...profile,
       skillsText: (profile.skills || []).join(', '),

@@ -1,14 +1,19 @@
 import { Meteor } from 'meteor/meteor';
 import { Octokit } from 'octokit';
 import { appOctokit } from '/imports/server/octokit/lib.js';
+import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
 
 import { app } from '/server/main.js';
 
 const profiles = {
   async upsert(user, form) {
-    let body;
-    if (form.type === 'candidate') {
-      body = `- __GitHub Profile__: @${user.services.github.username}
+    let newTags = app.clone(form.tags);
+    let removedTags = [];
+    let body = form.description;
+
+    if (!form.isUpdate) {
+      if (form.type === 'candidate') {
+        body = `- __GitHub Profile__: @${user.services.github.username}
 - __Available for__:${form.availabilityText}
 - __Categories__:${form.categoryText}
 - __Location__: ${form.locationText}
@@ -20,8 +25,8 @@ ${form.description}
 
 *Want to hire ${form.title} (@${user.services.github.username})?*
 Leave your offer below!`;
-    } else {
-      body = `- __GitHub Organization__: ${form.company ? `@${form.company.login}` : '`not-provided`'}
+      } else {
+        body = `- __GitHub Organization__: ${form.company ? `@${form.company.login}` : '`not-provided`'}
 
 ${form.description}
 
@@ -29,15 +34,18 @@ ${form.description}
 
 *Want to work at ${form.title}?*
 Checkout their [open positions](https://github.com/${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.jobs}/labels/company%3A${app.slugify(form.title)})`;
+      }
     }
 
     const update = {
-      title: form.title,
-      owner: user._id,
-      type: form.type,
-      'user.login': user.services.github.username,
-      tags: form.tags,
-      body
+      $set: {
+        title: form.title,
+        owner: user._id,
+        type: form.type,
+        'user.login': user.services.github.username,
+        tags: form.tags,
+        body
+      }
     };
 
     const octokit = new Octokit({
@@ -52,28 +60,59 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
           title: `${form.type === 'candidate' ? 'CV:' : 'Company:'} ${form.title}`,
           body
         });
+
         form.issue = {
-          number: newIssue.data?.number
+          number: newIssue.data.number
         };
 
-        update['issue.number'] = newIssue.data?.number;
-        update['issue.updated_at'] = +new Date(newIssue.data?.updated_at || 0);
+        update.$set['issue.number'] = newIssue.data.number;
+        update.$set['issue.updated_at'] = +new Date(newIssue.data.updated_at0);
       } catch (e) {
         console.error('[profiles.upsert] [octokit.rest.issues.create] Error:', e);
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
       }
     } else {
-      // REMOVE ALL LABELS
-      try {
-        await appOctokit.rest.issues.removeAllLabels({
-          owner: Meteor.settings.public.repo.org,
-          repo: Meteor.settings.public.repo.profiles,
-          issue_number: form.issue.number
-        });
-      } catch (e) {
-        console.error('[profiles.upsert] [octokit.rest.issues.removeAllLabels] Error:', e);
-        throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+      if (form.existingTags && form.existingTags.length > 0) {
+        newTags = form.tags.filter(x => !form.existingTags.includes(x));
+        removedTags = form.existingTags.filter(x => !form.tags.includes(x));
+
+        if (removedTags.length === 1) {
+          // REMOVE SINGLE LABEL
+          try {
+            await appOctokit.rest.issues.removeLabel({
+              owner: Meteor.settings.public.repo.org,
+              repo: Meteor.settings.public.repo.profiles,
+              issue_number: form.issue.number,
+              name: removedTags[0]
+            });
+          } catch (e) {
+            console.error('[profiles.upsert] [octokit.rest.issues.removeLabel] Error:', e);
+            throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+          }
+        } else if (removedTags.length > 1) {
+          // REMOVE ALL LABELS AS THERE IS NO removeLabels METHOD
+          // AND WE ARE LIMITED TO 30 REQUEST PER MINUTE
+          // SO IT'S CHEAPER TO REMOVE ALL LABELS IN CASE IF ANY WAS REMOVED
+          try {
+            await appOctokit.rest.issues.removeAllLabels({
+              owner: Meteor.settings.public.repo.org,
+              repo: Meteor.settings.public.repo.profiles,
+              issue_number: form.issue.number
+            });
+          } catch (e) {
+            console.error('[profiles.upsert] [octokit.rest.issues.removeAllLabels] Error:', e);
+            throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+          }
+
+          for (const tag of form.existingTags) {
+            if (!removedTags.includes(tag)) {
+              newTags.push(tag);
+            }
+          }
+        }
       }
+
+      newTags = app.uniq(newTags);
 
       // UPDATE ISSUE
       try {
@@ -85,34 +124,53 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
           state: 'open', // <-- REOPEN IF CLOSED
           body
         });
-        update['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
+
+        update.$set['issue.number'] = form.issue.number;
+        update.$set['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
       } catch (e) {
         console.error('[profiles.upsert] [octokit.rest.issues.update] Error:', e);
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
       }
     }
 
-    try {
-      await appOctokit.rest.issues.addLabels({
-        owner: Meteor.settings.public.repo.org,
-        repo: Meteor.settings.public.repo.profiles,
-        issue_number: form.issue.number,
-        labels: form.tags
-      });
-    } catch (e) {
-      console.error('[profiles.upsert] [appOctokit.rest.issues.addLabels] Error:', e);
-      throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+    if (newTags && newTags.length) {
+      // ADD NEW LABELS
+      try {
+        await appOctokit.rest.issues.addLabels({
+          owner: Meteor.settings.public.repo.org,
+          repo: Meteor.settings.public.repo.profiles,
+          issue_number: form.issue.number,
+          labels: newTags
+        });
+      } catch (e) {
+        console.error('[profiles.upsert] [appOctokit.rest.issues.addLabels] Error:', e);
+        throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
+      }
     }
 
     if (form.company) {
-      update.company = form.company;
+      update.$set.company = form.company;
+      update.$unset = {
+        location: '',
+        isRemote: '',
+        availability: '',
+        category: '',
+        skills: '',
+      };
+    } else {
+      update.$set.location = form.location;
+      update.$set.isRemote = form.isRemote;
+      update.$set.availability = form.availability;
+      update.$set.category = form.category;
+      update.$set.skills = form.skills;
+      update.$unset = {
+        company: ''
+      };
     }
 
-    app.collections.profiles.upsert({
+    profilesCollection.upsert({
       _id: form._id,
-    }, {
-      $set: update
-    });
+    }, update);
 
     Meteor.users.update(user._id, {
       $set: {

@@ -1,22 +1,25 @@
-template(name="signupForm")
+template(name="profileForm")
   h1.hero-text
-    b To continue
-    br
-    | tell us about yourself...
+    if header
+      | {{{header}}}
+    else
+      b To continue
+      br
+      | tell us about yourself...
 
-  form.form(data-signup novalidate)
+  form.form(data-profile-form novalidate)
     .form-inputs
       label.form-label(for="accountType") Select accout type
       select#accountType.form-select(name="accountType" data-account-type)
-        option(selected disabled) Are you company or developer?
-        option(value="candidate") I'm candidate/developer seeking for project to join
-        option(value="company") I'm representing company looking for developers/employees
+        option(disabled selected="{{#unless type}}selected{{/unless}}") Are you developer or representing a company?
+        option(value="candidate" selected="{{#if compare type '===' 'candidate'}}selected{{/if}}") I'm candidate/developer seeking for project to join
+        option(value="company" selected="{{#if compare type '===' 'company'}}selected{{/if}}") I'm representing company — looking for developers/employees
 
     if compare accountType '===' 'company'
       .row
         .form-inputs.col
           label.form-label(for="title") Company name<span class="form-required" title="Required field">*</span>
-          input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="Alphabet, LLC" required maxlength="64")
+          input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="Alphabet, LLC" required maxlength="64" value="#{title}")
           p.form-hint
             if getError 'title'
               span.form-error {{getError 'title'}}
@@ -24,7 +27,7 @@ template(name="signupForm")
               | &nbsp;
         .form-inputs.col
           label.form-label(for="username") Company's GitHub handle
-          input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" maxlength="32")
+          input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" maxlength="32" value="#{company.login}")
           p.form-hint
             if getError 'username'
               span.form-error {{getError 'username'}}
@@ -33,7 +36,7 @@ template(name="signupForm")
 
       .form-inputs
         label.form-label(for="description") Company description<span class="form-required" title="Required field">*</span>
-        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Company description — markdown formatted" rows="25" required maxlength="5120")
+        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Company description — markdown formatted" rows="25" required maxlength="5120") #{body}
         p.form-hint
           if getError 'description'
             span.form-error {{getError 'description'}}
@@ -42,7 +45,7 @@ template(name="signupForm")
     else if compare accountType '===' 'candidate'
       .form-inputs
         label.form-label(for="title") Full name<span class="form-required" title="Required field">*</span>
-        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64")
+        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" value="#{title}")
         p.form-hint
           if getError 'title'
             span.form-error {{getError 'title'}}
@@ -52,10 +55,10 @@ template(name="signupForm")
         .row
           .col
             label.form-label(for="country") Country
-            input#country.form-control(name="country" class="{{#if getError 'country'}}hasError{{/if}}" placeholder="Germany" maxlength="24")
+            input#country.form-control(name="country" class="{{#if getError 'country'}}hasError{{/if}}" placeholder="Germany" maxlength="24" value="#{location.country}")
           .col
             label.form-label(for="city") City
-            input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24")
+            input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24" value="#{location.city}")
         p.form-hint
           if getError 'country'
             span.form-error {{getError 'country'}}
@@ -66,7 +69,7 @@ template(name="signupForm")
 
       .form-inputs
         label.form-label(for="availability") Enter type of project you're looking for<span class="form-required" title="Required field">*</span>
-        input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="4" required maxlength="128")
+        input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="4" required maxlength="128" value="#{availabilityText}")
         p.form-hint
           if getError 'availability'
             span.form-error {{getError 'availability'}}
@@ -81,12 +84,12 @@ template(name="signupForm")
       .form-inputs
         label.form-label(for="remote") Do you prefer to work remotely?
         select#accountType.form-select(name="remote")
-          option(selected value="no") No
-          option(value="yes") Yes
+          option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
+          option(value="yes" selected="{{#if isRemote}}selected{{/if}}") Yes
 
       .form-inputs
         label.form-label(for="category") What kind of job are you looking for<span class="form-required" title="Required field">*</span>
-        input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="4" required maxlength="128")
+        input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="4" required maxlength="128" value="#{categoryText}")
         p.form-hint
           if getError 'category'
             span.form-error {{getError 'category'}}
@@ -105,13 +108,13 @@ template(name="signupForm")
           <a href="#" data-add-to="category" data-add="finance">finance</a>, 
           <a href="#" data-add-to="category" data-add="marketing">marketing</a>, 
           <a href="#" data-add-to="category" data-add="operations">operations</a>, 
-          <a href="#" data-add-to="category" data-add="reserach">reserach</a>, 
+          <a href="#" data-add-to="category" data-add="research">research</a>, 
           <a href="#" data-add-to="category" data-add="sales">sales</a>, 
           | or come up with your own
 
       .form-inputs
         label.form-label(for="skills") Enter your core skills<span class="form-required" title="Required field">*</span>
-        input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, html, javascript, node.js, python" data-max-options="6" required maxlength="128")
+        input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, html, javascript, node.js, python" data-max-options="6" required maxlength="128" value="#{skillsText}")
         p.form-hint
           if getError 'skills'
             span.form-error {{getError 'skills'}}
@@ -136,19 +139,37 @@ template(name="signupForm")
 
       .form-inputs
         label.form-label(for="description") CV<span class="form-required" title="Required field">*</span>
-        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Candidate CV — markdown formatted" rows="25" required maxlength="5120")
+        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Candidate CV — markdown formatted" rows="25" required maxlength="5120") #{body}
         p.form-hint
           if getError 'description'
             span.form-error {{getError 'description'}}
           else
             | Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
 
-    if accountType
-      button.btn.btn-lg(type="submit" class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
-        if isLoading
-          | Saving... <i class="fa fa-spinner fa-pulse"></i>
-        else
-          | Save
+    if isUpdate
+      .row
+        .col
+          button.btn.btn-lg(type="submit" class="{{#if compare isLoading '|!' hasChanges}}btn-grey disabled{{else}}btn-success{{/if}}")
+            if isLoading
+              | Saving... <i class="fa fa-spinner fa-pulse"></i>
+            else
+              | Save changes
+        .col.flex-middle
+          if isSaved
+            span.form-hint.text-success <i class="fa fa-check"></i> Saved
+          else 
+            unless hasChanges
+              span.form-hint form has no changes yet
+            else
+              unless isLoading
+                b.form-hint.text-black don't forget to save changes
+    else
+      if accountType
+        button.btn.btn-lg(type="submit" class="{{#if isLoading}}btn-grey disabled{{else}}btn-black{{/if}}")
+          if isLoading
+            | Saving... <i class="fa fa-spinner fa-pulse"></i>
+          else
+            | Save
 
     p
       if hasErrors
