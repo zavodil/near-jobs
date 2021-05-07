@@ -234,6 +234,10 @@ select
     border-color: $black
   &.hasError
     border-color: $red
+  &::placeholder
+    color: $midgrey
+  &:focus::placeholder, &:active::placeholder
+    color: transparent
 
 .h1
   font-size: 3rem
