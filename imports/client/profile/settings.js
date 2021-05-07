@@ -96,7 +96,7 @@ Template.profileSettings.helpers({
       skillsText: (profile.skills || []).join(', '),
       categoryText: (profile.category || []).join(', '),
       availabilityText: (profile.availability || []).join(', '),
-      header: '<b>Edit</b> your profile',
+      header: profile.type === 'company' ? 'Edit <b>company</b> profile' : 'Edit <b>your</b> profile',
       isUpdate: true
     };
   }

@@ -6,6 +6,14 @@ template(name="profileSettings")
           with formData
             +profileForm
 
+    if compare currentUser.profile.type '===' 'company'
+      .row.centered
+        .col.centered: .well
+          h2.h4 Post a new job
+          p Create a new job post
+          
+          a.btn.btn-primary(href="{{pathFor 'newjob'}}") Create job post now
+
     .row.centered
       .col.centered: .well
         h2.h4 Logout
