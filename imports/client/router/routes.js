@@ -40,7 +40,7 @@ FlowRouter.route('/signup', {
   whileWaiting
 });
 
-FlowRouter.route('/new/job', {
+FlowRouter.route('/job/new', {
   isPublic: false,
   name: 'newjob',
   title: 'Create new job post',
@@ -49,6 +49,38 @@ FlowRouter.route('/new/job', {
   },
   waitOn() {
     return import('/imports/client/newjob/newjob.js');
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/job/:number', {
+  isPublic: true,
+  name: 'job',
+  title: 'View a job post',
+  action(params) {
+    render(this, templates.layout, 'job', params);
+  },
+  waitOn(params) {
+    return [
+      import('/imports/client/job/job.js'),
+      Meteor.subscribe('job', params.number)
+    ];
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/job/:number/edit', {
+  isPublic: false,
+  name: 'editjob',
+  title: 'Edit a job post',
+  action(params) {
+    render(this, templates.layout, 'job', params);
+  },
+  waitOn(params) {
+    return [
+      import('/imports/client/job/edit.js'),
+      Meteor.subscribe('job', params.number)
+    ];
   },
   whileWaiting
 });
