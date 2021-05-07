@@ -1,4 +1,6 @@
 template(name="profileForm")
+  img.main-user-picture(src="{{#if compare accountType '===' 'company'}}https://avatars.githubusercontent.com/u/#{company.id}{{else}}#{currentUser.profile.github.avatarUrl}{{/if}}")
+
   h1.hero-text
     if header
       | {{{header}}}
@@ -24,7 +26,7 @@ template(name="profileForm")
             if getError 'title'
               span.form-error {{getError 'title'}}
             else
-              | &nbsp;
+              | Company or project name
         .form-inputs.col
           label.form-label(for="username") Company's GitHub handle
           input#username.form-control(name="username" class="{{#if getError 'username'}}hasError{{/if}}" placeholder="@near" maxlength="32" value="#{company.login}")
@@ -32,7 +34,7 @@ template(name="profileForm")
             if getError 'username'
               span.form-error {{getError 'username'}}
             else
-              | &nbsp;
+              | Company's GitHub username, like: @near
 
       .form-inputs
         label.form-label(for="description") Company description<span class="form-required" title="Required field">*</span>
@@ -45,12 +47,12 @@ template(name="profileForm")
     else if compare accountType '===' 'candidate'
       .form-inputs
         label.form-label(for="title") Full name<span class="form-required" title="Required field">*</span>
-        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" value="#{title}")
+        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" data-max-options="1" data-no-transform="true" data-replace="true" value="#{title}")
         p.form-hint
           if getError 'title'
             span.form-error {{getError 'title'}}
           else
-            | &nbsp;
+            | Full name, name, or nickname: <a href="#" data-add-to="title" data-add="#{currentUser.profile.name}">#{currentUser.profile.name}</a>
       .form-inputs
         .row
           .col
@@ -59,6 +61,11 @@ template(name="profileForm")
           .col
             label.form-label(for="city") City
             input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24" value="#{location.city}")
+          .col
+            label.form-label(for="remote") Do you work remotely?
+            select#accountType.form-select(name="remote")
+              option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
+              option(value="yes" selected="{{#if isRemote}}selected{{/if}}") Yes
         p.form-hint
           if getError 'country'
             span.form-error {{getError 'country'}}
@@ -73,7 +80,7 @@ template(name="profileForm")
         p.form-hint
           if getError 'availability'
             span.form-error {{getError 'availability'}}
-            br
+            |  &middot;
           | Comma-separated list. Up to 4 options. Click to add:
           <a href="#" data-add-to="availability" data-add="full-time">full-time</a>, 
           <a href="#" data-add-to="availability" data-add="part-time">part-time</a>, 
@@ -82,18 +89,12 @@ template(name="profileForm")
           <a href="#" data-add-to="availability" data-add="bounty">bounty</a>.
 
       .form-inputs
-        label.form-label(for="remote") Do you prefer to work remotely?
-        select#accountType.form-select(name="remote")
-          option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
-          option(value="yes" selected="{{#if isRemote}}selected{{/if}}") Yes
-
-      .form-inputs
         label.form-label(for="category") What kind of job are you looking for<span class="form-required" title="Required field">*</span>
         input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="4" required maxlength="128" value="#{categoryText}")
         p.form-hint
           if getError 'category'
             span.form-error {{getError 'category'}}
-            br
+            |  &middot;
           | Comma-separated list of gategories. Up to 4 categories. Click to add:
           <a href="#" data-add-to="category" data-add="development">development</a>, 
           <a href="#" data-add-to="category" data-add="programming">programming</a>, 
@@ -118,7 +119,7 @@ template(name="profileForm")
         p.form-hint
           if getError 'skills'
             span.form-error {{getError 'skills'}}
-            br
+            |  &middot;
           | Comma-separated list of gategories. Select up to 6 core skills. Click to add:
           <a href="#" data-add-to="skills" data-add="near-blockchain">Near blockchain</a>, 
           <a href="#" data-add-to="skills" data-add="solidity">solidity</a>, 
