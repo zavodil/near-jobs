@@ -14,7 +14,7 @@ template(name="layout")
         li: a(href="#") Projects
         if compare currentUser.profile.type '===' 'company'
           li: a(href="#") Candidates
-          li: a.btn.btn-black(href="{{pathFor 'newjob'}}") Post a Job
+          li: a.btn.btn-black(title="Post a new job offer" href="{{pathFor 'newjob'}}" class="{{#if isActiveRoute 'newjob'}}btn-outlined disabled{{/if}}") Post a Job
         else
           li: a(href="#") Jobs
         if isSmall
