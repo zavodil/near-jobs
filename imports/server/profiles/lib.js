@@ -66,7 +66,7 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
         };
 
         update.$set['issue.number'] = newIssue.data.number;
-        update.$set['issue.updated_at'] = +new Date(newIssue.data.updated_at0);
+        update.$set['issue.updated_at'] = +new Date(newIssue.data.updated_at);
       } catch (e) {
         console.error('[profiles.upsert] [octokit.rest.issues.create] Error:', e);
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
