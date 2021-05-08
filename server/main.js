@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { app } from '/imports/lib/app.js';
 import { profiles } from '/imports/server/profiles/lib.js';
+import { jobs } from '/imports/server/jobs/lib.js';
 
 import '/imports/server/accounts.js';
 import '/imports/server/service-configurations.js';
@@ -41,5 +42,6 @@ app.checkUser = (_id, fields) => {
 };
 
 app.profiles = profiles;
+app.jobs = jobs;
 
 export { app };

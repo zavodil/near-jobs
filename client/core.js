@@ -100,6 +100,15 @@ app.processFormElements = (elements) => {
   return { form, errorFields };
 };
 
+/*
+ * Update comma-separated array-like HTML input value
+ *
+ * @namespace app
+ * @method addToInput
+ * @param {DOMEvent} e - DOMEvent from Blaze template event
+ * @param {Blaze.TemplateInstance} template - Template (2nd argument from Blaze template event)
+ * @returns {Boolean}
+ */
 app.addToInput = (e, template) => {
   const input = template.find(`#${e.currentTarget.dataset.addTo}`);
   if (!input) {

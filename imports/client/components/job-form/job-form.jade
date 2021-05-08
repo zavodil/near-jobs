@@ -105,7 +105,7 @@ template(name="jobForm")
 
     .form-inputs
       label.form-label(for="description") Job description<span class="form-required" title="Required field">*</span>
-      textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Detailed position and job description" rows="35" required maxlength="10240") #{body}
+      textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Detailed position and job description — markdown formatted" rows="25" required maxlength="10240") #{body}
       p.form-hint
         if getError 'description'
           span.form-error {{getError 'description'}}

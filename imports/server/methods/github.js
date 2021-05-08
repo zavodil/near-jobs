@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { appOctokit } from '/imports/server/octokit/lib.js';
 import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
+import { jobs as jobsCollection } from '/imports/lib/collections/profiles.collection.js';
 
 import { app } from '/server/main.js';
 
@@ -143,5 +144,76 @@ Meteor.methods({
     const user = app.checkUser(this.userId);
     await app.profiles.reopen(user);
     return true;
+  },
+  async 'github.issue.job'(form) {
+    check(form, Object);
+
+    const user = app.checkUser(this.userId);
+
+    const formData = {
+      title: form.title,
+      isUpdate: form.isUpdate || false,
+      ...app.parseForm(form, freeFormFields)
+    };
+
+    let job = false;
+
+    if (formData.isUpdate) {
+      job = jobsCollection.findOne({
+        'issue.number': form.issue.number
+      }, {
+        fields: {
+          _id: 1,
+          tags: 1
+        }
+      });
+
+      formData.issue = {
+        number: form.issue.number
+      };
+    }
+
+    if (job) {
+      formData._id = job._id;
+      formData.existingTags = job.tags;
+      formData.issue = {
+        number: job.issue.number
+      };
+    }
+
+    if (form.remote === 'yes') {
+      formData.tags.push('remote');
+      formData.isRemote = true;
+    } else {
+      formData.isRemote = false;
+    }
+
+    formData.location = {
+      country: form.country,
+      city: form.city
+    };
+
+    let location;
+    if (form.country && form.city) {
+      location = `${app.slugify(form.country.trim())}:${app.slugify(form.city.trim())}`;
+    } else if (form.country && !form.city) {
+      location = app.slugify(form.country.trim());
+    } else if (!form.country && form.city) {
+      return {
+        errorFields: {
+          country: 'Country is required when City is filled-out'
+        }
+      };
+    }
+
+    if (location) {
+      formData.tags.push(location);
+      formData.locationText = `\`${location}\``;
+    }
+
+    formData.tags = app.uniq(formData.tags);
+
+    const number = await app.jobs.upsert(user, formData);
+    return number;
   }
 });
