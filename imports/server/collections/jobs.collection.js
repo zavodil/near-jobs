@@ -24,4 +24,5 @@ Meteor.publish('job', function (number) {
   return jobs.find({ number });
 });
 
-createIndex(jobs, { number: 1 }, { background: false });
+createIndex(jobs, { 'issue.number': 1 }, { background: false });
+createIndex(jobs, { 'issue.number': 1, 'issue.state': 1 }, { background: true });
