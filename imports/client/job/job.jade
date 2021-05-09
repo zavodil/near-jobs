@@ -1,2 +1,76 @@
 template(name="job")
-  h1 This is job
+
+  if job
+    main.container.row
+      .col.centered
+        with job
+          .well
+            h1.h2 
+              if company.id
+                img.inline-project-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
+              | #{title}
+            h2.sub-header
+              | Posted by
+              a(href="https://github.com/#{user.login}")
+                img.inline-user-picture(src="#{user.avatarUrl}")
+                |  @#{user.login}
+              if company.login
+                br
+                | Representing: 
+                a(href="https://github.com/#{company.login}")
+                  img.inline-user-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
+                  if company.title
+                    | #{company.title}
+                  else
+                    | @#{company.login}
+              else if company.title
+                br
+                | Representing: <b>#{company.title}</b>
+
+            h3.h3 Details
+
+            ul.list-unstyled.job-details
+              if location
+                if compare location.country '&&' location.city
+                  li <b>Location/Timezone</b>: #{location.city}, #{location.country}
+                else if location.country
+                  li <b>Country/Timezone</b>: #{location.country}
+              li
+                | <b>Open for remote</b>?
+                if isRemote
+                  <strong class="text-success">Yes</strong>
+                else
+                  <strong class="text-danger">No</strong>
+              li
+                | <b>Type</b>: 
+                each availability
+                  a.btn.btn-tag(href="#") #{this}
+              li
+                | <b>Categories</b>: 
+                each category
+                  a.btn.btn-tag(href="#") #{this}
+              li
+                | <b>Required skills</b>: 
+                each skills
+                  a.btn.btn-tag(href="#") #{this}
+
+            h3.h3 Job Description
+            +markdown
+              #{body}
+
+            hr
+
+            span.text-muted View this job post at GitHub <a href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.jobs}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue">##{issue.number}</a>
+          if compare currentUser.profile.type '===' 'candidate'
+            if openApply
+              form.form(data-apply)
+                textarea.form-control(name="coverLetter") I'm interested in this job
+                p.form-hint Tell why you are the best fit for this position
+                button.btn.btn-lg.btn-success(type="submit") Apply Now
+                button.btn.btn-lg.btn-grey(type="submit") Cancel
+            else
+              button.btn.btn-lg.btn-success(data-toggle-apply type="button") Apply
+          if compare owner '===' currentUser._id
+            a.btn.btn-lg.btn-primary(href="{{pathFor 'editjob' number=issue.number}}") Edit
+  else
+    +_404
