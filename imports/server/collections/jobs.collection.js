@@ -17,12 +17,10 @@ jobs.deny({
 
 Meteor.publish('job', function (number) {
   check(number, String);
-  if (!this.userId) {
-    return [];
-  }
-
-  return jobs.find({ number });
+  return jobs.find({ 'issue.number': parseInt(number) });
 });
 
+createIndex(jobs, { owner: 1 }, { background: true });
+createIndex(jobs, { owner: 1, 'issue.state': 1 }, { background: true });
 createIndex(jobs, { 'issue.number': 1 }, { background: false });
 createIndex(jobs, { 'issue.number': 1, 'issue.state': 1 }, { background: true });
