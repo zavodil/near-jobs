@@ -26,3 +26,4 @@ Meteor.publish('profile', function () {
 
 createIndex(profiles, { 'user.login': 1 }, { background: true });
 createIndex(profiles, { 'owner': 1 }, { background: true });
+createIndex(profiles, { 'issue.number': 1 }, { background: true });
