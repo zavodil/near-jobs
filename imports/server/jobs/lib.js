@@ -2,29 +2,47 @@ import { Meteor } from 'meteor/meteor';
 import { Octokit } from 'octokit';
 import { appOctokit } from '/imports/server/octokit/lib.js';
 import { jobs as jobsCollection } from '/imports/lib/collections/jobs.collection.js';
-import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
 
 import { app } from '/server/main.js';
 
 const jobs = {
-  async upsert(user, form) {
-    let newTags = app.clone(form.tags);
-    console.log(1, {newTags, form, user})
-    let removedTags = [];
+  async apply(user, number) {
+    if (user.profile.applied.includes(number)) {
+      throw new Meteor.Error(400, 'Already applied to this position');
+    }
 
-    const profile = profilesCollection.findOne({ owner: user._id }, {
-      fields: {
-        company: 1
+    Meteor.users.update({
+      _id: user._id
+    }, {
+      'profile.applied': {
+        $addToSet: number
       }
     });
+
+    jobsCollection.update({
+      'issue.number': number
+    }, {
+      $inc: {
+        applies: 1
+      }
+    });
+
+    return true;
+  },
+  async upsert(user, form) {
+    let newTags = app.clone(form.tags);
+    let removedTags = [];
 
     const update = {
       $set: {
         title: form.title,
         owner: user._id,
-        'company.login': profile.company.login,
-        'company.id': profile.company.id,
+        'company.login': form.profile.company.login,
+        'company.id': form.profile.company.id,
+        'company.title': form.profile.title,
         'user.login': user.services.github.username,
+        'user.id': user.profile.github.id,
+        'user.avatarUrl': user.profile.github.avatarUrl,
         tags: form.tags,
         body: form.description
       }
@@ -51,7 +69,7 @@ const jobs = {
         update.$set['issue.number'] = newIssue.data.number;
         update.$set['issue.updated_at'] = +new Date(newIssue.data.updated_at);
       } catch (e) {
-        console.error('[profiles.upsert] [octokit.rest.issues.create] Error:', e);
+        console.error('[jobs.upsert] [octokit.rest.issues.create] Error:', e);
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
       }
     } else {
@@ -69,7 +87,7 @@ const jobs = {
               name: removedTags[0]
             });
           } catch (e) {
-            console.error('[profiles.upsert] [octokit.rest.issues.removeLabel] Error:', e);
+            console.error('[jobs.upsert] [octokit.rest.issues.removeLabel] Error:', e);
             throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
           }
         } else if (removedTags.length > 1) {
@@ -83,7 +101,7 @@ const jobs = {
               issue_number: form.issue.number
             });
           } catch (e) {
-            console.error('[profiles.upsert] [octokit.rest.issues.removeAllLabels] Error:', e);
+            console.error('[jobs.upsert] [octokit.rest.issues.removeAllLabels] Error:', e);
             throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
           }
 
@@ -112,7 +130,7 @@ const jobs = {
         update.$set['issue.number'] = form.issue.number;
         update.$set['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
       } catch (e) {
-        console.error('[profiles.upsert] [octokit.rest.issues.update] Error:', e);
+        console.error('[jobs.upsert] [octokit.rest.issues.update] Error:', e);
         throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
       }
     }
@@ -127,7 +145,7 @@ const jobs = {
           labels: newTags
         });
       } catch (e) {
-        console.error('[profiles.upsert] [appOctokit.rest.issues.addLabels] Error:', e);
+        console.error('[jobs.upsert] [appOctokit.rest.issues.addLabels] Error:', e);
         throw new Meteor.Error(500, 'Server error occurred. Please, try again later');
       }
     }
@@ -163,7 +181,7 @@ const jobs = {
         state: 'closed'
       });
     } catch (e) {
-      console.error('[profiles.close] [octokit.rest.issues.update] Error:', e);
+      console.error('[jobs.close] [octokit.rest.issues.update] Error:', e);
       throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
     }
 
@@ -172,6 +190,46 @@ const jobs = {
         'issue.state': 'closed'
       }
     });
+
+    return true;
+  },
+  async closeAll(user) {
+    const octokit = new Octokit({
+      auth: user.services.github.accessToken
+    });
+
+    try {
+      const userJobs = jobsCollection.find({
+        owner: user._id,
+        'issue.state': 'open'
+      }, {
+        fields: {
+          'issue.number': 1
+        }
+      }).fetch();
+
+      for (const job of userJobs) {
+        await octokit.rest.issues.update({
+          owner: Meteor.settings.public.repo.org,
+          repo: Meteor.settings.public.repo.jobs,
+          issue_number: job.issue.number,
+          state: 'closed'
+        });
+      }
+
+      jobsCollection.update({
+        owner: user._id,
+        'issue.state': 'open'
+      }, {
+        $set: {
+          'issue.state': 'closed'
+        }
+      });
+    } catch (e) {
+      console.error('[jobs.closeAll] [octokit.rest.issues.update] Error:', e);
+      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+    }
+
 
     return true;
   },
@@ -188,7 +246,7 @@ const jobs = {
         state: 'open'
       });
     } catch (e) {
-      console.error('[profiles.reopen] [octokit.rest.issues.update] Error:', e);
+      console.error('[jobs.reopen] [octokit.rest.issues.update] Error:', e);
       throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
     }
 

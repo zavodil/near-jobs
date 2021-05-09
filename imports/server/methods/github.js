@@ -149,12 +149,27 @@ Meteor.methods({
     check(form, Object);
 
     const user = app.checkUser(this.userId);
+    const profile = profilesCollection.findOne({
+      owner: user._id
+    }, {
+      fields: {
+        title: 1,
+        company: 1
+      }
+    });
+
+    if (!profile || !profile.company || !profile.title) {
+      throw new Meteor.Error(400, 'Job post creation available only to company\'s accounts');
+    }
 
     const formData = {
+      profile,
       title: form.title,
       isUpdate: form.isUpdate || false,
       ...app.parseForm(form, freeFormFields)
     };
+
+    formData.tags.push(`company:${app.slugify(profile.title)}`);
 
     let job = false;
 
