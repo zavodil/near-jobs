@@ -73,8 +73,8 @@ Template.jobForm.events({
           }
         } else if (res?.errorFields) {
           template.errorFields.set(res.errorFields);
-        } else if (res && res._id && !form.isUpdate) {
-          FlowRouter.go('job', { _id: res._id });
+        } else if (res && !isNaN(res) && !form.isUpdate) {
+          FlowRouter.go('job', { number: res });
         }
       }, 256);
     });
