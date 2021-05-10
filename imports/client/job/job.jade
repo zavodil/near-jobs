@@ -7,7 +7,11 @@ template(name="job")
             if company.id
               img.inline-project-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
             | #{title}
-          .text-muted.sub-header Posted by <a href="{{pathFor 'profilePage' number=user.issue.number}}"><b>#{company.title}</b></a>
+          .text-muted.sub-header
+            if compare issue.state '===' 'closed'
+              b.text-danger CLOSED
+              |  &middot; 
+            | Posted by <a href="{{pathFor 'profilePage' number=user.issue.number}}"><b>#{company.title}</b></a>
 
         .well-container: ul.list-unstyled.job-details
           if location
