@@ -1,0 +1,71 @@
+template(name="profilePage")
+  main.container.row
+    .col.centered
+      with profile
+        if compare issue.state '===' 'closed'
+          p.text-muted This profile is closed
+        else
+          if compare type '===' 'candidate'
+            img.main-user-picture(src="https://avatars.githubusercontent.com/u/#{user.id}")
+            h1.hero-text #{title}
+
+            .well-container: ul.list-unstyled.job-details
+              if location
+                if compare location.country '&&' location.city
+                  li <b>Location/Timezone</b>: #{location.city}, #{location.country}
+                else if location.country
+                  li <b>Country/Timezone</b>: #{location.country}
+              li
+                | <b>Open for remote</b>?
+                if isRemote
+                  <strong class="text-success">Yes</strong>
+                else
+                  <strong class="text-danger">No</strong>
+              li
+                | <b>Type</b>: 
+                each availability
+                  a.btn.btn-tag(href="#") #{this}
+              li
+                | <b>Categories</b>: 
+                each category
+                  a.btn.btn-tag(href="#") #{this}
+              li
+                | <b>Required skills</b>: 
+                each skills
+                  a.btn.btn-tag(href="#") #{this}
+          else
+            .well-container
+              h1.h1
+                if company.id
+                  img.inline-project-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
+                | #{title}
+              .text-muted.sub-header Created by <a href="https://github.com/#{user.login}" target="_blank" rel="noopener noreferrer" title="Manager's account at GitHub">@#{user.login}</a>
+
+          .well.markdown-body
+            +markdown
+              #{body}
+
+          if compare owner '===' currentUser._id
+            a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit
+          else
+            a.btn.btn-lg.btn-success(href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue") Submit a proposal
+
+          .well-container: ul.list-unstyled.text-muted
+            li View profile page at GitHub <a href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue">##{issue.number}</a>
+            if compare type '===' 'candidate'
+              li View <b>#{title}</b>'s profile at GitHub <a href="https://github.com/#{user.login}" target="_blank" rel="noopener noreferrer" title="#{title} account at GitHub">@#{user.login}</a>
+            else
+              if company.login
+                li View company page at GitHub <a href="https://github.com/#{company.login}" target="_blank" rel="noopener noreferrer" title="Company account at GitHub">@#{company.login}</a>
+              li View manager's profile at GitHub <a href="https://github.com/#{user.login}" target="_blank" rel="noopener noreferrer" title="Manager's account at GitHub">@#{user.login}</a>
+
+
+          if compare type '===' 'company'
+            if jobs.count
+              .well-container
+                hr
+                h2.h3 Jobs by #{title}
+                each jobs
+                  +jobPreview
+      else
+        +_404

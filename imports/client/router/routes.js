@@ -74,7 +74,7 @@ FlowRouter.route('/job/:number/edit', {
   name: 'editjob',
   title: 'Edit a job post',
   action(params) {
-    render(this, templates.layout, 'job', params);
+    render(this, templates.layout, 'editjob', params);
   },
   waitOn(params) {
     return [
@@ -96,6 +96,39 @@ FlowRouter.route('/profile/settings', {
     return [
       import('/imports/client/profile/settings.js'),
       Meteor.subscribe('profile')
+    ];
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/profile/:number', {
+  isPublic: false,
+  name: 'profilePage',
+  title: 'Profile Page',
+  action(params) {
+    render(this, templates.layout, 'profilePage', params);
+  },
+  waitOn(params) {
+    return [
+      import('/imports/client/profile/page.js'),
+      Meteor.subscribe('profilePage', parseInt(params.number)),
+      Meteor.subscribe('jobByProfile', parseInt(params.number), 'open')
+    ];
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/profile/:number/jobs', {
+  isPublic: false,
+  name: 'profileJobs',
+  title: 'Company Jobs',
+  action(params) {
+    render(this, templates.layout, 'profileJobs', params);
+  },
+  waitOn(params) {
+    return [
+      import('/imports/client/profile/jobs.js'),
+      Meteor.subscribe('jobByProfile', parseInt(params.number), 'any')
     ];
   },
   whileWaiting
