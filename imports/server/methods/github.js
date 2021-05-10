@@ -145,6 +145,28 @@ Meteor.methods({
     await app.profiles.reopen(user);
     return true;
   },
+  async 'github.issue.job.close'(number) {
+    check(number, Number);
+
+    const user = app.checkUser(this.userId);
+    if (!user.profile.jobs.includes(number)) {
+      throw new Meteor.Error(403, 'Account does not own this issue');
+    }
+
+    await app.jobs.close(user, number);
+    return true;
+  },
+  async 'github.issue.job.open'(number) {
+    check(number, Number);
+
+    const user = app.checkUser(this.userId);
+    if (!user.profile.jobs.includes(number)) {
+      throw new Meteor.Error(403, 'Account does not own this issue');
+    }
+
+    await app.jobs.reopen(user, number);
+    return true;
+  },
   async 'github.issue.job'(form) {
     check(form, Object);
 
