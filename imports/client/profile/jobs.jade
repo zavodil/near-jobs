@@ -1,0 +1,12 @@
+template(name="profileJobs")
+  main.container.row
+    .col.centered
+      if jobs.count
+        .well-container
+          each jobs
+            +jobPreview
+      else
+        .text-muted
+          | No jobs published under this account
+          br
+          a(href="{{pathFor 'profileSettings'}}") go back
