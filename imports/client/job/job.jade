@@ -2,66 +2,44 @@ template(name="job")
   main.container.row
     .col.centered
       with job
-        .well
-          h1.h2 
+        .well-container
+          h1.h1
             if company.id
               img.inline-project-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
             | #{title}
-          h2.sub-header
-            | Posted by
-            a(href="https://github.com/#{user.login}")
-              img.inline-user-picture(src="#{user.avatarUrl}")
-              |  @#{user.login}
-            if company.login
-              br
-              | Representing: 
-              a(href="https://github.com/#{company.login}")
-                img.inline-user-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
-                if company.title
-                  | #{company.title}
-                else
-                  | @#{company.login}
-            else if company.title
-              br
-              | Representing: <b>#{company.title}</b>
+          .text-muted.sub-header Posted by <a href="{{pathFor 'profilePage' number=user.issue.number}}"><b>#{company.title}</b></a>
 
-          h3.h3 Details
+        .well-container: ul.list-unstyled.job-details
+          if location
+            if compare location.country '&&' location.city
+              li <b>Location/Timezone</b>: #{location.city}, #{location.country}
+            else if location.country
+              li <b>Country/Timezone</b>: #{location.country}
+          li
+            | <b>Open for remote</b>?
+            if isRemote
+              <strong class="text-success">Yes</strong>
+            else
+              <strong class="text-danger">No</strong>
+          li
+            | <b>Type</b>: 
+            each availability
+              a.btn.btn-tag(href="#") #{this}
+          li
+            | <b>Categories</b>: 
+            each category
+              a.btn.btn-tag(href="#") #{this}
+          li
+            | <b>Required skills</b>: 
+            each skills
+              a.btn.btn-tag(href="#") #{this}
 
-          ul.list-unstyled.job-details
-            if location
-              if compare location.country '&&' location.city
-                li <b>Location/Timezone</b>: #{location.city}, #{location.country}
-              else if location.country
-                li <b>Country/Timezone</b>: #{location.country}
-            li
-              | <b>Open for remote</b>?
-              if isRemote
-                <strong class="text-success">Yes</strong>
-              else
-                <strong class="text-danger">No</strong>
-            li
-              | <b>Type</b>: 
-              each availability
-                a.btn.btn-tag(href="#") #{this}
-            li
-              | <b>Categories</b>: 
-              each category
-                a.btn.btn-tag(href="#") #{this}
-            li
-              | <b>Required skills</b>: 
-              each skills
-                a.btn.btn-tag(href="#") #{this}
-
-          h3.h3 Job Description
-          div.markdown-body
+        .well.markdown-body
             +markdown
               #{body}
 
-          hr
-
-          span.text-muted View this job post at GitHub <a href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.jobs}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue">##{issue.number}</a>
         if compare owner '===' currentUser._id
-          .well
+          .well-container
             if isProcessing
               button.btn.btn-grey.disabled(type="button" disabled) processing... <i class="fa fa-spinner fa-pulse"></i>
             else
@@ -69,7 +47,7 @@ template(name="job")
                 button.btn.btn-success(data-job-open title="Reopen Job Post") Reopen
               else
                 a.btn.btn-primary(href="{{pathFor 'editjob' number=issue.number}}") Edit
-                | 
+                | &nbsp; 
                 button.btn.btn-danger(data-job-close title="Close Job Post") Close
         else if compare currentUser.profile.type '===' 'candidate'
           if isApplied
@@ -79,7 +57,7 @@ template(name="job")
           else
             if openApply
               form.form(data-apply)
-                textarea.form-control(name="coverLetter" class="{{#if getError 'coverLetter'}}hasError{{/if}}" placeholder="Cover letter" rows="12" required maxlength="2048")
+                textarea.mono.form-control(name="coverLetter" class="{{#if getError 'coverLetter'}}hasError{{/if}}" placeholder="Cover letter" rows="12" required maxlength="2048")
                   | Hello!
                   | I'm interested in this position, please take a look at [my profile]({{urlFor 'profilePage' number=currentUser.profile.issue.number}}) and my GitHub account @#{currentUser.profile.github.username}
                 p.form-hint 
@@ -92,7 +70,7 @@ template(name="job")
                   button.btn.btn-grey.btn-lg.disabled(type="button" disabled) Applying... <i class="fa fa-spinner fa-pulse"></i>
                 else
                   button.btn.btn-lg.btn-success(type="submit") Apply Now
-                  | 
+                  | &nbsp; 
                   button.btn.btn-lg.btn-grey(type="button" data-toggle-apply) Cancel
             else
               button.btn.btn-lg.btn-success(data-toggle-apply type="button") Apply
@@ -100,5 +78,13 @@ template(name="job")
           p.text-muted This position is closed
         else
           a.btn.btn-lg.btn-success(href="{{pathFor 'login'}}") Apply
+
+        .well-container
+          ul.list-unstyled.text-muted
+            li View <a href="{{pathFor 'profilePage' number=user.issue.number}}"><b>#{company.title}</b> profile</a> page
+            li View this job post at GitHub <a href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.jobs}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue">##{issue.number}</a>
+            if company.login
+              li View <b>#{company.title}</b> account at GitHub <a href="https://github.com/#{company.login}" target="_blank" rel="noopener noreferrer" title="Company account at GitHub">@#{company.login}</a>
+            li View manager's account at GitHub <a href="https://github.com/#{user.login}" target="_blank" rel="noopener noreferrer" title="Manager's account at GitHub">@#{user.login}</a>
       else
         +_404
