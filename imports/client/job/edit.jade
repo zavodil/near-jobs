@@ -6,6 +6,11 @@ template(name="editjob")
           h1.hero-text <b>Hey! We are sorry, but...</b> <br>You can not edit a job using this account
           p Editing job posts available only to <b>company representative</b> acounts
           a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit account settings
+      else if compare currentUser.profile.issue.state '===' 'closed'
+        .well.well-auto
+          h1.hero-text <b>Hey! We are sorry, but...</b> <br>You can not edit a job post while your account is closed
+          p Editing job posts available only to <b>active</b> acounts
+          a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Reopen account
       else
         with formData
           +jobForm

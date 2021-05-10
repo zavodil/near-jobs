@@ -6,15 +6,19 @@ template(name="profileSettings")
           with formData
             +profileForm
 
-    if compare currentUser.profile.type '===' 'company'
-      .row.centered
-        .col.centered: .well
-          h2.h4 Post a new job
-          p Create a new job post
-          
-          a.btn.btn-primary(href="{{pathFor 'newjob'}}") Create job post now
+      if compare currentUser.profile.type '===' 'company'
+        .row
+          .col.centered: .well
+            h2.h4 Post a new job
+            p Create a new job post
+            a.btn.btn-primary(href="{{pathFor 'newjob'}}") Create job post now
+        .row
+          .col.centered: .well
+            h2.h4 Manage Jobs
+            p List of all job posts
+            a.btn.btn-black(href="{{pathFor 'profileJobs' number=currentUser.profile.issue.number}}") Manage Jobs
 
-    .row.centered
+    .row
       .col.centered: .well
         h2.h4 Logout
         p Logout and invalidate GitHub app OAuth token
@@ -25,7 +29,7 @@ template(name="profileSettings")
           else
             | Logout Now
 
-    .row.centered
+    .row
       .col.centered: .well
         if compare currentUser.profile.issue.state '===' 'closed'
           h2.h4 Reopen your profile
