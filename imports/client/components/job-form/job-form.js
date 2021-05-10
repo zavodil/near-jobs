@@ -59,6 +59,7 @@ Template.jobForm.events({
 
     if (template.data.isUpdate === true) {
       form.isUpdate = true;
+      form._id = this._id;
     }
 
     Meteor.call('github.issue.job', form, (error, res) => {
@@ -75,6 +76,9 @@ Template.jobForm.events({
           template.errorFields.set(res.errorFields);
         } else if (res && !isNaN(res) && !form.isUpdate) {
           FlowRouter.go('job', { number: res });
+        } else {
+          template.isSaved.set(true);
+          template.hasChanges.set(false);
         }
       }, 256);
     });

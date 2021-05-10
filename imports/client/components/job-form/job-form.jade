@@ -141,3 +141,6 @@ template(name="jobForm")
         strong.form-error Form has errors. Please, check above
       else
         | &nbsp;
+  if isUpdate
+    .well-container
+      a(href="{{pathFor 'job' number=issue.number}}") Back to job post
