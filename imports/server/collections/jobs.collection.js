@@ -17,7 +17,23 @@ jobs.deny({
 
 Meteor.publish('job', function (number) {
   check(number, String);
-  return jobs.find({ 'issue.number': parseInt(number) });
+  return jobs.find({ 'issue.number': parseInt(number) }, {
+    fields: {
+      _id: 1,
+      body: 1,
+      issue: 1,
+      owner: 1,
+      company: 1,
+      category: 1,
+      location: 1,
+      availability: 1,
+      isRemote: 1,
+      skills: 1,
+      title: 1,
+      'user.login': 1,
+      'user.issue.number': 1
+    }
+  });
 });
 
 createIndex(jobs, { owner: 1 }, { background: true });

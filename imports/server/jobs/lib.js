@@ -55,6 +55,7 @@ const jobs = {
         'user.login': user.services.github.username,
         'user.id': user.profile.github.id,
         'user.avatarUrl': user.profile.github.avatarUrl,
+        'user.issue.number': user.profile.issue.number,
         tags: form.tags,
         body: form.description
       }

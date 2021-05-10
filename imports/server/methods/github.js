@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { appOctokit } from '/imports/server/octokit/lib.js';
 import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
-import { jobs as jobsCollection } from '/imports/lib/collections/profiles.collection.js';
+import { jobs as jobsCollection } from '/imports/lib/collections/jobs.collection.js';
 
 import { app } from '/server/main.js';
 
@@ -161,8 +161,6 @@ Meteor.methods({
     check(form.number, Number);
     check(form.body, String);
 
-    console.log("github.issue.job.apply", form)
-
     const user = app.checkUser(this.userId);
     if (user.profile.applied?.includes(form.number)) {
       throw new Meteor.Error(400, 'You already applied to this position');
@@ -210,22 +208,22 @@ Meteor.methods({
 
     let job = false;
 
-    if (formData.isUpdate) {
+    if (formData.isUpdate && form._id) {
       job = jobsCollection.findOne({
-        'issue.number': form.issue.number
+        _id: form._id,
+        owner: this.userId
       }, {
         fields: {
           _id: 1,
-          tags: 1
+          tags: 1,
+          issue: 1
         }
       });
 
-      formData.issue = {
-        number: form.issue.number
-      };
-    }
+      if (!job) {
+        throw new Meteor.Error(403, 'You don\'t own this job post!');
+      }
 
-    if (job) {
       formData._id = job._id;
       formData.existingTags = job.tags;
       formData.issue = {
