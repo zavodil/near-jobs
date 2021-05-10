@@ -35,8 +35,8 @@ template(name="job")
               a.btn.btn-tag(href="#") #{this}
 
         .well.markdown-body
-            +markdown
-              #{body}
+          +markdown
+            #{body}
 
         if compare owner '===' currentUser._id
           .well-container
