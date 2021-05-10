@@ -49,8 +49,6 @@ const jobs = {
       $set: {
         title: form.title,
         owner: user._id,
-        'company.login': form.profile.company.login,
-        'company.id': form.profile.company.id,
         'company.title': form.profile.title,
         'user.login': user.services.github.username,
         'user.id': user.profile.github.id,
@@ -60,6 +58,16 @@ const jobs = {
         body: form.description
       }
     };
+
+    if (form.profile.company && form.profile.company.login && form.profile.company.id) {
+      update.$set['company.login'] = form.profile.company.login;
+      update.$set['company.id'] = form.profile.company.id;
+    } else {
+      update.$unset = {
+        'company.login': '',
+        'company.id': ''
+      };
+    }
 
     const octokit = new Octokit({
       auth: user.services.github.accessToken
@@ -237,6 +245,8 @@ const jobs = {
         $set: {
           'issue.state': 'closed'
         }
+      }, {
+        multi: true
       });
     } catch (e) {
       console.error('[jobs.closeAll] [octokit.rest.issues.update] Error:', e);

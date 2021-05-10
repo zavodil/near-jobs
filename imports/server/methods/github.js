@@ -189,11 +189,12 @@ Meteor.methods({
     }, {
       fields: {
         title: 1,
-        company: 1
+        company: 1,
+        type: 1
       }
     });
 
-    if (!profile || !profile.company || !profile.title) {
+    if (!profile || !profile.title || profile.type !== 'company') {
       throw new Meteor.Error(400, 'Job post creation available only to company\'s accounts');
     }
 
