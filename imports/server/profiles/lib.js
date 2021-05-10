@@ -42,9 +42,11 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
         title: form.title,
         owner: user._id,
         type: form.type,
+        'user.id': user.services.github.id,
         'user.login': user.services.github.username,
         tags: form.tags,
-        body
+        body,
+        'issue.state': 'open'
       }
     };
 
@@ -199,11 +201,19 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
       throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
     }
 
-    // @TODO OPEN/CLOSE JOB's ISSUES
+    app.jobs.closeAll(user);
 
     Meteor.users.update(user._id, {
       $set: {
         'profile.issue.state': 'closed'
+      }
+    });
+
+    profilesCollection.update({
+      owner: user._id
+    }, {
+      $set: {
+        'issue.state': 'closed'
       }
     });
 
@@ -226,11 +236,17 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
       throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
     }
 
-    // @TODO OPEN/CLOSE JOB's ISSUES
-
     Meteor.users.update(user._id, {
       $set: {
         'profile.issue.state': 'open'
+      }
+    });
+
+    profilesCollection.update({
+      owner: user._id
+    }, {
+      $set: {
+        'issue.state': 'open'
       }
     });
 

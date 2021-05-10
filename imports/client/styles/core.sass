@@ -33,7 +33,8 @@ hr
   height: 0
   width: 77%
   margin: 2rem auto
-  border-bottom: 1px solid $grey70
+  border: 0
+  border-bottom: 1px solid $grey
 
 .container
   padding-left: 20px
@@ -88,6 +89,8 @@ hr
   list-style: none
   margin: 10px 0px
   padding: 0px
+  &:first-child
+    margin-top: 0
 
 .align-right
   text-align: right
@@ -184,12 +187,9 @@ ul.list-unstyled
 .mono
   font-family: 'Source Code Pro'
 
-.well, .form
-  padding: 25px
-  border-radius: 12px
+.well, .form, .well-container
   max-width: 95vw;
   width: 100%;
-  margin-bottom: 3rem
   @media (min-width: $mobile-break)
     width: 65vw
   @media (min-width: $tablet-break)
@@ -203,6 +203,17 @@ ul.list-unstyled
     @media (min-width: $tablet-break)
       width: auto
       max-width: 45vw
+
+.well-container
+  margin-bottom: 0.777rem
+  margin-top: 0.777rem
+  &:first-child
+    margin-top: 0
+
+.well, .form
+  margin-bottom: 3rem
+  padding: 25px
+  border-radius: 12px
 
 .well
   background-color: $grey
@@ -278,8 +289,8 @@ ul.list-unstyled
   margin: 0px
   box-sizing: border-box
 .inline-project-picture
-  height: 2.5rem
-  width: 2.5rem
+  height: 3.1rem
+  width: 3.1rem
   display: inline
   vertical-align: top
   border-radius: 12px
@@ -316,11 +327,17 @@ ul.list-unstyled
 .sub-header
   font-size: 1.1rem
   font-weight: 400
-  margin: 0 0 1.7rem 0
+  margin: 0
 .h1 + .sub-header
   margin-top: -1.35rem
 .h2 + .sub-header
   margin-top: -1.25rem
+
+.job-preview
+  margin-bottom: 1rem
+  .inline-project-picture
+    height: 2.2rem
+    width: 2.2rem
 
 .text-success
   color: $green

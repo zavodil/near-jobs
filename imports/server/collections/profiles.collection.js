@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { createIndex } from '/imports/server/helpers.js';
 import { profiles } from '/imports/lib/collections/profiles.collection.js';
 
@@ -23,6 +24,31 @@ Meteor.publish('profile', function () {
     owner: this.userId
   });
 });
+
+Meteor.publish('profilePage', function (number) {
+  check(number, Number);
+
+  return profiles.find({
+    'issue.number': parseInt(number)
+  }, {
+    fields: {
+      _id: 1,
+      body: 1,
+      type: 1,
+      issue: 1,
+      owner: 1,
+      company: 1,
+      category: 1,
+      location: 1,
+      availability: 1,
+      isRemote: 1,
+      skills: 1,
+      title: 1,
+      user: 1
+    }
+  });
+});
+
 
 createIndex(profiles, { 'user.login': 1 }, { background: true });
 createIndex(profiles, { 'owner': 1 }, { background: true });
