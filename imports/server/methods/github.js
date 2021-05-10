@@ -149,11 +149,26 @@ Meteor.methods({
     check(number, Number);
 
     const user = app.checkUser(this.userId);
-    if (!user.profile.jobs.includes(number)) {
+    if (!user.profile.jobs?.includes(number)) {
       throw new Meteor.Error(403, 'Account does not own this issue');
     }
 
     await app.jobs.close(user, number);
+    return true;
+  },
+  async 'github.issue.job.apply'(form) {
+    check(form, Object);
+    check(form.number, Number);
+    check(form.body, String);
+
+    console.log("github.issue.job.apply", form)
+
+    const user = app.checkUser(this.userId);
+    if (user.profile.applied?.includes(form.number)) {
+      throw new Meteor.Error(400, 'You already applied to this position');
+    }
+
+    await app.jobs.apply(user, form);
     return true;
   },
   async 'github.issue.job.open'(number) {

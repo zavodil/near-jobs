@@ -6,21 +6,33 @@ import { jobs as jobsCollection } from '/imports/lib/collections/jobs.collection
 import { app } from '/server/main.js';
 
 const jobs = {
-  async apply(user, number) {
-    if (user.profile.applied.includes(number)) {
-      throw new Meteor.Error(400, 'Already applied to this position');
+  async apply(user, form) {
+    const octokit = new Octokit({
+      auth: user.services.github.accessToken
+    });
+
+    try {
+      await octokit.rest.issues.createComment({
+        owner: Meteor.settings.public.repo.org,
+        repo: Meteor.settings.public.repo.jobs,
+        issue_number: form.number,
+        body: form.body
+      });
+    } catch (e) {
+      console.error('[jobs.apply] [octokit.rest.issues.createComment] Error:', e);
+      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
     }
 
     Meteor.users.update({
       _id: user._id
     }, {
-      'profile.applied': {
-        $addToSet: number
+      $addToSet: {
+        'profile.applied': form.number
       }
     });
 
     jobsCollection.update({
-      'issue.number': number
+      'issue.number': form.number
     }, {
       $inc: {
         applies: 1

@@ -53,8 +53,9 @@ template(name="job")
                 a.btn.btn-tag(href="#") #{this}
 
           h3.h3 Job Description
-          +markdown
-            #{body}
+          div.markdown-body
+            +markdown
+              #{body}
 
           hr
 
@@ -62,7 +63,7 @@ template(name="job")
         if compare owner '===' currentUser._id
           .well
             if isProcessing
-              button.btn.btn-grey.disabled(disabled) processing... <i class="fa fa-spinner fa-pulse"></i>
+              button.btn.btn-grey.disabled(type="button" disabled) processing... <i class="fa fa-spinner fa-pulse"></i>
             else
               if compare issue.state '===' 'closed'
                 button.btn.btn-success(data-job-open title="Reopen Job Post") Reopen
@@ -71,18 +72,33 @@ template(name="job")
                 | 
                 button.btn.btn-danger(data-job-close title="Close Job Post") Close
         else if compare currentUser.profile.type '===' 'candidate'
-          if compare issue.state '===' 'closed'
+          if isApplied
+            button.btn.btn-lg.btn-success.disabled(type="button" disabled) <i class="fa fa-check"></i> Applied
+          else if compare issue.state '===' 'closed'
             p.text-muted This position is closed
           else
             if openApply
               form.form(data-apply)
-                textarea.form-control(name="coverLetter")
+                textarea.form-control(name="coverLetter" class="{{#if getError 'coverLetter'}}hasError{{/if}}" placeholder="Cover letter" rows="12" required maxlength="2048")
                   | Hello!
-                  | I'm interested in this position
-                p.form-hint Tell why you are the best fit for this position
-                button.btn.btn-lg.btn-success(type="submit") Apply Now
-                button.btn.btn-lg.btn-grey(type="submit") Cancel
+                  | I'm interested in this position, please take a look at [my profile]({{urlFor 'profilePage' number=currentUser.profile.issue.number}}) and my GitHub account @#{currentUser.profile.github.username}
+                p.form-hint 
+                  if getError 'coverLetter'
+                    span.form-error {{getError 'coverLetter'}}
+                  else
+                    | Tell why you are the best fit for this position and how company can reach out to you. <b>Note: This response will be public!</b>
+
+                if isProcessing
+                  button.btn.btn-grey.btn-lg.disabled(type="button" disabled) Applying... <i class="fa fa-spinner fa-pulse"></i>
+                else
+                  button.btn.btn-lg.btn-success(type="submit") Apply Now
+                  | 
+                  button.btn.btn-lg.btn-grey(type="button" data-toggle-apply) Cancel
             else
               button.btn.btn-lg.btn-success(data-toggle-apply type="button") Apply
+        else if compare issue.state '===' 'closed'
+          p.text-muted This position is closed
+        else
+          a.btn.btn-lg.btn-success(href="{{pathFor 'login'}}") Apply
       else
         +_404
