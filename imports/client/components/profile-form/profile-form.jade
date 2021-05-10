@@ -47,7 +47,7 @@ template(name="profileForm")
     else if compare accountType '===' 'candidate'
       .form-inputs
         label.form-label(for="title") Full name<span class="form-required" title="Required field">*</span>
-        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" data-max-options="1" data-no-transform="true" data-replace="true" value="#{title}")
+        input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" data-no-transform="true" data-replace="true" value="#{title}")
         p.form-hint
           if getError 'title'
             span.form-error {{getError 'title'}}
