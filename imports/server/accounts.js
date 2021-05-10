@@ -11,6 +11,7 @@ Accounts.onCreateUser(function (options, user) {
 
   options.profile.github = {
     id: user.services.github.id,
+    username: user.services.github.username,
     avatarUrl: `https://avatars.githubusercontent.com/u/${user.services.github.id}`
   };
 
