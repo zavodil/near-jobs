@@ -48,7 +48,7 @@ FlowRouter.route('/job/new', {
     render(this, templates.layout, 'newjob');
   },
   waitOn() {
-    return import('/imports/client/newjob/newjob.js');
+    return import('/imports/client/job/new.js');
   },
   whileWaiting
 });
