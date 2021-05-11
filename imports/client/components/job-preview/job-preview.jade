@@ -18,10 +18,13 @@ template(name="jobPreview")
         if isRemote
           | &middot; 
           b Remote
-    .col
+    div(class="{{#if isSmall}}well-container text-center{{else}}col{{/if}}")
       if compare currentUser._id '===' owner
-        a.btn.btn-black(href="{{pathFor 'job' number=issue.number}}") View
+        a.btn.btn-black(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
         span &nbsp;
-        a.btn.btn-primary(href="{{pathFor 'editjob' number=issue.number}}") Edit
+        a.btn.btn-primary(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'editjob' number=issue.number}}") Edit
+      else if isApplied
+        a.btn.btn-black(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
+        .text-center: b.text-success <i class="fa fa-check"></i> Applied
       else
-        a.btn.btn-success(href="{{pathFor 'job' number=issue.number}}") Apply
+        a.btn.btn-success(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") Apply
