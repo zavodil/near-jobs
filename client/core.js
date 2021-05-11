@@ -146,4 +146,12 @@ app.addToInput = (e, template) => {
   return false;
 };
 
+/* define search object and its default values */
+app.search = {
+  type: new ReactiveVar('jobs'),
+  query: new ReactiveVar(''),
+  page: new ReactiveVar(1),
+  doNotReset: false
+};
+
 export { app };

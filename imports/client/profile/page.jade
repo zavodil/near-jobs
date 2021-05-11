@@ -24,15 +24,15 @@ template(name="profilePage")
               li
                 | <b>Type</b>: 
                 each availability
-                  a.btn.btn-tag(href="#") #{this}
+                  a.btn.btn-tag(data-tag="availability" href="#") #{this}
               li
                 | <b>Categories</b>: 
                 each category
-                  a.btn.btn-tag(href="#") #{this}
+                  a.btn.btn-tag(data-tag="category" href="#") #{this}
               li
                 | <b>Required skills</b>: 
                 each skills
-                  a.btn.btn-tag(href="#") #{this}
+                  a.btn.btn-tag(data-tag="skills" href="#") #{this}
           else
             .well-container
               h1.h1

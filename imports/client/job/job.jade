@@ -28,15 +28,15 @@ template(name="job")
           li
             | <b>Type</b>: 
             each availability
-              a.btn.btn-tag(href="#") #{this}
+              a.btn.btn-tag(data-tag="availability" href="#") #{this}
           li
             | <b>Categories</b>: 
             each category
-              a.btn.btn-tag(href="#") #{this}
+              a.btn.btn-tag(data-tag="category" href="#") #{this}
           li
             | <b>Required skills</b>: 
             each skills
-              a.btn.btn-tag(href="#") #{this}
+              a.btn.btn-tag(data-tag="skills" href="#") #{this}
 
         .well.markdown-body
           +markdown
@@ -80,6 +80,8 @@ template(name="job")
               button.btn.btn-lg.btn-success(data-toggle-apply type="button") Apply
         else if compare issue.state '===' 'closed'
           p.text-muted This position is closed
+        else if compare currentUser.profile.type '===' 'company'
+          p.text-muted &nbsp;
         else
           a.btn.btn-lg.btn-success(href="{{pathFor 'login'}}") Apply
 

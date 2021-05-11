@@ -63,7 +63,10 @@ Meteor.publish('jobByProfile', function (number, state) {
 });
 
 createIndex(jobs, { owner: 1 }, { background: true });
+createIndex(jobs, { tags: 1 }, { background: true });
+createIndex(jobs, { 'issue.state': 1, tags: 1, type: 1 }, { background: true });
 createIndex(jobs, { owner: 1, 'issue.state': 1 }, { background: true });
 createIndex(jobs, { 'issue.number': 1 }, { background: false });
 createIndex(jobs, { 'issue.number': 1, 'issue.state': 1 }, { background: true });
 createIndex(jobs, { 'user.issue.number': 1, 'issue.state': 1 }, { background: true });
+createIndex(jobs, { title: 'text', body: 'text' }, { background: true });

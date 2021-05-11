@@ -51,5 +51,8 @@ Meteor.publish('profilePage', function (number) {
 
 
 createIndex(profiles, { 'user.login': 1 }, { background: true });
-createIndex(profiles, { 'owner': 1 }, { background: true });
+createIndex(profiles, { owner: 1 }, { background: true });
+createIndex(profiles, { tags: 1 }, { background: true });
+createIndex(profiles, { 'issue.state': 1, tags: 1, type: 1 }, { background: true });
 createIndex(profiles, { 'issue.number': 1 }, { background: true });
+createIndex(profiles, { title: 'text', body: 'text' }, { background: true });

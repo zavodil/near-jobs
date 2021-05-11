@@ -1,3 +1,4 @@
+import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { render, whileWaiting, templates } from './helpers.js';
@@ -102,7 +103,7 @@ FlowRouter.route('/profile/settings', {
 });
 
 FlowRouter.route('/profile/:number', {
-  isPublic: false,
+  isPublic: true,
   name: 'profilePage',
   title: 'Profile Page',
   action(params) {
@@ -119,7 +120,7 @@ FlowRouter.route('/profile/:number', {
 });
 
 FlowRouter.route('/profile/:number/jobs', {
-  isPublic: false,
+  isPublic: true,
   name: 'profileJobs',
   title: 'Company Jobs',
   action(params) {
@@ -130,6 +131,72 @@ FlowRouter.route('/profile/:number/jobs', {
       import('/imports/client/profile/jobs.js'),
       Meteor.subscribe('jobByProfile', parseInt(params.number), 'any')
     ];
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/search/jobs', {
+  isPublic: true,
+  name: 'searchJobs',
+  title: 'Search Jobs',
+  action() {
+    if (app.search.type.get() !== 'jobs') {
+      if (!app.search.doNotReset) {
+        app.search.query.set('');
+      } else {
+        app.search.doNotReset = false;
+      }
+      app.search.type.set('jobs');
+    }
+    app.search.page.set(1);
+    render(this, templates.layout, 'search');
+  },
+  waitOn() {
+    return import('/imports/client/search/search.js');
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/search/projects', {
+  isPublic: true,
+  name: 'searchProjects',
+  title: 'Search Projects',
+  action() {
+    if (app.search.type.get() !== 'projects') {
+      if (!app.search.doNotReset) {
+        app.search.query.set('');
+      } else {
+        app.search.doNotReset = false;
+      }
+      app.search.type.set('projects');
+    }
+    app.search.page.set(1);
+    render(this, templates.layout, 'search');
+  },
+  waitOn() {
+    return import('/imports/client/search/search.js');
+  },
+  whileWaiting
+});
+
+FlowRouter.route('/search/candidates', {
+  isPublic: true,
+  name: 'searchCandidates',
+  title: 'Search Candidates',
+  action() {
+    if (app.search.type.get() !== 'candidates') {
+      if (!app.search.doNotReset) {
+        app.search.query.set('');
+      } else {
+        app.search.doNotReset = false;
+      }
+      app.search.type.set('candidates');
+    }
+    app.search.page.set(1);
+    render(this, templates.layout, 'search');
+  },
+  waitOn() {
+    return import('/imports/client/search/search.js');
   },
   whileWaiting
 });

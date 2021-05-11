@@ -1,6 +1,7 @@
 import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { jobs as jobsCollection } from '/imports/lib/collections/jobs.collection.js';
 import '/imports/client/_404/_404.js';
@@ -109,6 +110,22 @@ Template.job.events({
         }
       }, 768);
     });
+    return false;
+  },
+  'click [data-tag]'(e) {
+    e.preventDefault();
+    const cat = e.currentTarget.dataset.tag;
+    const tag = `${this}`;
+
+    app.search.doNotReset = true;
+    const query = app.search.query.get();
+    if (query) {
+      app.search.query.set(`${query} ${cat}:${tag}`);
+    } else {
+      app.search.query.set(`${cat}:${tag}`);
+    }
+
+    FlowRouter.go('searchJobs');
     return false;
   }
 });

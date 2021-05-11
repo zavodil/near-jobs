@@ -1,0 +1,33 @@
+template(name="profilePreview")
+  .well.profile-preview.row
+    .col.colspan-3
+      h3.h4
+        if compare type '===' 'company'
+          if company.id
+            img.inline-project-picture(src="https://avatars.githubusercontent.com/u/#{company.id}")
+        else
+          img.inline-user-picture(src="https://avatars.githubusercontent.com/u/#{user.id}")
+        | #{title}
+
+      .text-muted.sub-header
+        if compare issue.state '===' 'closed'
+          b.text-danger CLOSED ACCOUNT
+          |  &middot; 
+        if compare type '===' 'candidate'
+          | candidate &middot; 
+          b {{getFirst category}}
+          if location.country
+            |  &middot; #{location.country}
+            if location.city
+              |, #{location.city}
+          |  &middot; {{getFirst availability}}
+          if isRemote
+            |  &middot; 
+            b Remote
+        else
+          | company/project
+          if company.login
+            |  &middot; @#{company.login}
+
+    div(class="{{#if isSmall}}well-container text-center{{else}}col{{/if}}")
+      a.btn.btn-black(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'profilePage' number=issue.number}}") View
