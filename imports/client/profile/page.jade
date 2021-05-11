@@ -47,8 +47,8 @@ template(name="profilePage")
 
           if compare owner '===' currentUser._id
             a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit
-          else
-            a.btn.btn-lg.btn-success(href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue") Submit a proposal
+          //- else
+          //-   a.btn.btn-lg.btn-success(href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue") Submit a proposal
 
           .well-container: ul.list-unstyled.text-muted
             li View profile page at GitHub <a href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue">##{issue.number}</a>
