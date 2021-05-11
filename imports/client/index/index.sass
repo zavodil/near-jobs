@@ -1,0 +1,28 @@
+@import "{}/imports/client/styles/_variables.sass"
+
+.hero-container
+  max-width: 1050px
+  width: 100%
+
+.hero-block
+  background-image: url('/images/hero-bg.svg')
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: center center
+  padding: 10vh 25px 10vh 25px
+  margin-bottom: 3rem
+  border-radius: 12px
+  background-color: $lightgrey
+  @media (min-width: $mobile-break)
+    min-height: 40vh
+
+.btn.btn-hero
+  margin: 0 auto
+  position: relative
+  display: block
+  font-weight: 900
+  letter-spacing: 0.5px
+  text-transform: uppercase
+  @media (min-width: $mobile-break)
+    bottom: -15px
+    margin-bottom: -30px
