@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: 
+Disallow: /signup
+Disallow: /job/new
+Disallow: /job/*/edit
+Disallow: /profile/settings
+
+Sitemap: https://jobs.openweb.devsitemap.xml
+Host: https://jobs.openweb.dev
