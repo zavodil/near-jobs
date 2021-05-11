@@ -127,6 +127,8 @@ Meteor.methods({
       if (location) {
         formData.tags.push(location);
         formData.locationText = `\`${location}\``;
+      } else {
+        formData.locationText = '`not specified`';
       }
     }
 
@@ -260,6 +262,8 @@ Meteor.methods({
     if (location) {
       formData.tags.push(location);
       formData.locationText = `\`${location}\``;
+    } else {
+      formData.locationText = '`not specified`';
     }
 
     formData.tags = app.uniq(formData.tags);
