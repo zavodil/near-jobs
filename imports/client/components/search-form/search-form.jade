@@ -1,13 +1,15 @@
 template(name="searchForm")
-  form.row.well-container(data-search-form)
+  form.row.well-container(data-search-form class="{{#unless isSmall}}form-group{{/unless}}")
     .col.colspan-4
       input.form-control.form-control-lg(autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="search" placeholder="Search: skills:js category:frontend availability:freelance location:country:city" maxlength="256" value="#{getSearch}")
     div(class="{{#if isSmall}}well-container text-center{{else}}col{{/if}}")
-      button.btn.btn-primary.nowrap(class="{{#if isSmall}}btn-block{{else}}btn-lg btn-square{{/if}}" type="submit" title="search") 
+      button.btn.btn-primary.nowrap(class="{{#if isSmall}}btn-block{{else}}btn-lg{{/if}}" type="submit" title="search") 
         if isLoading
-          | searching...&nbsp;<i class="fa fa-spinner fa-pulse"></i>
+          | Searching...&nbsp;<i class="fa fa-spinner fa-pulse"></i>
         else
-          | search
+          | Search
+
+  .well-container: hr
 
   each searchResults
     if compare searchType '===' 'jobs'

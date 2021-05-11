@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '/imports/client/components/job-preview/job-preview.js';
 import '/imports/client/components/profile-preview/profile-preview.js';
+import './search-form.sass';
 import './search-form.jade';
 
 const PER_PAGE_LIMIT = 40;
