@@ -13,8 +13,8 @@ Stack:
 ## Functional description
 
 - Repositories:
-  1. `jobs` — Where issues are job posts only
-  2. `profiles` — Where issues are either candidates or companies/projects
+  1. [`jobs`](https://github.com/veliovgroup/jobs) — Where issues are job posts only
+  2. [`profiles`](https://github.com/veliovgroup/profiles) — Where issues are either candidates or companies/projects
 - Data entities:
   - Candidate (job seeker's page) - GitHub issue from `profiles` repository with `candidate` label
   - Company/Project - GitHub issue from `profiles` repository with `company` label
