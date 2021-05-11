@@ -2,6 +2,8 @@ import { app } from '/imports/lib/app.js';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { setUpServiceWorker } from '/imports/client/components/pwa/setup-service-worker.js';
+import '/imports/client/components/pwa/reload.js';
 import '/imports/client/router/router.js';
 
 /*
@@ -153,5 +155,7 @@ app.search = {
   page: new ReactiveVar(1),
   doNotReset: false
 };
+
+setUpServiceWorker();
 
 export { app };
