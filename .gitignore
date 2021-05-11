@@ -5,3 +5,4 @@ build/Release
 *.DS_Store
 .npm
 .env
+secrets.near-jobs.conf
