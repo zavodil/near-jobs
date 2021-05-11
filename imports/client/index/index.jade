@@ -1,4 +1,21 @@
 template(name="index")
-  .hero
-    h1.hero-h1 Find your next job at NEAR ecosystem projects
-    h2.sub-header Sub-header here
+  main.container.row: .col.centered
+    .row.well.hero-block: .col.centered
+      h1
+        span.h1 NEAR Protocol
+        br
+        span.h2 ecosystem jobs portal
+
+    .row.well-container
+      .col: .well.well-auto
+        h2.h5 Find NEAR project<br>to join
+        p Discover projects where modern tasks solved using NEAR
+        a.btn.btn-block.btn-primary.btn-hero(href="{{pathFor 'searchProjects'}}") PROJECTS
+      .col: .well.well-auto 
+        h2.h5 Find a role in<br>NEAR project
+        p Discover open positions in active NEAR Protocol projects
+        a.btn.btn-block.btn-success.btn-hero(href="{{pathFor 'searchJobs'}}") JOBS
+      .col: .well.well-auto
+        h2.h5 Find a teammate<br>for NEAR project
+        p Discover develepors who wish to join your next project
+        a.btn.btn-block.btn-black.btn-hero(href="{{pathFor 'searchCandidates'}}") CANDIDATES

@@ -72,12 +72,6 @@ hr
     &.colspan-6
       flex: 6
 
-.hero-text
-  font-size: 2rem
-  font-weight: 400
-  line-height: 2.4rem
-  margin-bottom: 1rem
-
 .centered
   align-items: center
   justify-content: center
@@ -160,6 +154,14 @@ hr
     border-radius: 5px
     vertical-align: baseline
     vertical-align: text-bottom
+  &.btn-hero
+    margin: 0 auto
+    position: relative
+    display: block
+    letter-spacing: 2px
+    @media (min-width: $mobile-break)
+      bottom: -15px
+      margin-bottom: -30px
   @media (min-width: $mobile-break)
     transition: .2s
     &:hover
@@ -340,6 +342,21 @@ ul.list-unstyled
     vertical-align: bottom
     height: 2.2rem
     width: 2.2rem
+
+.hero-text
+  font-size: 2rem
+  font-weight: 400
+  line-height: 2.4rem
+  margin-bottom: 1rem
+.hero-block
+  background-image: url('/images/hero-bg.svg')
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: center center
+  padding-top: 10vh
+  padding-bottom: 10vh
+  @media (min-width: $mobile-break)
+    min-height: 40vh
 
 .text-success
   color: $green
