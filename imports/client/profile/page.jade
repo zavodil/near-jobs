@@ -46,7 +46,7 @@ template(name="profilePage")
               #{body}
 
           if compare owner '===' currentUser._id
-            a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit
+            a.btn.btn-lg.btn-primary(href="{{pathFor 'profileSettings'}}") Edit Profile
           //- else
           //-   a.btn.btn-lg.btn-success(href="https://github.com/#{meteorSettings.repo.org}/#{meteorSettings.repo.profiles}/issues/#{issue.number}" target="_blank" rel="noopener noreferrer" title="Open GitHub Issue") Submit a proposal
 

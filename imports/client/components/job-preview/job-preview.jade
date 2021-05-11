@@ -23,7 +23,7 @@ template(name="jobPreview")
         a.btn.btn-black.mb-02(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
         b.text-center.text-muted: a(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'editjob' number=issue.number}}") Edit
       else if isApplied
-        a.btn.btn-black(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
-        .text-center: b.text-success <i class="fa fa-check"></i> Applied
+        a.btn.btn-black.mb-02(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
+        b.text-center.text-muted <i class="fa fa-check text-success"></i> Applied
       else
         a.btn.btn-success(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") Apply
