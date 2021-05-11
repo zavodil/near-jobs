@@ -11,12 +11,16 @@ template(name="layout")
       span.subtitle J<i class="fa fa-search"></i>BS
     .menu.col.colspan-4
       ul.list-unstyled
-        li: a(href="#") Projects
-        if compare currentUser.profile.type '===' 'company'
-          li: a(href="#") Candidates
-          li: a.btn.btn-black(title="Post a new job offer" href="{{pathFor 'newjob'}}" class="{{#if isActiveRoute 'newjob'}}btn-outlined disabled{{/if}}") Post a Job
+        li: a(href="{{pathFor 'searchProjects'}}" class="{{#if isActiveRoute 'searchProjects'}}btn btn-black btn-outlined disabled{{/if}}") Projects
+        if currentUser
+          if compare currentUser.profile.type '===' 'company'
+            li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Candidates
+            li: a.btn.btn-black(title="Post a new job offer" href="{{pathFor 'newjob'}}" class="{{#if isActiveRoute 'newjob'}}btn-outlined disabled{{/if}}") Post a Job
+          else
+            li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Jobs
         else
-          li: a(href="#") Jobs
+          li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Candidates
+          li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Jobs
         if isSmall
           li
             +loginLogoutButton
