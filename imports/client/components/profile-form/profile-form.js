@@ -93,7 +93,11 @@ Template.profileForm.events({
             if (form.accountType === 'company') {
               FlowRouter.go('newjob');
             } else {
-              FlowRouter.go('index');
+              if (app.afterLoginRedirect) {
+                FlowRouter.go(app.afterLoginRedirect.name, app.afterLoginRedirect);
+              } else {
+                FlowRouter.go('index');
+              }
             }
           } else {
             template.isSaved.set(true);

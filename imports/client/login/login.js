@@ -15,7 +15,12 @@ Template.login.onCreated(function () {
       if (!user.profile.type) {
         redirectTo = 'signup';
       }
-      FlowRouter.go(redirectTo);
+
+      if (app.afterLoginRedirect && redirectTo === 'index') {
+        FlowRouter.go(app.afterLoginRedirect.name, app.afterLoginRedirect);
+      } else {
+        FlowRouter.go(redirectTo);
+      }
     }
   });
 });

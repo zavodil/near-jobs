@@ -14,6 +14,8 @@ Template.job.onCreated(function () {
   this.openApply = new ReactiveVar(false);
   this.isProcessing = new ReactiveVar(false);
   this.errorFields = new ReactiveVar({});
+
+  delete app.afterLoginRedirect;
 });
 
 Template.job.helpers({
@@ -46,6 +48,18 @@ Template.job.helpers({
 });
 
 Template.job.events({
+  'click [data-goto-login]'(e, template) {
+    e.preventDefault();
+
+    app.afterLoginRedirect = {
+      name: 'job',
+      number: template.data.number
+    };
+
+    FlowRouter.go('login');
+
+    return false;
+  },
   'click [data-toggle-apply]'(e, template) {
     e.preventDefault();
     template.openApply.set(!template.openApply.get());

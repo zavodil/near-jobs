@@ -83,7 +83,7 @@ template(name="job")
         else if compare currentUser.profile.type '===' 'company'
           p.text-muted &nbsp;
         else
-          a.btn.btn-lg.btn-success(href="{{pathFor 'login'}}") Apply
+          a.btn.btn-lg.btn-success(href="#" data-goto-login) Apply
 
         .well-container
           ul.list-unstyled.text-muted
