@@ -1,4 +1,7 @@
 template(name="search")
-  main.container.row
-    .col.centered
+  main.container
+    .row: .col.centered: .form
+        h1.h1 #{headline}
+        h2.sub-header #{description}
+    .row: .col.centered
       +searchForm

@@ -149,7 +149,7 @@ FlowRouter.route('/search/jobs', {
       app.search.type.set('jobs');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search');
+    render(this, templates.layout, 'search', { headline: 'Jobs', description: 'Find your next role in the cryptocurrency and blockchain project' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');
@@ -171,7 +171,7 @@ FlowRouter.route('/search/projects', {
       app.search.type.set('projects');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search');
+    render(this, templates.layout, 'search', { headline: 'Projects', description: 'Discover projects and companies utilizing cryptocurrency and blockchain technology stacks' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');
@@ -193,7 +193,7 @@ FlowRouter.route('/search/candidates', {
       app.search.type.set('candidates');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search');
+    render(this, templates.layout, 'search', { headline: 'Candidates', description: 'Find a new teammate for ongoing or your next job in cryptocurrency and blockchain ecosystems' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');
