@@ -13,8 +13,8 @@ Stack:
 ## Functional description
 
 - Repositories:
-  1. [`jobs`](https://github.com/veliovgroup/jobs) — Where issues are job posts only
-  2. [`profiles`](https://github.com/veliovgroup/profiles) — Where issues are either candidates or companies/projects
+  1. [`jobs`](https://github.com/near/jobs) — Where issues are job posts only
+  2. [`profiles`](https://github.com/near/profiles) — Where issues are either candidates or companies/projects
 - Data entities:
   - Candidate (job seeker's page) - GitHub issue from `profiles` repository with `candidate` label
   - Company/Project - GitHub issue from `profiles` repository with `company` label
@@ -72,17 +72,17 @@ Stack:
 ## UX (user story)
 
 - Post a job
-  a. Post an issue via Near `jobs` repository. It would get synced to the website
-  b. Post a new job via the website form. It would get synced to GitHub issues
+    a. Post an issue via Near `jobs` repository. It would get synced to the website
+    b. Post a new job via the website form. It would get synced to GitHub issues
 - Post candidate/CV
-  a. Post an issue via Near `profiles` repository following "issue template," it would get synced to the website
-  b. Fill candidate form via the website. It would get synced to GitHub issues
+    a. Post an issue via Near `profiles` repository following "issue template," it would get synced to the website
+    b. Fill candidate form via the website. It would get synced to GitHub issues
 - Post project/company profile
-  a. Post an issue via Near `profiles` repository following "issue template," it would get synced to the website
-  b. Fill company form via the website. It would get synced to GitHub issues
+    a. Post an issue via Near `profiles` repository following "issue template," it would get synced to the website
+    b. Fill company form via the website. It would get synced to GitHub issues
 - Apply for a job
-  a. Post a comment under an issue at Near `jobs` repository
-  b. Fill "apply for a job" form via the website. It would get posted as a comment under "job" issue at to GitHub `jobs` repository
+    a. Post a comment under an issue at Near `jobs` repository
+    b. Fill "apply for a job" form via the website. It would get posted as a comment under "job" issue at to GitHub `jobs` repository
 
 When creating an issue via GitHub, we will use "issue template" to suggest the user follow the same template across all job posts and profiles. When creating the issue via website UI, all fields will be composed together following the same template across all job posts and profiles.
 
