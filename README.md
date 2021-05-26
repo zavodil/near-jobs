@@ -13,8 +13,8 @@ Stack:
 ## Functional description
 
 - Repositories:
-  1. [`jobs`](https://github.com/near/jobs) — Where issues are job posts only
-  2. [`profiles`](https://github.com/near/profiles) — Where issues are either candidates or companies/projects
+  1. [`jobs`](https://github.com/near/openweb-jobs) — Where issues are job posts only
+  2. [`profiles`](https://github.com/near/openweb-profiles) — Where issues are either candidates or companies/projects
 - Data entities:
   - Candidate (job seeker's page) - GitHub issue from `profiles` repository with `candidate` label
   - Company/Project - GitHub issue from `profiles` repository with `company` label
