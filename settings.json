@@ -2,8 +2,8 @@
   "public": {
     "repo": {
       "org": "near",
-      "jobs": "jobs",
-      "profiles": "profiles"
+      "jobs": "openweb-jobs",
+      "profiles": "openweb-profiles"
     }
   }
 }
