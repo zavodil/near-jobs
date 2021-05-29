@@ -18,7 +18,7 @@ template(name="jobForm")
           | &nbsp;
 
     .form-inputs
-      h2.h5 Compensation
+      h2.h5 Terms
       .form-inputs
         .row
           .col
@@ -28,7 +28,7 @@ template(name="jobForm")
               option(selected="{{#if compare budget.type '===' 'salary'}}selected{{/if}}" value="salary") Salary
               option(selected="{{#if compare budget.type '===' 'hourly'}}selected{{/if}}" value="hourly") Hourly
               option(selected="{{#if compare budget.type '===' 'monthly'}}selected{{/if}}" value="monthly") Monthly
-              option(selected="{{#if compare budget.type '===' 'annually'}}selected{{/if}}" value="annually") anually
+              option(selected="{{#if compare budget.type '===' 'annually'}}selected{{/if}}" value="annually") Anually
               option(selected="{{#if compare budget.type '===' 'short-term contract'}}selected{{/if}}" value="short-term contract") Short-term Contract
               option(selected="{{#if compare budget.type '===' 'long-term contract'}}selected{{/if}}" value="long-term contract") Long-term Contract
               option(selected="{{#if compare budget.type '===' 'one time'}}selected{{/if}}" value="one time") One-time
