@@ -98,6 +98,8 @@ Meteor.methods({
           console.error('[github.issue.profile] [appOctokit.rest.search.users] Error:', e);
         }
       }
+
+      formData.tags.push(`company:${app.slugify(formData.title)}`);
     } else {
       if (form.remote === 'yes') {
         formData.tags.push('remote');
@@ -207,7 +209,25 @@ Meteor.methods({
       ...app.parseForm(form, freeFormFields)
     };
 
+    console.log("formData", formData)
     formData.tags.push(`company:${app.slugify(profile.title)}`);
+
+    if (!formData.budget) {
+      formData.budget = {};
+    }
+
+    if (form.budgetType) {
+      formData.budget.type = form.budgetType;
+    }
+
+    if (form.budgetValue) {
+      formData.budget.value = parseInt(form.budgetValue);
+    }
+
+    if (form.budgetCurrency) {
+      formData.budget.currency = form.budgetCurrency;
+    }
+
 
     let job = false;
 

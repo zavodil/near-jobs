@@ -16,6 +16,58 @@ template(name="jobForm")
           span.form-error {{getError 'title'}}
         else
           | &nbsp;
+
+    .form-inputs
+      h2.h5 Compensation
+      .form-inputs
+        .row
+          .col
+            label.form-label(for="budgetType") Type
+            select#budgetType.form-select(name="budgetType")
+              option(selected="{{#unless budget.type}}selected{{/unless}}" disabled value="") Select payment type
+              option(selected="{{#if compare budget.type '===' 'salary'}}selected{{/if}}" value="salary") Salary
+              option(selected="{{#if compare budget.type '===' 'hourly'}}selected{{/if}}" value="hourly") Hourly
+              option(selected="{{#if compare budget.type '===' 'monthly'}}selected{{/if}}" value="monthly") Monthly
+              option(selected="{{#if compare budget.type '===' 'annually'}}selected{{/if}}" value="annually") anually
+              option(selected="{{#if compare budget.type '===' 'short-term contract'}}selected{{/if}}" value="short-term contract") Short-term Contract
+              option(selected="{{#if compare budget.type '===' 'long-term contract'}}selected{{/if}}" value="long-term contract") Long-term Contract
+              option(selected="{{#if compare budget.type '===' 'one time'}}selected{{/if}}" value="one time") One-time
+          .col
+            label.form-label(for="budgetValue") Amount
+            input#budgetValue.form-control(name="budgetValue" type="number" placeholder="3500" maxlength="7" value="#{budget.value}")
+          .col
+            label.form-label(for="budgetCurrency") Currency
+            select#budgetCurrency.form-select(name="budgetCurrency")
+              option(selected="{{#unless budget.currency}}selected{{/unless}}" disabled value="") Select currency
+              optgroup(label="Fiat")
+                option(selected="{{#if compare budget.currency '===' 'USD'}}selected{{/if}}" value="USD") USD
+                option(selected="{{#if compare budget.currency '===' 'EUR'}}selected{{/if}}" value="EUR") EUR
+                option(selected="{{#if compare budget.currency '===' 'RUB'}}selected{{/if}}" value="RUB") RUB
+                option(selected="{{#if compare budget.currency '===' 'TRY'}}selected{{/if}}" value="TRY") TRY
+                option(selected="{{#if compare budget.currency '===' 'CAD'}}selected{{/if}}" value="CAD") CAD
+                option(selected="{{#if compare budget.currency '===' 'NZD'}}selected{{/if}}" value="NZD") NZD
+                option(selected="{{#if compare budget.currency '===' 'AUD'}}selected{{/if}}" value="AUD") AUD
+                option(selected="{{#if compare budget.currency '===' 'INR'}}selected{{/if}}" value="INR") INR
+                option(selected="{{#if compare budget.currency '===' 'CNY'}}selected{{/if}}" value="CNY") CNY
+                option(selected="{{#if compare budget.currency '===' 'fiat'}}selected{{/if}}" value="fiat") Other fiat
+              optgroup(label="Crypto")
+                option(selected="{{#if compare budget.currency '===' 'BTC'}}selected{{/if}}" value="NEAR") NEAR
+                option(selected="{{#if compare budget.currency '===' 'BTC'}}selected{{/if}}" value="BTC") BTC
+                option(selected="{{#if compare budget.currency '===' 'BCH'}}selected{{/if}}" value="BCH") BCH
+                option(selected="{{#if compare budget.currency '===' 'ETH'}}selected{{/if}}" value="ETH") ETH
+                option(selected="{{#if compare budget.currency '===' 'LTC'}}selected{{/if}}" value="LTC") LTC
+                option(selected="{{#if compare budget.currency '===' 'XRP'}}selected{{/if}}" value="XRP") XRP
+                option(selected="{{#if compare budget.currency '===' 'USDT'}}selected{{/if}}" value="USDT") USDT
+                option(selected="{{#if compare budget.currency '===' 'CRO'}}selected{{/if}}" value="CRO") CRO
+                option(selected="{{#if compare budget.currency '===' 'BNB'}}selected{{/if}}" value="BNB") BNB
+                option(selected="{{#if compare budget.currency '===' 'DOGE'}}selected{{/if}}" value="DOGE") DOGE
+                option(selected="{{#if compare budget.currency '===' 'EOS'}}selected{{/if}}" value="EOS") EOS
+                option(selected="{{#if compare budget.currency '===' 'ADA'}}selected{{/if}}" value="ADA") ADA
+                option(selected="{{#if compare budget.currency '===' 'BUSD'}}selected{{/if}}" value="BUSD") BUSD
+                option(selected="{{#if compare budget.currency '===' 'TRX'}}selected{{/if}}" value="TRX") TRX
+                option(selected="{{#if compare budget.currency '===' 'NEO'}}selected{{/if}}" value="NEO") NEO
+                option(selected="{{#if compare budget.currency '===' 'cryptocurrency'}}selected{{/if}}" value="cryptocurrency") Other cryptocurrency
+
     .form-inputs
       h2.h5 Location preferences
       .form-inputs
@@ -39,6 +91,7 @@ template(name="jobForm")
           else
             | Enter country, state, or country and city. If position is remote, — country/state would be used as timezone preference
 
+    h2.h5 Job Details
     .form-inputs
       label.form-label(for="availability") Candidate availablility<span class="form-required" title="Required field">*</span>
       input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="2" required maxlength="32" value="#{availabilityText}")

@@ -99,6 +99,7 @@ Meteor.methods({
         body: 1,
         type: 1,
         issue: 1,
+        budget: 1,
         company: 1,
         category: 1,
         location: 1,

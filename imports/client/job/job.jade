@@ -20,21 +20,30 @@ template(name="job")
             else if location.country
               li <b>Country/Timezone</b>: #{location.country}
           li
-            | <b>Open for remote</b>?
+            b Open for remote?
             if isRemote
               <strong class="text-success">Yes</strong>
             else
               <strong class="text-danger">No</strong>
+          if compare budget.value '||' budget.type
+            li
+              b Terms: 
+              if budget.value
+                b #{budget.value}
+              if budget.currency
+                b #{budget.currency} 
+              if budget.type
+                | (#{budget.type})
           li
-            | <b>Type</b>: 
+            b Type: 
             each availability
               a.btn.btn-tag(data-tag="availability" href="#") #{this}
           li
-            | <b>Categories</b>: 
+            b Categories: 
             each category
               a.btn.btn-tag(data-tag="category" href="#") #{this}
           li
-            | <b>Required skills</b>: 
+            b Required skills: 
             each skills
               a.btn.btn-tag(data-tag="skills" href="#") #{this}
 

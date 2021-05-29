@@ -18,6 +18,17 @@ template(name="jobPreview")
         if isRemote
           | &middot; 
           b Remote
+
+        if compare budget.value '||' budget.type
+          br
+          if budget.value
+            b #{budget.value}
+          if budget.currency
+            b #{budget.currency} 
+          if budget.type
+            | &middot; #{budget.type}
+
+
     div(class="{{#if isSmall}}well-container text-center{{else}}col{{/if}}")
       if compare currentUser._id '===' owner
         a.btn.btn-black.mb-02(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
