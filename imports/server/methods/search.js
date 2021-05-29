@@ -110,6 +110,9 @@ Meteor.methods({
         title: 1,
         user: 1
       },
+      sort: {
+        'issue.updated_it': -1
+      },
       skip: (page - 1) * PER_PAGE_LIMIT,
       limit: PER_PAGE_LIMIT
     }).fetch();
