@@ -78,7 +78,7 @@ const syncJobs = (ready) => {
             },
             isRemote: false,
             location: {},
-            owner: profile._id,
+            owner: user._id,
             skills: [],
             tags: [],
             title: issue.title,
