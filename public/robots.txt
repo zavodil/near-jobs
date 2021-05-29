@@ -5,5 +5,5 @@ Disallow: /job/new
 Disallow: /job/*/edit
 Disallow: /profile/settings
 
-Sitemap: https://jobs.openweb.devsitemap.xml
+Sitemap: https://jobs.openweb.dev/sitemap.xml
 Host: https://jobs.openweb.dev
