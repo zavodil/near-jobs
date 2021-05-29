@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Octokit } from 'octokit';
 import { appOctokit } from '/imports/server/octokit/lib.js';
 import { profiles as profilesCollection } from '/imports/lib/collections/profiles.collection.js';
+import { jobs as jobsCollection } from '/imports/lib/collections/jobs.collection.js';
 
 import { app } from '/server/main.js';
 
@@ -10,6 +11,21 @@ const profiles = {
     let newTags = app.clone(form.tags);
     let removedTags = [];
     let body = app.clone(form.description);
+
+    if (user.profile.type && user.profile.type !== form.type) {
+      const jobsCount = jobsCollection.find({
+        owner: user._id,
+        'issue.state': 'open'
+      }, {
+        fields: {
+          _id: 1
+        }
+      }).count();
+
+      if (jobsCount > 0) {
+        throw new Meteor.Error(400, 'Can not change account type while having open jobs! Please close all open jobs to change account type.');
+      }
+    }
 
     if (form.type === 'candidate') {
       body = `- __GitHub Profile__: @${user.services.github.username}

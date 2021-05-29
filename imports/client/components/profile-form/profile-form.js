@@ -83,6 +83,8 @@ Template.profileForm.events({
           console.error(error);
           if (error.error === 422) {
             alert('Your issue was closed by GitHub administrator, you can not proceed further, this account got locked; If you believe there\'s a mistake reach out Near Jobs support via GitHub issues');
+          } else if (error.error === 400) {
+            alert(error.reason);
           } else {
             alert('Something went wrong. Please, check that you don\'t have duplicate "profile" issue in our GitHub repository with your profile. Make sure your original issue is open and try again');
           }
