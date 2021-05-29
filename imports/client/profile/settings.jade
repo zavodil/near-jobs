@@ -11,12 +11,12 @@ template(name="profileSettings")
           .col.centered: .well
             h2.h4 Post a new job
             p Create a new job post
-            a.btn.btn-primary(href="{{pathFor 'newjob'}}") Create job post now
+            a.btn.btn-black(href="{{pathFor 'newjob'}}") Create job post now
         .row
           .col.centered: .well
             h2.h4 Manage Jobs
             p List of all job posts
-            a.btn.btn-black(href="{{pathFor 'profileJobs' number=currentUser.profile.issue.number}}") Manage Jobs
+            a.btn.btn-black.btn-outlined(href="{{pathFor 'profileJobs' number=currentUser.profile.issue.number}}") Manage Jobs
 
     .row
       .col.centered: .well
