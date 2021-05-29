@@ -47,6 +47,9 @@ Meteor.publish('jobByProfile', function (number, state) {
   }
 
   return jobs.find(search, {
+    sort: {
+      'issue.updated_it': -1
+    },
     fields: {
       _id: 1,
       title: 1,
