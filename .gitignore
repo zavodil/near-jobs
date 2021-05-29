@@ -6,3 +6,4 @@ build/Release
 .npm
 .env
 secrets.near-jobs.conf
+settings.dev.json
