@@ -98,6 +98,7 @@ Meteor.methods({
         _id: 1,
         body: 1,
         type: 1,
+        owner: 1,
         issue: 1,
         budget: 1,
         company: 1,

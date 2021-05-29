@@ -36,5 +36,7 @@ template(name="jobPreview")
       else if isApplied
         a.btn.btn-black.mb-02(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
         b.text-center.text-muted.nowrap <i class="fa fa-check text-success"></i> Applied
+      else if compare currentUser.profile.type '===' 'company'
+        a.btn.btn-black.mb-02(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") View
       else
         a.btn.btn-success(class="{{#if isSmall}}btn-block{{/if}}" href="{{pathFor 'job' number=issue.number}}") Apply
