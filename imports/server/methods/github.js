@@ -66,6 +66,7 @@ Meteor.methods({
         }
       } catch (e) {
         console.error('[github.issue.profile] [appOctokit.rest.search.issuesAndPullRequests] Error:', e);
+        throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
       }
     } else {
       formData.issue = {
@@ -209,7 +210,6 @@ Meteor.methods({
       ...app.parseForm(form, freeFormFields)
     };
 
-    console.log("formData", formData)
     formData.tags.push(`company:${app.slugify(profile.title)}`);
 
     if (!formData.budget) {
