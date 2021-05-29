@@ -45,13 +45,11 @@ const jobs = {
     let newTags = app.clone(form.tags);
     let removedTags = [];
     let body = `- [__Project__](${Meteor.absoluteUrl(`/profile/${user.profile.issue.number}`)})
-- __Type__:${form.typeText}
+- __Type__:${form.availabilityText}
 - __Category__:${form.categoryText}
-- __Location__:${form.locationText}
-- __Remote__:${form.isRemote ? 'yes' : 'no'}
+- __Location__: ${form.locationText}
+- __Remote__: \`${form.isRemote ? 'yes' : 'no'}\`
 - __Required skills__:${form.skillsText}`;
-
-    console.log("[jobs.upsert]", user, form)
 
     if (form.isUpdate && form.issue && form.issue.number) {
       body += `
