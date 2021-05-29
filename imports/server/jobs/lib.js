@@ -44,11 +44,33 @@ const jobs = {
   async upsert(user, form) {
     let newTags = app.clone(form.tags);
     let removedTags = [];
+    let body = `- [__Project__](${Meteor.absoluteUrl(`/profile/${user.profile.issue.number}`)})
+- __Type__:${form.typeText}
+- __Category__:${form.categoryText}
+- __Location__:${form.locationText}
+- __Remote__:${form.isRemote ? 'yes' : 'no'}
+- __Required skills__:${form.skillsText}`;
+
+    console.log("[jobs.upsert]", user, form)
+
+    if (form.isUpdate && form.issue && form.issue.number) {
+      body += `
+- [__View this job post__](${Meteor.absoluteUrl(`/job/${form.issue.number}`)})
+
+`;
+    } else {
+      body += `
+
+`;
+    }
+
+    body += form.description;
 
     const update = {
       $set: {
         title: form.title,
         owner: user._id,
+        budget: form.budget,
         'company.title': form.profile.title,
         'user.login': user.services.github.username,
         'user.id': user.profile.github.id,
@@ -79,7 +101,7 @@ const jobs = {
           owner: Meteor.settings.public.repo.org,
           repo: Meteor.settings.public.repo.jobs,
           title: form.title,
-          body: form.description
+          body: body
         });
 
         form.issue = {
@@ -144,7 +166,7 @@ const jobs = {
           issue_number: form.issue.number,
           title: form.title,
           state: 'open', // <-- REOPEN IF CLOSED
-          body: form.description
+          body: body
         });
 
         update.$set['issue.state'] = 'open';

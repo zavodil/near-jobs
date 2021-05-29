@@ -9,33 +9,32 @@ const profiles = {
   async upsert(user, form) {
     let newTags = app.clone(form.tags);
     let removedTags = [];
-    let body = form.description;
+    let body = app.clone(form.description);
 
-    if (!form.isUpdate) {
-      if (form.type === 'candidate') {
-        body = `- __GitHub Profile__: @${user.services.github.username}
+    if (form.type === 'candidate') {
+      body = `- __GitHub Profile__: @${user.services.github.username}
 - __Available for__:${form.availabilityText}
 - __Categories__:${form.categoryText}
 - __Location__: ${form.locationText}
-- __Skills__:${form.skillsText}
+- __Skills__:${form.skillsText}`;
+    } else {
+      body = `- __GitHub Organization__: ${form.company ? `@${form.company.login}` : '`not-provided`'}`;
+    }
 
-${form.description}
-
----
-
-*Want to hire ${form.title} (@${user.services.github.username})?*
-Leave your offer below!`;
+    if (form.isUpdate) {
+      if (form.type === 'candidate') {
+        body += `
+- [__Profile Page__](${Meteor.absoluteUrl(`/profile/${form.issue.number}`)})`;
       } else {
-        body = `- __GitHub Organization__: ${form.company ? `@${form.company.login}` : '`not-provided`'}
-
-${form.description}
-
----
-
-*Want to work at ${form.title}?*
-Checkout their [open positions](https://github.com/${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.jobs}/labels/company%3A${app.slugify(form.title)})`;
+        body += `
+- [__Company Profile__](${Meteor.absoluteUrl(`/profile/${form.issue.number}`)})
+- [__Open Jobs__](${Meteor.absoluteUrl(`/profile/${form.issue.number}/jobs`)})`;
       }
     }
+
+    body += `
+
+${form.description}`;
 
     const update = {
       $set: {
@@ -45,7 +44,7 @@ Checkout their [open positions](https://github.com/${Meteor.settings.public.repo
         'user.id': user.services.github.id,
         'user.login': user.services.github.username,
         tags: form.tags,
-        body,
+        body: form.description,
         'issue.state': 'open'
       }
     };
