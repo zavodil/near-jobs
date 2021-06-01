@@ -11,13 +11,20 @@ const day1 = 60 * 1000 * 60 * 24;
 
 const syncProfiles = (ready) => {
   bound(async () => {
-    const issues = await appOctokit.rest.search.issuesAndPullRequests({
-      q: `is:issue updated:>${new Date(Date.now() - day1).toISOString()} -label:review-pending repo:${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.profiles}`,
-      sort: 'sort:updated-desc',
-      order: 'desc',
-      per_page: 100,
-      page: 1
-    });
+    let issues;
+    try {
+      issues = await appOctokit.rest.search.issuesAndPullRequests({
+        q: `is:issue updated:>${new Date(Date.now() - day1).toISOString()} -label:review-pending repo:${Meteor.settings.public.repo.org}/${Meteor.settings.public.repo.profiles}`,
+        sort: 'sort:updated-desc',
+        order: 'desc',
+        per_page: 100,
+        page: 1
+      });
+    } catch (e) {
+      console.error('[syncProfiles] [appOctokit.rest.search.issuesAndPullRequests] Error', e);
+      ready();
+      return;
+    }
 
     if (issues.data?.items.length) {
       for (const issue of issues.data.items) {
