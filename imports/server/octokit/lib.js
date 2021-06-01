@@ -9,8 +9,6 @@ try {
   throw new Meteor.Error(404, 'Private Key is missing! Please, add `private/near-jobs-app.private-key.pem` file');
 }
 
-console.log('>> privateKey', privateKey);
-
 /*
  * Octokit instance which acts from the name of the GitHub App
  *
