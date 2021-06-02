@@ -31,6 +31,8 @@ Template.searchForm.onCreated(function () {
     Meteor.call('search', app.search.type.get(), query, page, (error, results) => {
       setTimeout(() => {
         this.isLoading.set(false);
+        app.isReady.call(this);
+
         if (error) {
           console.error(error);
           alert('Something went wrong, server returned an error');
