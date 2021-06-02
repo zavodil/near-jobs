@@ -27,9 +27,9 @@ Promise.all([
 
 const defaults = {
   name: 'Job Board',
-  title: 'Job Board - NEAR Protocol',
-  description: 'Find your next job at NEAR ecosystem',
-  keywords: 'NEAR Protocol Jobs, NEAR Protocol, NEAR, Job, jobs, NEAR job board, job board',
+  title: 'Job Board - open web',
+  description: 'Find your next job at open web ecosystem',
+  keywords: 'open web jobs, NEAR Protocol, NEAR, Job, jobs, NEAR job board, job board, open web',
   image: Meteor.absoluteUrl('social-1280x640.png')
 };
 
