@@ -49,9 +49,15 @@ const syncProfiles = (ready) => {
         }
 
         if (isNew) {
+          if (!profile || !profile.owner) {
+            // QUIT; CAN NOT CREATE A NEW ACCOUNT
+            // ONLY UPDATE ALREADY CREATED
+            continue;
+          }
           const user = Meteor.users.findOne({ _id: profile.owner });
           if (!user) {
-            // QUIT; CAN NOT CREATE A NEW JOB WITHOUT RESPONSIBLE USER
+            // QUIT; CAN NOT CREATE A NEW ACCOUNT
+            // ONLY UPDATE ALREADY CREATED
             continue;
           }
 
