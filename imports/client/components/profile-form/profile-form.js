@@ -6,6 +6,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import './profile-form.jade';
 
 Template.profileForm.onCreated(function () {
+  console.log(this.data)
   this.isLoading = new ReactiveVar(false);
   this.accountType = new ReactiveVar(false);
   this.errorFields = new ReactiveVar({});
@@ -98,7 +99,7 @@ Template.profileForm.events({
               if (app.afterLoginRedirect) {
                 FlowRouter.go(app.afterLoginRedirect.name, app.afterLoginRedirect);
               } else {
-                FlowRouter.go('index');
+                FlowRouter.go('searchJobs');
               }
             }
           } else {
