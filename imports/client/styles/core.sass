@@ -269,11 +269,14 @@ ul.list-unstyled
   background-color: $grey70
 .main-user-picture
   width: auto
-  max-width: 300px
-  max-height: 300px
   border: 4px solid $royal
+  max-width: 25vw
+  max-height: 25vw
   border-radius: 200px
   margin-bottom: 1rem
+  @media (min-width: $tablet-break)
+    max-width: 300px
+    max-height: 300px
 .inline-user-picture, .inline-project-picture
   height: 3.1rem
   width: 3.1rem
