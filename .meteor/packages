@@ -1,6 +1,6 @@
 # METEOR CORE
 meteor@1.9.3
-webapp@1.10.1
+webapp
 es5-shim@4.8.0
 ecmascript@0.15.1
 dynamic-import@0.6.0
@@ -32,3 +32,4 @@ accounts-github@1.4.3
 ostrio:templatehelpers
 ostrio:flow-router-extra
 ostrio:flow-router-meta
+ostrio:spiderable-middleware

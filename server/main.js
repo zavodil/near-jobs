@@ -6,6 +6,7 @@ import { jobs } from '/imports/server/jobs/lib.js';
 
 import '/imports/server/accounts.js';
 import '/imports/server/service-configurations.js';
+import '/imports/server/pre-rendering.js';
 import '/imports/server/collections';
 import '/imports/server/crons';
 import '/imports/server/methods';
