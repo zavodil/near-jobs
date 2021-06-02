@@ -1,5 +1,5 @@
 template(name="profileForm")
-  img.main-user-picture(src="{{#if compare accountType '===' 'company' '&&' company.id}}https://avatars.githubusercontent.com/u/#{company.id}{{else}}#{currentUser.profile.github.avatarUrl}{{/if}}")
+  img.main-user-picture(src="{{#if company.id}}https://avatars.githubusercontent.com/u/#{company.id}{{else}}#{currentUser.profile.github.avatarUrl}{{/if}}")
 
   h1.hero-text
     if header
@@ -63,7 +63,7 @@ template(name="profileForm")
             input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24" value="#{location.city}")
           .col
             label.form-label(for="remote") Do you work remotely?
-            select#accountType.form-select(name="remote")
+            select#remote.form-select(name="remote")
               option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
               option(value="yes" selected="{{#if isRemote}}selected{{/if}}") Yes
         p.form-hint

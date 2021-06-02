@@ -6,7 +6,6 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import './profile-form.jade';
 
 Template.profileForm.onCreated(function () {
-  console.log(this.data)
   this.isLoading = new ReactiveVar(false);
   this.accountType = new ReactiveVar(false);
   this.errorFields = new ReactiveVar({});
