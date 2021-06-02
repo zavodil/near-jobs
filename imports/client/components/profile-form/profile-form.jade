@@ -115,28 +115,27 @@ template(name="profileForm")
 
       .form-inputs
         label.form-label(for="skills") Enter your core skills<span class="form-required" title="Required field">*</span>
-        input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, rust, html, javascript, node.js" data-max-options="6" required maxlength="128" value="#{skillsText}")
+        input#skills.form-control(name="skills" class="{{#if getError 'skills'}}hasError{{/if}}" placeholder="near-blockchain, html, javascript, node.js, python" data-max-options="6" required maxlength="128" value="#{skillsText}")
         p.form-hint
           if getError 'skills'
             span.form-error {{getError 'skills'}}
             |  &middot;
-          | Comma-separated list of skills. Select up to 6 core skills. Click to add:
-          <a href="#" data-add-to="skills" data-add="near-blockchain">NEAR blockchain</a>,
-          <a href="#" data-add-to="skills" data-add="rust">Rust</a>,
-          <a href="#" data-add-to="skills" data-add="assemblyscript">AssemblyScript</a>,
-          <a href="#" data-add-to="skills" data-add="html">HTML</a>,
-          <a href="#" data-add-to="skills" data-add="css">CSS</a>,
-          <a href="#" data-add-to="skills" data-add="javascript">JavaScript</a>,
-          <a href="#" data-add-to="skills" data-add="react.js">React.js</a>,
-          <a href="#" data-add-to="skills" data-add="nest">nest</a>,
-          <a href="#" data-add-to="skills" data-add="node.js">Node.js</a>,
-          <a href="#" data-add-to="skills" data-add="next.js">Next.js</a>,
-          <a href="#" data-add-to="skills" data-add="vue.js">Vue.js</a>,
-          <a href="#" data-add-to="skills" data-add="meteor.js">Meteor.js</a>,
-          <a href="#" data-add-to="skills" data-add="tribe">Tribe</a>,
-          <a href="#" data-add-to="skills" data-add="solidity">Solidity</a>,
-          <a href="#" data-add-to="skills" data-add="golang">Golang</a>,
-          <a href="#" data-add-to="skills" data-add="python">Python</a>,
+          | Comma-separated list of gategories. Select up to 6 core skills. Click to add:
+          <a href="#" data-add-to="skills" data-add="near-blockchain">Near blockchain</a>, 
+          <a href="#" data-add-to="skills" data-add="solidity">solidity</a>, 
+          <a href="#" data-add-to="skills" data-add="html">HTML</a>, 
+          <a href="#" data-add-to="skills" data-add="css">CSS</a>, 
+          <a href="#" data-add-to="skills" data-add="javascript">JavaScript</a>, 
+          <a href="#" data-add-to="skills" data-add="react.js">React.js</a>, 
+          <a href="#" data-add-to="skills" data-add="nest">nest</a>, 
+          <a href="#" data-add-to="skills" data-add="next.js">Next.js</a>, 
+          <a href="#" data-add-to="skills" data-add="vue.js">Vue.js</a>, 
+          <a href="#" data-add-to="skills" data-add="meteor.js">Meteor.js</a>, 
+          <a href="#" data-add-to="skills" data-add="node.js">Node.js</a>, 
+          <a href="#" data-add-to="skills" data-add="tribe">tribe</a>, 
+          <a href="#" data-add-to="skills" data-add="rust">rust</a>, 
+          <a href="#" data-add-to="skills" data-add="golang">golang</a>, 
+          <a href="#" data-add-to="skills" data-add="python">python</a>, 
           | or come up with your own
 
       .form-inputs
