@@ -22,7 +22,7 @@ template(name="profilePage")
                 else
                   <strong class="text-danger">No</strong>
               li
-                | <b>Available for</b>: 
+                | <b>Looking for</b>: 
                 each availability
                   a.btn.btn-tag(data-tag="availability" href="#") #{this}
               li
@@ -64,7 +64,7 @@ template(name="profilePage")
             if jobs.count
               .well-container
                 hr
-                h2.h3 Jobs by #{title}
+                h2.h3 #{title} is looking for:
                 each jobs
                   +jobPreview
       else

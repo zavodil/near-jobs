@@ -149,7 +149,7 @@ FlowRouter.route('/search/jobs', {
       app.search.type.set('jobs');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search', { headline: 'Jobs', description: 'Find your next role in the cryptocurrency and blockchain project' });
+    render(this, templates.layout, 'search', { headline: 'Open positions', description: 'Teams are looking for MetaBuidlers' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');
@@ -171,7 +171,7 @@ FlowRouter.route('/search/projects', {
       app.search.type.set('projects');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search', { headline: 'Projects', description: 'Discover projects and companies utilizing cryptocurrency and blockchain technology stacks' });
+    render(this, templates.layout, 'search', { headline: 'Teams', description: 'Discover MetaBUIDL teams and projects utilizing Open Web and blockchain technology stacks' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');
@@ -193,7 +193,7 @@ FlowRouter.route('/search/candidates', {
       app.search.type.set('candidates');
     }
     app.search.page.set(1);
-    render(this, templates.layout, 'search', { headline: 'Candidates', description: 'Find a new teammate for ongoing or your next job in cryptocurrency and blockchain ecosystems' });
+    render(this, templates.layout, 'search', { headline: 'Buidlers', description: 'Find a new teammate on MetaBuidl' });
   },
   waitOn() {
     return import('/imports/client/search/search.js');

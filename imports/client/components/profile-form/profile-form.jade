@@ -13,9 +13,9 @@ template(name="profileForm")
     .form-inputs
       label.form-label(for="accountType") Select accout type
       select#accountType.form-select(name="accountType" data-account-type)
-        option(disabled selected="{{#unless type}}selected{{/unless}}") Are you developer or representing a company?
-        option(value="candidate" selected="{{#if compare type '===' 'candidate'}}selected{{/if}}") I'm candidate/developer seeking for project to join
-        option(value="company" selected="{{#if compare type '===' 'company'}}selected{{/if}}") I'm representing company — looking for developers/employees
+        option(disabled selected="{{#unless type}}selected{{/unless}}") Are you developer or representing a team?
+        option(value="candidate" selected="{{#if compare type '===' 'candidate'}}selected{{/if}}") I'm buidler/developer seeking for team to join
+        option(value="company" selected="{{#if compare type '===' 'company'}}selected{{/if}}") I'm representing team — looking for buidlers/developers
 
     if compare accountType '===' 'company'
       .row
@@ -46,13 +46,13 @@ template(name="profileForm")
             | Use <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener noreferrer" title="GitHub Markdown documentation">GitHub's flavored Markdown</a>
     else if compare accountType '===' 'candidate'
       .form-inputs
-        label.form-label(for="title") Full name<span class="form-required" title="Required field">*</span>
+        label.form-label(for="title") Name/Nickname<span class="form-required" title="Required field">*</span>
         input#title.form-control(name="title" class="{{#if getError 'title'}}hasError{{/if}}" placeholder="John Doe" required maxlength="64" data-no-transform="true" data-replace="true" value="#{title}")
         p.form-hint
           if getError 'title'
             span.form-error {{getError 'title'}}
           else
-            | Full name, name, or nickname: <a href="#" data-add-to="title" data-add="#{currentUser.profile.name}">#{currentUser.profile.name}</a>
+            | Your github nickname: <a href="#" data-add-to="title" data-add="#{currentUser.profile.name}">#{currentUser.profile.name}</a>
       .form-inputs
         .row
           .col
@@ -61,7 +61,7 @@ template(name="profileForm")
           .col
             label.form-label(for="city") City
             input#city.form-control(name="city" class="{{#if getError 'city'}}hasError{{/if}}" placeholder="Berlin" maxlength="24" value="#{location.city}")
-          .col
+          .col.hidden
             label.form-label(for="remote") Do you work remotely?
             select#remote.form-select(name="remote")
               option(value="no" selected="{{#if isRemote}}selected{{/if}}") No
@@ -72,45 +72,46 @@ template(name="profileForm")
           else if getError 'city'
             span.form-error {{getError 'city'}}
           else
-            | Location used only for time-zone purposes
+            | NOT required. Fill location to get access to offline hackatons. 
+            <a href="https://metabuidl.splashthat.com/">Local Nodes</a>
 
       .form-inputs
-        label.form-label(for="availability") Enter type of project you're looking for<span class="form-required" title="Required field">*</span>
-        input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="full-time, freelance" data-max-options="4" required maxlength="128" value="#{availabilityText}")
+        label.form-label(for="availability") Enter type of team you're looking for<span class="form-required" title="Required field">*</span>
+        input#availability.form-control(name="availability" class="{{#if getError 'availability'}}hasError{{/if}}" placeholder="all" data-max-options="4" required maxlength="128" value="#{availabilityText}")
         p.form-hint
           if getError 'availability'
             span.form-error {{getError 'availability'}}
             |  &middot;
           | Comma-separated list. Up to 4 options. Click to add:
-          <a href="#" data-add-to="availability" data-add="full-time">full-time</a>, 
-          <a href="#" data-add-to="availability" data-add="part-time">part-time</a>, 
-          <a href="#" data-add-to="availability" data-add="project">project</a>, 
-          <a href="#" data-add-to="availability" data-add="freelance">freelance</a>, 
-          <a href="#" data-add-to="availability" data-add="bounty">bounty</a>.
+          <a href="#" data-add-to="availability" data-add="blockchain-experts">blockchain experts</a>, 
+          <a href="#" data-add-to="availability" data-add="average">average</a>, 
+          <a href="#" data-add-to="availability" data-add="newbies">newbies</a>,
+          <a href="#" data-add-to="availability" data-add="all">all</a>.
 
       .form-inputs
-        label.form-label(for="category") What kind of job are you looking for<span class="form-required" title="Required field">*</span>
-        input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="development, programming, devops, frontend, backend" data-max-options="4" required maxlength="128" value="#{categoryText}")
+        label.form-label(for="category") What kind of team are you looking for<span class="form-required" title="Required field">*</span>
+        input#category.form-control(name="category" class="{{#if getError 'category'}}hasError{{/if}}" placeholder="DeFi, NFT, AMM" data-max-options="4" required maxlength="128" value="#{categoryText}")
         p.form-hint
           if getError 'category'
             span.form-error {{getError 'category'}}
             |  &middot;
-          | Comma-separated list of gategories. Up to 4 categories. Click to add:
-          <a href="#" data-add-to="category" data-add="development">development</a>, 
-          <a href="#" data-add-to="category" data-add="programming">programming</a>, 
-          <a href="#" data-add-to="category" data-add="engineering">engineering</a>, 
-          <a href="#" data-add-to="category" data-add="devops">devops</a>, 
-          <a href="#" data-add-to="category" data-add="frontend">frontend</a>, 
-          <a href="#" data-add-to="category" data-add="backend">backend</a>, 
-          <a href="#" data-add-to="category" data-add="design">design</a>, 
-          <a href="#" data-add-to="category" data-add="customer support">customer support</a>, 
-          <a href="#" data-add-to="category" data-add="developer relations">developer relations</a>, 
-          <a href="#" data-add-to="category" data-add="evangelist">evangelist</a>, 
-          <a href="#" data-add-to="category" data-add="finance">finance</a>, 
-          <a href="#" data-add-to="category" data-add="marketing">marketing</a>, 
-          <a href="#" data-add-to="category" data-add="operations">operations</a>, 
+          | Comma-separated list of categories. Up to 4 categories. Click to add:
+          <a href="#" data-add-to="category" data-add="undefined">Undefined yet</a>, 
+          <a href="#" data-add-to="category" data-add="defi">DeFi</a>, 
+          <a href="#" data-add-to="category" data-add="nft">NFT</a>, 
+          <a href="#" data-add-to="category" data-add="trading">trading</a>, 
+          <a href="#" data-add-to="category" data-add="gaming">gaming</a>, 
+          <a href="#" data-add-to="category" data-add="bots">bots</a>, 
+          <a href="#" data-add-to="category" data-add="art">art</a>, 
+          <a href="#" data-add-to="category" data-add="mobile-apps">mobile apps</a>, 
+          <a href="#" data-add-to="category" data-add="web">web</a>, 
+          <a href="#" data-add-to="category" data-add="farming">farming</a>, 
+          <a href="#" data-add-to="category" data-add="browser-extensions">browser extensions</a>, 
+          <a href="#" data-add-to="category" data-add="cryptography">cryptography</a>, 
+          <a href="#" data-add-to="category" data-add="social-networks">social networks</a>, 
+          <a href="#" data-add-to="category" data-add="staking">staking</a>, 
           <a href="#" data-add-to="category" data-add="research">research</a>, 
-          <a href="#" data-add-to="category" data-add="sales">sales</a>, 
+          <a href="#" data-add-to="category" data-add="tokens">tokens</a>, 
           | or come up with your own
 
       .form-inputs
@@ -140,8 +141,8 @@ template(name="profileForm")
           | or come up with your own
 
       .form-inputs
-        label.form-label(for="description") CV<span class="form-required" title="Required field">*</span>
-        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Candidate CV — markdown formatted" rows="25" required maxlength="5120") #{body}
+        label.form-label(for="description") Details<span class="form-required" title="Required field">*</span>
+        textarea#description.mono.form-control(name="description" class="{{#if getError 'description'}}hasError{{/if}}" placeholder="Candidate CV — markdown formatted" rows="4" required maxlength="5120") #{body}
         p.form-hint
           if getError 'description'
             span.form-error {{getError 'description'}}

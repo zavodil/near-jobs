@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
   <url>
-    <loc>https://jobs.openweb.dev/</loc>
+    <loc>https://metabuidl.nearspace.info/</loc>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://jobs.openweb.dev/search/projects</loc>
+    <loc>https//metabuidl.nearspace.info/search/projects</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://jobs.openweb.dev/search/candidates</loc>
+    <loc>https://metabuidl.nearspace.info/search/candidates</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://jobs.openweb.dev/search/jobs</loc>
+    <loc>https://metabuidl.nearspace.info/search/jobs</loc>
     <changefreq>daily</changefreq>
   </url>
 </urlset>

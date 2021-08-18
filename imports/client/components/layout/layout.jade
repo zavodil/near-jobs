@@ -8,18 +8,19 @@ template(name="layout")
   nav.navbar.row
     a.logo.col(href="/" title="Homepage - NEAR Job Board")
       img(src="/images/logo_nm.svg")
-      span.subtitle J<i class="fa fa-search"></i>BS
+      span.subtitle Team Matching
     .menu.col.colspan-4
       ul.list-unstyled
-        li: a(href="{{pathFor 'searchProjects'}}" class="{{#if isActiveRoute 'searchProjects'}}btn btn-black btn-outlined disabled{{/if}}") Projects
+        li: a(href="https://metabuidl.splashthat.com/" class="about-metabuidl" target="_blank" rel="noopener noreferrer") About MetaBuidl
+        li: a(href="{{pathFor 'searchProjects'}}" class="{{#if isActiveRoute 'searchProjects'}}btn btn-black btn-outlined disabled{{/if}}") Teams
         if currentUser
           if compare currentUser.profile.type '===' 'company'
-            li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Candidates
-            li: a.btn.btn-black(title="Post a new job offer" href="{{pathFor 'newjob'}}" class="{{#if isActiveRoute 'newjob'}}btn-outlined disabled{{/if}}") Post a Job
+            li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Builders
+            li: a.btn.btn-black(title="Post a new job offer" href="{{pathFor 'newjob'}}" class="{{#if isActiveRoute 'newjob'}}btn-outlined disabled{{/if}}") Find a teammate
           else
-            li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Jobs
+            li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Positions
         else
-          li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Candidates
+          li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Builders
           li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Jobs
         if isSmall
           li
