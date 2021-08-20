@@ -26,10 +26,10 @@ Promise.all([
 });
 
 const defaults = {
-  name: 'Job Board',
-  title: 'Job Board - open web',
-  description: 'Find your next job at open web ecosystem',
-  keywords: 'open web jobs, NEAR Protocol, NEAR, Job, jobs, NEAR job board, job board, open web',
+  name: 'MetaBUIDL Team Matching',
+  title: 'MetaBUIDL Team Matching',
+  description: 'Find your team at open web global hachathon',
+  keywords: 'MetaBUIDL, hackathon, NEAR Protocol, NEAR, Rust, WASM, NEAR blockchain, blockchain, open web',
   image: Meteor.absoluteUrl('social-1280x640.png')
 };
 
