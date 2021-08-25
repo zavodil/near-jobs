@@ -146,7 +146,7 @@ ${form.description}`;
         update.$set['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
       } catch (e) {
         console.error('[profiles.upsert] [octokit.rest.issues.update] Error:', e);
-        throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+        throw new Meteor.Error(e.status || 500, '[profiles.upsert] [octokit.rest.issues.update] Server error occurred. Please, try again later');
       }
     }
 
@@ -213,7 +213,7 @@ ${form.description}`;
       });
     } catch (e) {
       console.error('[profiles.close] [octokit.rest.issues.update] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[profiles.close] [octokit.rest.issues.update] Server error occurred. Please, try again later');
     }
 
     app.jobs.closeAll(user);
@@ -248,7 +248,7 @@ ${form.description}`;
       });
     } catch (e) {
       console.error('[profiles.reopen] [octokit.rest.issues.update] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[profiles.reopen] [octokit.rest.issues.update] Server error occurred. Please, try again later');
     }
 
     Meteor.users.update(user._id, {

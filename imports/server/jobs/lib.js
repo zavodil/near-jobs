@@ -20,7 +20,7 @@ const jobs = {
       });
     } catch (e) {
       console.error('[jobs.apply] [octokit.rest.issues.createComment] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[jobs.apply] [octokit.rest.issues.createComment] Server error occurred. Please, try again later');
     }
 
     Meteor.users.update({
@@ -172,7 +172,7 @@ const jobs = {
         update.$set['issue.updated_at'] = +new Date(updatedIssue.data?.updated_at || 0);
       } catch (e) {
         console.error('[jobs.upsert] [octokit.rest.issues.update] Error:', e);
-        throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+        throw new Meteor.Error(e.status || 500, '[jobs.upsert] [octokit.rest.issues.update] Server error occurred. Please, try again later');
       }
     }
 
@@ -223,7 +223,7 @@ const jobs = {
       });
     } catch (e) {
       console.error('[jobs.close] [octokit.rest.issues.update] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[jobs.close] [octokit.rest.issues.update] Server error occurred. Please, try again later');
     }
 
     jobsCollection.update({ 'issue.number': number }, {
@@ -270,7 +270,7 @@ const jobs = {
       });
     } catch (e) {
       console.error('[jobs.closeAll] [octokit.rest.issues.update] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[jobs.closeAll] [octokit.rest.issues.update] Server error occurred. Please, try again later');
     }
 
 
@@ -290,7 +290,7 @@ const jobs = {
       });
     } catch (e) {
       console.error('[jobs.reopen] [octokit.rest.issues.update] Error:', e);
-      throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+      throw new Meteor.Error(e.status || 500, '[jobs.reopen] [octokit.rest.issues.update] Server error occurred. Please, try again later');
     }
 
     jobsCollection.update({ 'issue.number': number }, {
