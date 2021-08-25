@@ -21,7 +21,7 @@ template(name="layout")
             li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Positions
         else
           li: a(href="{{pathFor 'searchCandidates'}}" class="{{#if isActiveRoute 'searchCandidates'}}btn btn-black btn-outlined disabled{{/if}}") Builders
-          li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Jobs
+          li: a(href="{{pathFor 'searchJobs'}}" class="{{#if isActiveRoute 'searchJobs'}}btn btn-black btn-outlined disabled{{/if}}") Positions
         if isSmall
           li
             +loginLogoutButton

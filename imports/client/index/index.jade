@@ -18,9 +18,13 @@ template(name="index")
         p Find a teammate and start building!
         a.btn.btn-block.btn-black.btn-hero(href="{{pathFor 'searchCandidates'}}") Buidlers & Creators
 
+    .row.hero-block.hero-container.tokens: .col.centered
+        h5.h5 Get a unique Hackathon NFT
+        p Register your profile in this Team Matching service, and submit your project for Hackathon to get unique&nbsp;NFT from MetaBUIDL
+
     .row.hero-block.hero-container.metabuidl: .col.centered
       h2
-        span.h2.centered NEAR METABUIDL
+        span.h1.centered NEAR METABUIDL
 
       h3
         span.h3 $1,000,000 in prizes & funding
@@ -28,10 +32,11 @@ template(name="index")
       a.register-button.btn.btn-info.btn-hero(href="https://metabuidl.splashthat.com/") Register on Hackathon
 
     
-    .row.hero-block.hero-container
+    .row.hero-block.hero-container.contributors
       .col.centered
         h5.h5 Check hackathon projects to join
         p Discover projects where modern tasks are solved using Open Web
-        a.btn.btn-info.btn-primary.btn-hero(href="{{pathFor 'searchProjects'}}") Hackathon Teams
+        a.btn.btn-block.btn-black.btn-hero(href="{{pathFor 'searchProjects'}}") Hackathon Teams
+  
 
   
