@@ -66,7 +66,7 @@ Meteor.methods({
         }
       } catch (e) {
         console.error('[github.issue.profile] [appOctokit.rest.search.issuesAndPullRequests] Error:', e);
-        throw new Meteor.Error(e.status || 500, 'Server error occurred. Please, try again later');
+        throw new Meteor.Error(e.status || 500, '[github.issue.profile] [appOctokit.rest.search.issuesAndPullRequests] Server error occurred. Please, try again later');
       }
     } else {
       formData.issue = {
