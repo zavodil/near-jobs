@@ -1,10 +1,10 @@
 # Team Matching board: BUIDLERS
 
-This repository is [OpenWeb Job Board](https://jobs.openweb.dev/) fork, it hold buidlers & creators profiles for [NEAR Protocol](https://near.org) [METABUIDL Global Hachathon](https://metabuidl.splashthat.com/). All profiles organized in [its issues](https://github.com/near/metabuidl-profiles/issues). 
+This repository is [OpenWeb Job Board](https://jobs.nearspace.info/) fork, it hold buidlers & creators profiles for [NEAR Protocol](https://near.org) [METABUIDL Global Hackathon](https://metabuidl.splashthat.com/). All profiles organized in [its issues](https://github.com/near/metabuidl-profiles/issues).
 
 DO NOT USE THIS REPOSITORY ISSUES DIRECTLY, for fully-featured access to open positions and its management sign-in via [metabuidl.nearspace.info/](https://metabuidl.nearspace.info/).
 
-![NEAR Protocol — Community members' profiles](https://jobs.openweb.dev/images/profiles-1280x640.png)
+![NEAR Protocol — Community members' profiles](https://jobs.nearspace.info/images/profiles-1280x640.png)
 
 ## CANDIDATE TEMPLATE
 

@@ -1,6 +1,6 @@
 # Team Matching board: TEAMS
 
-This repository is [OpenWeb Job Board](https://jobs.openweb.dev/) fork, it hold teams profiles for [NEAR Protocol](https://near.org) [METABUIDL Global Hachathon](https://metabuidl.splashthat.com/). All teams organized in [its issues](https://github.com/near/metabuidl-teams/issues). Please, follow our [ISSUE_TEMPLATE](https://github.com/near/metabuidl-teams/blob/main/.github/ISSUE_TEMPLATE/new-job-post.md) when posting a new team.
+This repository is [OpenWeb Job Board](https://jobs.nearspace.info/) fork, it hold teams profiles for [NEAR Protocol](https://near.org) [METABUIDL Global Hackathon](https://metabuidl.splashthat.com/). All teams organized in [its issues](https://github.com/near/metabuidl-teams/issues). Please, follow our [ISSUE_TEMPLATE](https://github.com/near/metabuidl-teams/blob/main/.github/ISSUE_TEMPLATE/new-job-post.md) when posting a new team.
 
 DO NOT USE THIS REPOSITORY ISSUES DIRECTLY, for fully-featured access to open positions and its management sign-in via [metabuidl.nearspace.info/](https://metabuidl.nearspace.info/).
 
